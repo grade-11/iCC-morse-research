@@ -249,7 +249,8 @@ void PwphPipeline::run()
 
         if (bounds.is_final)
             break;
-
+        const std::size_t active_labels_before =
+        window_state_.activeLabels().size();
         const std::size_t previous_pv_count =
             window_state_.pseudoVertices().size();
         support_processor_.processPwph(
@@ -263,7 +264,10 @@ void PwphPipeline::run()
             std::cout << "after eps range " << bounds.eps_lo << "  "
                       << bounds.eps_hi << "  new pv number = " << new_pv_count
                       << "  total pv number = "
-                      << window_state_.pseudoVertices().size() << std::endl;
+                      << window_state_.pseudoVertices().size()
+                      << "  active labels before quotient = " << active_labels_before
+                      << "  active labels after quotient = "
+                      << window_state_.activeLabels().size() << std::endl;
 
             std::cout << "pv representative statistics:" << std::endl;
             if (window_state_.pseudoVertices().empty())
