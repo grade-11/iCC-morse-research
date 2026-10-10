@@ -654,7 +654,7 @@ int runTool(const std::string& tool,
         .pv_min_separation = normalized_tool == PIECEWISE_PH_TOOL ? pv_min_separation : 0.0,
         .verbose = verbose};
 
-    const auto st0 = std::chrono::high_resolution_clock::now();
+    const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
     {
         PwphPipeline pipeline(std::move(distance_matrix), std::move(config));
@@ -672,7 +672,7 @@ int runTool(const std::string& tool,
             std::move(distance_matrix), std::move(config));
         pipeline.run();
     }
-    const auto st1 = std::chrono::high_resolution_clock::now();
+    const auto st1 = std::chrono::steady_clock::now();
 
     const auto pt_ms = std::chrono::duration_cast<std::chrono::milliseconds>(st1 - st0);
     std::cout << "run time = " << pt_ms.count() << '\n';
