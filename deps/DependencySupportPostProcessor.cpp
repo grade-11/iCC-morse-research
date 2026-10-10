@@ -24,6 +24,7 @@ void DependencySupportPostProcessor::processPwph(
     std::vector<SelectedPV> selected_pvs;
     std::unordered_set<std::size_t> new_absorbed_labels;
     std::size_t eligible_support_count = 0;
+    std::size_t rejected_overlap_count = 0;
 
     const auto is_separated = [&](const std::vector<std::size_t>& vertices)
     {
@@ -107,7 +108,10 @@ void DependencySupportPostProcessor::processPwph(
             }
         }
         if (overlaps_new_absorbed_label)
+        {
+            ++rejected_overlap_count;
             continue;
+        }
 
         if (labels.empty() || labels.size() >= MAX_PV_CARDINALITY)
             continue;
@@ -129,6 +133,8 @@ void DependencySupportPostProcessor::processPwph(
         std::cout << "raw pv support cofacets size = " << raw_support_count << '\n';
         std::cout << "pv support label sets with no pv/protected contents size = "
                   << eligible_support_count << '\n';
+        std::cout << "supports rejected by overlap with newly selected PVs = "
+                  << rejected_overlap_count << '\n';
     }
 
     window.commitSelectedPVs(
