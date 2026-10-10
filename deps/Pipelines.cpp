@@ -1,5 +1,5 @@
 #include "Pipelines.hpp"
-
+#include <iomanip>
 #include <iostream>
 #include <utility>
 
@@ -46,7 +46,10 @@ void printSimplexLabels(
 
 void printBirthDeath(const PersistentPairInfo& pair)
 {
-    std::cout << pair.facet_weight << ", " << pair.cofacet_weight;
+    const auto old_precision = std::cout.precision();
+    std::cout << std::setprecision(17)
+              << pair.facet_weight << ", " << pair.cofacet_weight;
+    std::cout.precision(old_precision);
 }
 
 void printPersistencePair(
