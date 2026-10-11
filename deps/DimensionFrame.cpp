@@ -390,8 +390,25 @@ bool DimensionFrame::advance()
         next_cofacet_realizations.emplace();
     }
 
+    using Clock = std::chrono::steady_clock;
+    const auto cofacets_start = Clock::now();
     auto next_cofacets = enumerateNextCofacets(
         next_cofacet_realizations.has_value() ? &*next_cofacet_realizations : nullptr);
+    const auto cofacets_end = Clock::now();
+
+    if (runtime_.mode() == PipelineMode::PwPH &&
+        runtime_.config().verbose)
+    {
+        const double cofacets_ms =
+            std::chrono::duration<double, std::milli>(
+                cofacets_end - cofacets_start).count();
+
+        std::cout << "[rebuild-timing] stage=next-cofacets"
+                  << " eps_lo=" << window_.bounds().eps_lo
+                  << " eps_hi=" << window_.bounds().eps_hi
+                  << " dim=" << (dimension_ + 1)
+                  << " cofacets_ms=" << cofacets_ms << '\n';
+    }
 
     robin_hood::unordered_map<SimplexBindex, std::size_t> next_active_facets;
     next_active_facets.reserve(next_active_facet_count_);
