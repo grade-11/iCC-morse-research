@@ -1,7 +1,8 @@
 #include <algorithm>
 
 #include "omp.h"
-
+#include <chrono>
+#include <iostream>
 #include "SimplexEnumerator.hpp"
 #include "SimplexUtility.hpp"
 #include "WindowState.hpp"
@@ -402,6 +403,17 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
 
     std::vector<SelectedWitnessWorkspace<RecordRealization>> witness_workspaces(static_cast<size_t>(worker_count));
 
+    using Clock = std::chrono::steady_clock;
+
+    struct WitnessTiming
+    {
+        size_t calls = 0;
+        double search_ms = 0.0;
+    };
+
+    std::vector<WitnessTiming> witness_timings(
+        static_cast<size_t>(worker_count));
+
     omp_set_num_threads(worker_count);
 
 #pragma omp parallel for schedule(dynamic) num_threads(worker_count)
@@ -455,8 +467,18 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
                 prepareCovtWitnessGroup(ws, covt, facet_label_count, pseudo_vertices, originalvtnum, maxeps);
                 if constexpr (RecordRealization)
                 {
+                    const auto search_start = Clock::now();
                     const auto pv_witness =
-                        getGeometricPVSimplexWeight<RecordRealization>(ws, facet_label_count + 1, lower_bound);
+                        getGeometricPVSimplexWeight<RecordRealization>(
+                            ws, facet_label_count + 1, lower_bound);
+                    const auto search_end = Clock::now();
+
+                    auto& timing = witness_timings[threadid];
+                    ++timing.calls;
+                    timing.search_ms +=
+                        std::chrono::duration<double, std::milli>(
+                            search_end - search_start).count();
+
                     cofacetweight = pv_witness.first;
                     ws.packed_realization = pv_witness.second;
                 }
@@ -500,6 +522,19 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
 
     if constexpr (RecordRealization)
     {
+        size_t search_calls = 0;
+        double search_worker_ms = 0.0;
+        for (const auto& timing : witness_timings)
+        {
+            search_calls += timing.calls;
+            search_worker_ms += timing.search_ms;
+        }
+
+        std::cout << "[witness-timing]"
+                  << " eps_hi=" << maxeps
+                  << " dim=" << (dim + 1)
+                  << " search_calls=" << search_calls
+                  << " search_worker_ms=" << search_worker_ms << '\n';
         size_t realization_count = 0;
         for (const auto& ws : witness_workspaces)
             realization_count += ws.realizations.size();
