@@ -429,12 +429,30 @@ bool DimensionFrame::advance()
                   << " cofacets_ms=" << cofacets_ms << '\n';
     }
 
+    const auto active_facets_start = Clock::now();
+
     robin_hood::unordered_map<SimplexBindex, std::size_t> next_active_facets;
     next_active_facets.reserve(next_active_facet_count_);
     for (std::size_t i = 0; i < cofacet_list_.size(); ++i)
     {
         if (next_active_facet_mask_[i] != 0)
             next_active_facets.emplace(cofacet_list_[i].first, i);
+    }
+
+    const auto active_facets_end = Clock::now();
+
+    if (runtime_.mode() == PipelineMode::PwPH &&
+        runtime_.config().verbose)
+    {
+        const double active_facets_ms =
+            std::chrono::duration<double, std::milli>(
+                active_facets_end - active_facets_start).count();
+
+        std::cout << "[rebuild-timing] stage=next-active-facets"
+                  << " eps_lo=" << window_.bounds().eps_lo
+                  << " eps_hi=" << window_.bounds().eps_hi
+                  << " dim=" << (dimension_ + 1)
+                  << " active_facets_ms=" << active_facets_ms << '\n';
     }
 
     facet_list_ = std::move(cofacet_list_);
