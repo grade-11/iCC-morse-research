@@ -163,30 +163,77 @@ void DimensionFrame::enumerateInitialCofacets()
 
 void DimensionFrame::matchPersistence(const bool collect_dependency_support)
 {
-    clearCurrentInterfaceResults();
+    using Clock = std::chrono::steady_clock;
+    const bool measure_interface =
+        runtime_.mode() == PipelineMode::PwPH &&
+        runtime_.config().verbose;
+
+    const auto log_interface_time =
+        [&](const char* stage, Clock::time_point start, Clock::time_point end)
+    {
+        if (!measure_interface)
+            return;
+
+        const double elapsed_ms =
+            std::chrono::duration<double, std::milli>(end - start).count();
+
+        std::cout << "[interface-timing] stage=" << stage
+                  << " eps_lo=" << window_.bounds().eps_lo
+                  << " eps_hi=" << window_.bounds().eps_hi
+                  << " dim=" << dimension_
+                  << " elapsed_ms=" << elapsed_ms << '\n';
+    };
+
+    const auto timed_step = [&](const char* stage, auto&& operation)
+    {
+        if (!measure_interface)
+        {
+            operation();
+            return;
+        }
+
+        const auto start = Clock::now();
+        operation();
+        const auto end = Clock::now();
+        log_interface_time(stage, start, end);
+    };
+
+    timed_step("clear-results", [&]()
+    {
+        clearCurrentInterfaceResults();
+    });
 
     // maxdim=1 is a valid edge-only run. H0 is resolved by the initial MSF and
     // the direct/PwPH output contracts intentionally print no H0 intervals.
     if (dimension_ == 1)
     {
-        releaseActiveFacetIndex();
+        timed_step("active-index-release", [&]()
+        {
+            releaseActiveFacetIndex();
+        });
         return;
     }
 
     if (isTopDimension())
-        reportFalseFacetIdentificationStats();
+    {
+        timed_step("ffi-diagnostics-call", [&]()
+        {
+            reportFalseFacetIdentificationStats();
+        });
+    }
 
-    initializeInterfaceWorkspace();
+    timed_step("workspace-init", [&]()
+    {
+        initializeInterfaceWorkspace();
+    });
 
     ImplicitMorseMatching matcher;
 
-    using Clock = std::chrono::steady_clock;
     const auto matching_start = Clock::now();
     matcher.matchPersistence(*this, collect_dependency_support);
     const auto matching_end = Clock::now();
 
-    if (runtime_.mode() == PipelineMode::PwPH &&
-        runtime_.config().verbose)
+    if (measure_interface)
     {
         const double matching_ms =
             std::chrono::duration<double, std::milli>(
@@ -199,18 +246,40 @@ void DimensionFrame::matchPersistence(const bool collect_dependency_support)
                   << " matching_ms=" << matching_ms << '\n';
     }
 
-    releaseActiveFacetIndex();
+    timed_step("active-index-release", [&]()
+    {
+        releaseActiveFacetIndex();
+    });
 
     // Only a non-top interface needs to communicate unmatched cofacets to
     // advance(). A top-dimensional frame finishes without consuming this mask.
     if (!isTopDimension())
-        finalizeNextActiveFacets();
+    {
+        timed_step("next-active-mask", [&]()
+        {
+            finalizeNextActiveFacets();
+        });
+    }
+
+    const auto workspace_release_start =
+        measure_interface ? Clock::now() : Clock::time_point{};
 
     auto raw_support_info =
         releaseInterfaceWorkspace(collect_dependency_support);
 
+    const auto workspace_release_end =
+        measure_interface ? Clock::now() : Clock::time_point{};
+
+    log_interface_time(
+        "workspace-release", workspace_release_start, workspace_release_end);
+
     if (collect_dependency_support)
-        materializeMatchSupport(std::move(raw_support_info));
+    {
+        timed_step("support-materialize", [&]()
+        {
+            materializeMatchSupport(std::move(raw_support_info));
+        });
+    }
 }
 
 void DimensionFrame::matchApparentPairsOnly()
