@@ -6,6 +6,7 @@
 #include <limits>
 #include <unordered_set>
 #include <utility>
+#include <chrono>
 
 void DependencySupportPostProcessor::processPwph(
     const PipelineRuntime& runtime,
@@ -13,6 +14,9 @@ void DependencySupportPostProcessor::processPwph(
     const double eps_hi,
     DependencySupportBatch&& batch) const
 {
+    using Clock = std::chrono::steady_clock;
+    const auto selection_start = Clock::now();
+
     const std::size_t raw_support_count = batch.supports.size();
     const std::size_t original_vertex_count = window.originalVertexCount();
 
@@ -127,7 +131,9 @@ void DependencySupportPostProcessor::processPwph(
         selected_pvs.push_back(
             SelectedPV{std::move(labels), diameter});
     }
-
+    
+    const auto selection_end = Clock::now();
+    
     if (runtime.config().verbose && runtime.config().maxdim >= 2)
     {
         std::cout << "raw pv support cofacets size = " << raw_support_count << '\n';
@@ -137,9 +143,25 @@ void DependencySupportPostProcessor::processPwph(
                   << rejected_overlap_count << '\n';
     }
 
+    const auto commit_start = Clock::now();
     window.commitSelectedPVs(
         std::move(selected_pvs),
         new_absorbed_labels);
+    const auto commit_end = Clock::now();
+
+    if (runtime.config().verbose && runtime.config().maxdim >= 2)
+    {
+        const double selection_ms =
+            std::chrono::duration<double, std::milli>(
+                selection_end - selection_start).count();
+        const double commit_ms =
+            std::chrono::duration<double, std::milli>(
+                commit_end - commit_start).count();
+
+        std::cout << "[pv-timing] eps_hi=" << eps_hi
+                  << " selection_ms=" << selection_ms
+                  << " commit_ms=" << commit_ms << '\n';
+    }
 }
 
 double DependencySupportPostProcessor::maxPairwiseDistance(
