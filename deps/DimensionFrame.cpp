@@ -7,7 +7,7 @@
 #include <limits>
 #include <stdexcept>
 #include <utility>
-
+#include <chrono>
 #include <omp.h>
 
 #include "ImplicitMorseMatching.hpp"
@@ -141,7 +141,26 @@ void DimensionFrame::matchPersistence(const bool collect_dependency_support)
     initializeInterfaceWorkspace();
 
     ImplicitMorseMatching matcher;
+
+    using Clock = std::chrono::steady_clock;
+    const auto matching_start = Clock::now();
     matcher.matchPersistence(*this, collect_dependency_support);
+    const auto matching_end = Clock::now();
+
+    if (runtime_.mode() == PipelineMode::PwPH &&
+        runtime_.config().verbose)
+    {
+        const double matching_ms =
+            std::chrono::duration<double, std::milli>(
+                matching_end - matching_start).count();
+
+        std::cout << "[matching-timing]"
+                  << " eps_lo=" << window_.bounds().eps_lo
+                  << " eps_hi=" << window_.bounds().eps_hi
+                  << " dim=" << dimension_
+                  << " matching_ms=" << matching_ms << '\n';
+    }
+
     releaseActiveFacetIndex();
 
     // Only a non-top interface needs to communicate unmatched cofacets to
