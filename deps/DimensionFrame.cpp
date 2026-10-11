@@ -69,7 +69,26 @@ DimensionFrame::DimensionFrame(
     buildInitialActiveFacetIndex();
 
     if (dimension_ >= 2)
+    {
+        using Clock = std::chrono::steady_clock;
+        const auto cofacets_start = Clock::now();
         enumerateInitialCofacets();
+        const auto cofacets_end = Clock::now();
+
+        if (runtime_.mode() == PipelineMode::PwPH &&
+            runtime_.config().verbose)
+        {
+            const double cofacets_ms =
+                std::chrono::duration<double, std::milli>(
+                    cofacets_end - cofacets_start).count();
+
+            std::cout << "[rebuild-timing] stage=initial-cofacets"
+                      << " eps_lo=" << window_.bounds().eps_lo
+                      << " eps_hi=" << window_.bounds().eps_hi
+                      << " dim=" << dimension_
+                      << " cofacets_ms=" << cofacets_ms << '\n';
+        }
+    }
 }
 
 void DimensionFrame::buildInitialActiveFacetIndex()
