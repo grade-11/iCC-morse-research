@@ -409,6 +409,8 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
     {
         size_t calls = 0;
         double search_ms = 0.0;
+        double facet_prepare_ms = 0.0;
+        double covt_prepare_ms = 0.0;
     };
 
     std::vector<WitnessTiming> witness_timings(
@@ -460,11 +462,38 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
 
                 if (!witness_context_ready)
                 {
-                    prepareFacetWitnessContext(ws, simplex_vertices, pseudo_vertices, originalvtnum, maxeps);
+                    const auto facet_prepare_start =
+                        RecordRealization ? Clock::now() : Clock::time_point{};
+
+                    prepareFacetWitnessContext(
+                        ws, simplex_vertices, pseudo_vertices,
+                        originalvtnum, maxeps);
+
+                    if constexpr (RecordRealization)
+                    {
+                        const auto facet_prepare_end = Clock::now();
+                        witness_timings[threadid].facet_prepare_ms +=
+                            std::chrono::duration<double, std::milli>(
+                                facet_prepare_end - facet_prepare_start).count();
+                    }
+
                     witness_context_ready = true;
                 }
 
-                prepareCovtWitnessGroup(ws, covt, facet_label_count, pseudo_vertices, originalvtnum, maxeps);
+                const auto covt_prepare_start =
+                    RecordRealization ? Clock::now() : Clock::time_point{};
+
+                prepareCovtWitnessGroup(
+                    ws, covt, facet_label_count, pseudo_vertices,
+                    originalvtnum, maxeps);
+
+                if constexpr (RecordRealization)
+                {
+                    const auto covt_prepare_end = Clock::now();
+                    witness_timings[threadid].covt_prepare_ms +=
+                        std::chrono::duration<double, std::milli>(
+                            covt_prepare_end - covt_prepare_start).count();
+                }
                 if constexpr (RecordRealization)
                 {
                     const auto search_start = Clock::now();
@@ -524,17 +553,24 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
     {
         size_t search_calls = 0;
         double search_worker_ms = 0.0;
+        double facet_prepare_worker_ms = 0.0;
+        double covt_prepare_worker_ms = 0.0;
+
         for (const auto& timing : witness_timings)
         {
             search_calls += timing.calls;
             search_worker_ms += timing.search_ms;
+            facet_prepare_worker_ms += timing.facet_prepare_ms;
+            covt_prepare_worker_ms += timing.covt_prepare_ms;
         }
 
         std::cout << "[witness-timing]"
                   << " eps_hi=" << maxeps
                   << " dim=" << (dim + 1)
                   << " search_calls=" << search_calls
-                  << " search_worker_ms=" << search_worker_ms << '\n';
+                  << " search_worker_ms=" << search_worker_ms
+                  << " facet_prepare_worker_ms=" << facet_prepare_worker_ms
+                  << " covt_prepare_worker_ms=" << covt_prepare_worker_ms << '\n';
         size_t realization_count = 0;
         for (const auto& ws : witness_workspaces)
             realization_count += ws.realizations.size();
