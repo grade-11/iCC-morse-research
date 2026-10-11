@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <iostream>
 #include <utility>
-
+#include <chrono>
 #include "DimensionFrame.hpp"
 #include "SimplexUtility.hpp"
 
@@ -176,7 +176,22 @@ void PwphPipeline::run()
             std::cout << "dimension, birth weight, death weight\n";
         }
 
+        using Clock = std::chrono::steady_clock;
+        const auto edges_start = Clock::now();
         auto edges = window_state_.prepareWindow(runtime_, bounds);
+        const auto edges_end = Clock::now();
+
+        if (config.verbose)
+        {
+            const double edges_ms =
+                std::chrono::duration<double, std::milli>(
+                    edges_end - edges_start).count();
+
+            std::cout << "[rebuild-timing] stage=edges"
+                      << " eps_lo=" << bounds.eps_lo
+                      << " eps_hi=" << bounds.eps_hi
+                      << " edges_ms=" << edges_ms << '\n';
+        }
 
         DependencySupportBatch support_batch;
         {
