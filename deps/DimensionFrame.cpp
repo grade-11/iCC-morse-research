@@ -93,8 +93,27 @@ DimensionFrame::DimensionFrame(
 
 void DimensionFrame::buildInitialActiveFacetIndex()
 {
+    using Clock = std::chrono::steady_clock;
+    const auto active_facets_start = Clock::now();
+
     active_facet_index_ = SimplexUtility::getActiveEdgeIndexHashTable(
         binomial_table_, facet_list_, window_.totalLabelCount());
+
+    const auto active_facets_end = Clock::now();
+
+    if (runtime_.mode() == PipelineMode::PwPH &&
+        runtime_.config().verbose)
+    {
+        const double active_facets_ms =
+            std::chrono::duration<double, std::milli>(
+                active_facets_end - active_facets_start).count();
+
+        std::cout << "[rebuild-timing] stage=initial-active-facets"
+                  << " eps_lo=" << window_.bounds().eps_lo
+                  << " eps_hi=" << window_.bounds().eps_hi
+                  << " dim=" << dimension_
+                  << " active_facets_ms=" << active_facets_ms << '\n';
+    }
 }
 
 void DimensionFrame::enumerateInitialCofacets()
