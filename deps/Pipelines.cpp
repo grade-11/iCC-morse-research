@@ -3,11 +3,118 @@
 #include <iostream>
 #include <utility>
 #include <chrono>
+#include <cstdio>
+#include <exception>
 #include "DimensionFrame.hpp"
 #include "SimplexUtility.hpp"
 
+
 namespace
 {
+class PwphWindowResources
+{
+    using Clock = std::chrono::steady_clock;
+
+    struct RssSnapshot
+    {
+        long rss_kib = -1;
+        long peak_kib = -1;
+
+        bool valid() const
+        {
+            return rss_kib >= 0 && peak_kib >= 0;
+        }
+    };
+
+    static RssSnapshot readRss()
+    {
+        RssSnapshot result;
+        std::FILE* file = std::fopen("/proc/self/status", "r");
+        if (file == nullptr)
+            return result;
+
+        char line[512];
+        while (std::fgets(line, sizeof(line), file) != nullptr)
+        {
+            long value = -1;
+            if (std::sscanf(line, "VmRSS: %ld", &value) == 1)
+                result.rss_kib = value;
+            else if (std::sscanf(line, "VmHWM: %ld", &value) == 1)
+                result.peak_kib = value;
+        }
+
+        const bool read_ok = std::ferror(file) == 0;
+        std::fclose(file);
+        return read_ok ? result : RssSnapshot{};
+    }
+
+    static bool resetPeak()
+    {
+        std::FILE* file = std::fopen("/proc/self/clear_refs", "w");
+        if (file == nullptr)
+            return false;
+
+        const bool write_ok = std::fputs("5\n", file) >= 0;
+        const bool close_ok = std::fclose(file) == 0;
+        return write_ok && close_ok;
+    }
+
+public:
+    PwphWindowResources(bool enabled, double eps_lo, double eps_hi)
+        : enabled_(enabled), eps_lo_(eps_lo), eps_hi_(eps_hi)
+    {
+        if (!enabled_)
+            return;
+
+        initial_rss_ = readRss();
+        if (initial_rss_.valid())
+            reset_ok_ = resetPeak();
+
+        start_ = Clock::now();
+    }
+
+    PwphWindowResources(const PwphWindowResources&) = delete;
+    PwphWindowResources& operator=(const PwphWindowResources&) = delete;
+
+    ~PwphWindowResources()
+    {
+        if (!enabled_ || std::uncaught_exceptions() > 0)
+            return;
+
+        const auto end = Clock::now();
+        const auto final_rss = readRss();
+
+        const double elapsed_ms =
+            std::chrono::duration<double, std::milli>(
+                end - start_).count();
+
+        const bool memory_ok =
+            initial_rss_.valid() && reset_ok_ && final_rss.valid();
+
+        const char* memory_status =
+            !initial_rss_.valid() ? "read-start-failed" :
+            !reset_ok_ ? "reset-failed" :
+            !final_rss.valid() ? "read-end-failed" : "ok";
+
+        std::cout << "[window-resources]"
+                  << " eps_lo=" << eps_lo_
+                  << " eps_hi=" << eps_hi_
+                  << " elapsed_ms=" << elapsed_ms
+                  << " rss_start_kib=" << initial_rss_.rss_kib
+                  << " rss_end_kib=" << final_rss.rss_kib
+                  << " rss_peak_kernel_kib="
+                  << (memory_ok ? final_rss.peak_kib : -1)
+                  << " memory_status=" << memory_status << '\n';
+    }
+
+private:
+    bool enabled_;
+    double eps_lo_;
+    double eps_hi_;
+    RssSnapshot initial_rss_;
+    bool reset_ok_ = false;
+    Clock::time_point start_{};
+};
 void printSimplexLabels(
     const BinomialTable& binomial_table,
     const char* const prefix,
@@ -169,6 +276,9 @@ void PwphPipeline::run()
             .eps_hi = config.eps_breaks[window_index],
             .is_final = window_index + 1 == config.eps_breaks.size()};
 
+        PwphWindowResources window_resources(
+            config.verbose, bounds.eps_lo, bounds.eps_hi);
+            
         if (!config.verbose)
         {
             std::cout << "window lower bound, window upper bound\n";
