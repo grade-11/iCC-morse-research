@@ -13,6 +13,7 @@
 #include <functional>
 #include <initializer_list>
 #include <iostream>
+#include <sstream>
 #include <limits>
 #include <stdexcept>
 #include <string>
@@ -702,6 +703,43 @@ void testPwphOverlapOrderAndSeparation()
     }
 }
 
+void testSequentialFilterDiagnostics()
+{
+    std::vector<std::vector<double>> points;
+    for (std::size_t i = 0; i < 64; ++i)
+        points.push_back({0.1 * i, 0.0});
+    auto config = makeConfig({1.0}, 2, 1, 1.0, 0.5);
+    config.verbose = true;
+    PipelineRuntime runtime(DistanceMatrix(points), config, PipelineMode::PwPH);
+    WindowState window(points.size());
+    static_cast<void>(window.prepareWindow(runtime, boundsFor(config, 0)));
+    DependencySupportBatch batch;
+    // Reverse discovery traversal: select, reject separation, diameter,
+    // cardinality, overlap, protection, and existing PV in that order.
+    batch.supports = {support({64}), support({3, 4}), support({1, 2}),
+                      support({}), support({4, 63}), support({2, 4}), support({0, 1})};
+    batch.protected_labels.insert(3);
+    std::ostringstream output;
+    auto* previous = std::cout.rdbuf(output.rdbuf());
+    try
+    {
+        processCompletedPwphWindow(DependencySupportPostProcessor{}, runtime,
+                                   window, std::move(batch));
+    }
+    catch (...)
+    {
+        std::cout.rdbuf(previous);
+        throw;
+    }
+    std::cout.rdbuf(previous);
+    CHECK(output.str().find("raw=7 rejected_pv=1 rejected_protected=1 label_clean=5 "
+        "rejected_overlap=1 rejected_cardinality=1 rejected_diameter=1 "
+        "rejected_separation=1 eligible_at_visit=1 selected=1") != std::string::npos);
+    CHECK(window.pseudoVertices().size() == 1);
+    CHECK((window.pseudoVertices()[0].representatives == std::vector<std::size_t>{0, 1}));
+    CHECK(window.activeLabels().size() == 63);
+}
+
 void testPwphFrozenPvsAndAppendOnlyLabels()
 {
     const std::vector<std::vector<double>> points{
@@ -795,6 +833,7 @@ int main()
     runTest("Single-window pipelines use final epsilon", testSingleWindowPipelinesUseFinalEpsilon);
     runTest("PwPH protection and diameter", testPwphProtectionAndDiameter);
     runTest("PwPH overlap order and separation", testPwphOverlapOrderAndSeparation);
+    runTest("Sequential filter diagnostics", testSequentialFilterDiagnostics);
     runTest("PwPH frozen PVs and append-only labels", testPwphFrozenPvsAndAppendOnlyLabels);
 
     if (failure_count != 0)

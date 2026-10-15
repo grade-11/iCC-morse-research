@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 #include <limits>
 #include <stdexcept>
 #include <utility>
@@ -113,6 +114,32 @@ void DimensionFrame::buildInitialActiveFacetIndex()
                   << " eps_hi=" << window_.bounds().eps_hi
                   << " dim=" << dimension_
                   << " active_facets_ms=" << active_facets_ms << '\n';
+    }
+
+    if (runtime_.config().verbose)
+    {
+        // Read the complement of the actual MSF clearing mask. Do not run a
+        // second MST, and do not count historical inactive labels as components.
+        // These are window-local graph diagnostics, not stitched PwPH H0 bars.
+        const auto merges = facet_list_.size() - active_facet_index_.size();
+        const auto components = window_.activeLabels().size() - merges;
+        const auto old_precision = std::cout.precision();
+        std::cout << std::setprecision(17)
+                  << "[h0-msf] eps_lo=" << window_.bounds().eps_lo
+                  << " eps_hi=" << window_.bounds().eps_hi
+                  << " vertices=" << window_.activeLabels().size()
+                  << " merges=" << merges << " components=" << components
+                  << " cutoff_rule=strict_lt zero_edges="
+                  << (runtime_.mode() == PipelineMode::PwPH ? "excluded" : "included")
+                  << '\n';
+        for (const auto& edge : facet_list_)
+        {
+            if (!active_facet_index_.contains(edge.first))
+                std::cout << "[h0-msf-pair] birth=0 death=" << edge.second << '\n';
+        }
+        for (std::size_t i = 0; i < components; ++i)
+            std::cout << "[h0-msf-pair] birth=0 death=-1\n";
+        std::cout.precision(old_precision);
     }
 }
 

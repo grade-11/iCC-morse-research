@@ -27,8 +27,13 @@ void DependencySupportPostProcessor::processPwph(
 
     std::vector<SelectedPV> selected_pvs;
     std::unordered_set<std::size_t> new_absorbed_labels;
-    std::size_t eligible_support_count = 0;
+    std::size_t label_clean_support_count = 0;
+    std::size_t rejected_pv_count = 0;
+    std::size_t rejected_protected_count = 0;
     std::size_t rejected_overlap_count = 0;
+    std::size_t rejected_cardinality_count = 0;
+    std::size_t rejected_diameter_count = 0;
+    std::size_t rejected_separation_count = 0;
 
     const auto is_separated = [&](const std::vector<std::size_t>& vertices)
     {
@@ -88,7 +93,10 @@ void DependencySupportPostProcessor::processPwph(
         // protection, so the additional protected PV labels retained by the
         // generic frame cannot affect current PwPH selection.
         if (contains_pv)
+        {
+            ++rejected_pv_count;
             continue;
+        }
 
         const bool contains_protected_label = std::any_of(
             labels.begin(),
@@ -98,9 +106,12 @@ void DependencySupportPostProcessor::processPwph(
                 return batch.protected_labels.contains(label);
             });
         if (contains_protected_label)
+        {
+            ++rejected_protected_count;
             continue;
+        }
 
-        ++eligible_support_count;
+        ++label_clean_support_count;
 
         bool overlaps_new_absorbed_label = false;
         for (const std::size_t label : labels)
@@ -118,14 +129,23 @@ void DependencySupportPostProcessor::processPwph(
         }
 
         if (labels.empty() || labels.size() >= MAX_PV_CARDINALITY)
+        {
+            ++rejected_cardinality_count;
             continue;
+        }
 
         const double diameter = maxPairwiseDistance(
             distance_matrix, labels);
         if (diameter > diameter_limit)
+        {
+            ++rejected_diameter_count;
             continue;
+        }
         if (!is_separated(labels))
+        {
+            ++rejected_separation_count;
             continue;
+        }
 
         new_absorbed_labels.insert(labels.begin(), labels.end());
         selected_pvs.push_back(
@@ -138,9 +158,23 @@ void DependencySupportPostProcessor::processPwph(
     {
         std::cout << "raw pv support cofacets size = " << raw_support_count << '\n';
         std::cout << "pv support label sets with no pv/protected contents size = "
-                  << eligible_support_count << '\n';
+                  << label_clean_support_count << '\n';
         std::cout << "supports rejected by overlap with newly selected PVs = "
                   << rejected_overlap_count << '\n';
+        // Sequential first-rejection counts, in reverse discovery order.
+        // Eligibility is evaluated against the PVs selected so far; no claim
+        // is made about supports skipped before later predicates are reached.
+        std::cout << "[pv-filters] eps_hi=" << eps_hi
+                  << " raw=" << raw_support_count
+                  << " rejected_pv=" << rejected_pv_count
+                  << " rejected_protected=" << rejected_protected_count
+                  << " label_clean=" << label_clean_support_count
+                  << " rejected_overlap=" << rejected_overlap_count
+                  << " rejected_cardinality=" << rejected_cardinality_count
+                  << " rejected_diameter=" << rejected_diameter_count
+                  << " rejected_separation=" << rejected_separation_count
+                  << " eligible_at_visit=" << selected_pvs.size()
+                  << " selected=" << selected_pvs.size() << '\n';
     }
 
     const auto commit_start = Clock::now();

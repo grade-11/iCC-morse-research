@@ -64,7 +64,7 @@ if(BUILD_TESTING)
     set_tests_properties(
         icc_cli_ph_smoke
         PROPERTIES
-            PASS_REGULAR_EXPRESSION "\\(1.14018, 1.20416\\)"
+            PASS_REGULAR_EXPRESSION "\\(1.1401754250991381, 1.2041594578792296\\)"
             FAIL_REGULAR_EXPRESSION "birth facet labels:"
     )
 
