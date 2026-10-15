@@ -8,6 +8,9 @@
 #include "DimensionFrame.hpp"
 #include "SimplexUtility.hpp"
 #include "AdaptiveSchedule.hpp"
+#include "GCostController.hpp"
+#include <fstream>
+#include <bit>
 
 
 namespace
@@ -267,12 +270,29 @@ PwphPipeline::PwphPipeline(
 void PwphPipeline::run()
 {
     const auto& config = runtime_.config();
+    const bool g_enabled=!config.g_model.empty();
+    const bool measure=config.adaptive || config.cost_telemetry || g_enabled;
+    GCostController controller;
+    if (g_enabled) controller.load(config.g_model,config.maxdim);
+    double previous_prediction=0;
+    const auto peak_kib=[]()
+    {
+        std::ifstream in("/proc/self/status");std::string line;
+        while(std::getline(in,line)) if(line.starts_with("VmHWM:"))
+            return std::stod(line.substr(6));
+        return 0.;
+    };
     using Clock = std::chrono::steady_clock;
     struct Observation
     {
         double lo, hi, next = -1, reduction = 0;
         size_t active_before = 0, active_after = 0, top_cofacets = 0;
         double matching_ms = 0, rebuild_ms = 0, elapsed_ms = 0, controller_us = 0;
+        double work_s=0,q_s=0,peak=0;
+        size_t pv_before=0,raw=0,entries=0;
+        uint64_t state_hash=0;
+        std::string action="FINAL";
+        GCostController::Decision decision;
     };
     std::vector<Observation> observations;
     double eps_lo = 0.0;
@@ -286,6 +306,7 @@ void PwphPipeline::run()
         const auto window_start = Clock::now();
         Observation observation{.lo=eps_lo, .hi=eps_hi};
         observation.active_before = window_state_.activeLabels().size();
+        observation.pv_before = window_state_.pseudoVertices().size();
 
         PwphWindowResources window_resources(
             config.verbose, bounds.eps_lo, bounds.eps_hi);
@@ -301,7 +322,7 @@ void PwphPipeline::run()
         const auto edges_start = Clock::now();
         auto edges = window_state_.prepareWindow(runtime_, bounds);
         const auto edges_end = Clock::now();
-        if (config.adaptive)
+        if (measure)
             observation.rebuild_ms += std::chrono::duration<double, std::milli>(edges_end-edges_start).count();
 
         if (config.verbose)
@@ -320,14 +341,14 @@ void PwphPipeline::run()
         {
             const auto frame_start = Clock::now();
             DimensionFrame frame(runtime_, window_state_, std::move(edges));
-            if (config.adaptive)
+            if (measure)
                 observation.rebuild_ms += std::chrono::duration<double, std::milli>(Clock::now()-frame_start).count();
             for (;;)
             {
                 frame.traceComplex();
                 const auto match_start = Clock::now();
                 frame.matchPersistence(!bounds.is_final);
-                if (config.adaptive)
+                if (measure)
                 {
                     observation.matching_ms += std::chrono::duration<double, std::milli>(Clock::now()-match_start).count();
                     if (frame.isTopDimension()) observation.top_cofacets = frame.cofacetCount();
@@ -385,7 +406,7 @@ void PwphPipeline::run()
 
                 const auto rebuild_start = Clock::now();
                 const bool advanced = frame.advance();
-                if (config.adaptive)
+                if (measure)
                     observation.rebuild_ms += std::chrono::duration<double, std::milli>(Clock::now()-rebuild_start).count();
                 if (!advanced)
                     break;
@@ -399,12 +420,31 @@ void PwphPipeline::run()
         if (!config.verbose)
             std::cout << '\n';
 
-        if (bounds.is_final)
+        if (measure)
         {
-            if (config.adaptive)
+            observation.work_s=std::chrono::duration<double>(Clock::now()-window_start).count();
+            observation.peak=peak_kib();
+            observation.raw=support_batch.supports.size();
+            uint64_t hash=1469598103934665603ULL;
+            const auto add=[&](uint64_t value){hash^=value;hash*=1099511628211ULL;};
+            add(std::bit_cast<uint64_t>(bounds.eps_hi));
+            for(auto label:window_state_.activeLabels())add(label);
+            for(const auto& pv:window_state_.pseudoVertices())
+            {add(pv.representatives.size());for(auto label:pv.representatives)add(label);}
+            for(const auto& support:support_batch.supports)
+            {add(support.labels.size());for(auto label:support.labels)add(label);observation.entries+=support.labels.size();}
+            uint64_t protected_hash=0;for(auto label:support_batch.protected_labels)protected_hash^=(label+1)*1099511628211ULL;
+            add(protected_hash);add(support_batch.protected_labels.size());observation.state_hash=hash;
+            if (g_enabled && previous_prediction>0)controller.update(observation.work_s,previous_prediction);
+        }
+
+        if (bounds.is_final || (config.stop_after_window && window_index+1==config.stop_after_window))
+        {
+            if (measure)
             {
                 observation.active_after = window_state_.activeLabels().size();
                 observation.elapsed_ms = std::chrono::duration<double, std::milli>(Clock::now()-window_start).count();
+                observation.action=bounds.is_final?"FINAL":"STOP";
                 observations.push_back(observation);
             }
             break;
@@ -413,9 +453,24 @@ void PwphPipeline::run()
         window_state_.activeLabels().size();
         const std::size_t previous_pv_count =
             window_state_.pseudoVertices().size();
-        support_processor_.processPwph(
-            runtime_, window_state_, bounds.eps_hi, std::move(support_batch));
-        runtime_.ensureBinomialCapacity(window_state_.totalLabelCount());
+        bool do_quotient=config.quotient_mask.empty() || config.quotient_mask[window_index]!=0;
+        if (g_enabled)
+        {
+            observation.decision=controller.decide(observation.active_before,observation.top_cofacets,
+                observation.pv_before,observation.raw,observation.entries,bounds.eps_hi,
+                config.eps_breaks[window_index+1],observation.peak,config.g_memory_mib*1024.,config.g_margin);
+            do_quotient=observation.decision.quotient;
+            previous_prediction=do_quotient?observation.decision.r+observation.decision.f:observation.decision.cont;
+        }
+        observation.action=do_quotient?"QUOTIENT":"DEFER";
+        const auto quotient_start=Clock::now();
+        if (do_quotient)
+        {
+            support_processor_.processPwph(runtime_,window_state_,bounds.eps_hi,std::move(support_batch));
+            runtime_.ensureBinomialCapacity(window_state_.totalLabelCount());
+        }
+        else support_batch=DependencySupportBatch{};
+        observation.q_s=std::chrono::duration<double>(Clock::now()-quotient_start).count();
         if (config.trace_pwph)
         {
             for (size_t i=0;i<window_state_.pseudoVertices().size();++i)
@@ -442,6 +497,13 @@ void PwphPipeline::run()
             observations.push_back(observation);
         }
         else eps_hi = config.eps_breaks[window_index + 1];
+        if (measure && !config.adaptive)
+        {
+            observation.active_after=window_state_.activeLabels().size();
+            observation.next=eps_hi;
+            observation.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-window_start).count();
+            observations.push_back(observation);
+        }
 
         if (config.verbose)
         {
@@ -475,6 +537,8 @@ void PwphPipeline::run()
     }
     // Deferred output: no logging in the timed controller, no verbose/FFI needed.
     for (const auto& o : observations)
+    {
+        if (config.adaptive)
         std::cout << "[adaptive] eps_lo=" << o.lo << " eps_hi=" << o.hi
                   << " next=" << o.next << " reason=" << (o.next<0 ? "final" : "reduction-scaled-width")
                   << " active_before=" << o.active_before << " active_after=" << o.active_after
@@ -482,6 +546,22 @@ void PwphPipeline::run()
                   << " top_cofacets=" << o.top_cofacets << " matching_ms=" << o.matching_ms
                   << " rebuild_ms=" << o.rebuild_ms << " elapsed_ms=" << o.elapsed_ms
                   << " controller_us=" << o.controller_us << '\n';
+        if (config.cost_telemetry || g_enabled)
+            std::cout << std::setprecision(17) << "[state] eps=" << o.hi << " lo=" << o.lo
+                << " h=" << o.next << " A=" << o.active_before << " C=" << o.top_cofacets
+                << " pv=" << o.pv_before << " raw=" << o.raw << " entries=" << o.entries
+                << " state_hash=" << o.state_hash << " work_s=" << o.work_s
+                << " rebuild_s=" << o.rebuild_ms/1000. << " residual_s=" << o.work_s-o.rebuild_ms/1000.
+                << " q_s=" << o.q_s << " active_after=" << o.active_after << " peak_kib=" << o.peak
+                << " action=" << o.action << '\n' << std::setprecision(6);
+        if (g_enabled && o.action!="FINAL" && o.action!="STOP")
+            std::cout << std::setprecision(17) << "[g] eps=" << o.hi << " h=" << o.decision.horizon
+                << " continue_s=" << o.decision.cont << " select_quotient_s=" << o.decision.q
+                << " rebuild_s=" << o.decision.r << " future_s=" << o.decision.f
+                << " G_s=" << o.decision.g << " threshold_s=" << o.decision.threshold
+                << " mem_continue_kib=" << o.decision.mem_continue << " mem_quotient_kib=" << o.decision.mem_quotient
+                << " action=" << o.action << " reason=" << o.decision.reason << '\n' << std::setprecision(6);
+    }
 }
 
 ApparentPairPipeline::ApparentPairPipeline(

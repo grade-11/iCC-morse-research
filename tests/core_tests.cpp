@@ -5,6 +5,7 @@
 #include "SimplexUtility.hpp"
 #include "WindowState.hpp"
 #include "AdaptiveSchedule.hpp"
+#include "GCostController.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -826,6 +827,23 @@ void testAdaptiveSchedule()
     CHECK(rejected);
 }
 
+void testGCostDecision()
+{
+    GCostController g;g.dimension=3;g.max_labels=200;g.max_cofacets=1e6;
+    g.rebuild[0]=.01;g.residual[0]=.02;g.residual[7]=-.015;g.select[0]=.001;
+    g.memory[0]=20000;g.memory[7]=-10000;
+    const auto positive=g.decide(100,1e5,0,10,40,1.2,1.7,5000,1e6,.05);
+    CHECK(positive.quotient);
+    CHECK(std::abs(positive.g-.014)<1e-12);
+    CHECK(positive.horizon==1.7);
+    g.select[0]=.02;
+    CHECK(!g.decide(100,1e5,0,10,40,1.2,1.7,5000,1e6,.05).quotient);
+    const auto memory=g.decide(100,1e5,0,10,40,1.2,1.7,5000,20000,.05);
+    CHECK(memory.quotient && memory.reason=="memory-constraint");
+    g.scale=2.;g.update(.04,.04);CHECK(g.scale==2.);
+    CHECK(!g.decide(100,1e5,0,0,0,1.2,1.7,5000,1e6,.05).quotient);
+}
+
 void runTest(const char* name, void (*test)())
 {
     const int failures_before = failure_count;
@@ -851,6 +869,7 @@ int main()
 {
     runTest("PipelineConfig", testPipelineConfig);
     runTest("Adaptive finite-grid progress and validation", testAdaptiveSchedule);
+    runTest("G common-horizon cost, margin, memory and update",testGCostDecision);
     runTest("DistanceMatrix validation", testDistanceMatrixValidation);
     runTest("WindowState preparation", testWindowStatePreparation);
     runTest("DimensionFrame advancement and determinism", testDimensionFrameAdvancementAndDeterminism);

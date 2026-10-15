@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <utility>
 #include <vector>
+#include <string>
 
 #include "DistanceMatrix.hpp"
 
@@ -32,6 +33,12 @@ struct PipelineConfig
     bool adaptive = false;
     double adaptive_target = 0.35;
     bool trace_pwph = false;
+    std::string g_model;
+    double g_margin = .05;
+    double g_memory_mib = 4096;
+    bool cost_telemetry = false;
+    std::vector<int> quotient_mask;
+    size_t stop_after_window = 0;
 
     void validate() const;
 

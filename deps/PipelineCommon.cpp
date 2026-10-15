@@ -1,6 +1,7 @@
 #include "PipelineCommon.hpp"
 
 #include <cmath>
+#include <algorithm>
 #include <limits>
 #include <stdexcept>
 #include <utility>
@@ -15,6 +16,15 @@ constexpr size_t MAX_SIMPLEX_DIMENSION =
 
 void PipelineConfig::validate() const
 {
+    if (!std::isfinite(g_margin) || g_margin<0 || g_margin>1 || !std::isfinite(g_memory_mib) || g_memory_mib<=0)
+        throw std::invalid_argument("Invalid G margin or memory budget");
+    if ((!g_model.empty() && (adaptive || !quotient_mask.empty())) || (adaptive && !quotient_mask.empty()))
+        throw std::invalid_argument("G, v1 and forced masks are mutually exclusive");
+    if (!quotient_mask.empty() && (quotient_mask.size()+1!=eps_breaks.size() ||
+        std::any_of(quotient_mask.begin(),quotient_mask.end(),[](int v){return v!=0 && v!=1;})))
+        throw std::invalid_argument("Quotient mask requires one 0/1 per nonfinal checkpoint");
+    if (stop_after_window>eps_breaks.size() || (stop_after_window && !cost_telemetry))
+        throw std::invalid_argument("Diagnostic stop requires cost telemetry and a valid window count");
     if (!std::isfinite(adaptive_target) || adaptive_target <= 0.0 || adaptive_target > 1.0)
         throw std::invalid_argument("Adaptive reduction target must be in (0, 1].");
     if (adaptive && eps_breaks != std::vector<double>{1.2,1.4,1.5,1.6,1.7,1.8,2.0})

@@ -612,11 +612,19 @@ int runTool(const std::string& tool,
             const bool verbose,
             const bool adaptive = false,
             const double adaptive_target = 0.35,
-            const bool trace_pwph = false)
+            const bool trace_pwph = false,
+            const std::string& g_model = "",
+            const double g_margin = .05,
+            const double g_memory_mib = 4096,
+            const bool cost_telemetry = false,
+            const std::vector<int>& quotient_mask = {},
+            const size_t stop_after_window = 0)
 {
     const std::string normalized_tool = normalizeTool(tool);
     if (adaptive && normalized_tool != PIECEWISE_PH_TOOL)
         throw std::invalid_argument("--adaptive requires --tool piecewise.");
+    if (normalized_tool != PIECEWISE_PH_TOOL && (!g_model.empty() || !quotient_mask.empty() || cost_telemetry))
+        throw std::invalid_argument("G/quotient/cost telemetry options require piecewise");
 
     validateRunOptions(normalized_tool, filename, maxdim, threadnumber, eps_breaks,
                        eps_interval_count, eps_interval_scale, maxeps);
@@ -660,7 +668,13 @@ int runTool(const std::string& tool,
         .verbose = verbose,
         .adaptive = adaptive,
         .adaptive_target = adaptive_target,
-        .trace_pwph = trace_pwph};
+        .trace_pwph = trace_pwph,
+        .g_model = g_model,
+        .g_margin = g_margin,
+        .g_memory_mib = g_memory_mib,
+        .cost_telemetry = cost_telemetry,
+        .quotient_mask = quotient_mask,
+        .stop_after_window = stop_after_window};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -770,9 +784,21 @@ int runCommandLine(int argc, char** argv)
     app.add_flag("-v,--verbose", verbose, "Show diagnostic output");
     bool adaptive = false;
     bool trace_pwph = false;
+    std::string g_model;
+    double g_margin=.05,g_memory_mib=4096;
+    bool cost_telemetry=false;
+    std::vector<int> quotient_mask;
+    size_t stop_after_window=0;
     double adaptive_target = 0.35;
     app.add_flag("--adaptive", adaptive, "Pilot online scheduling on the explicit candidate grid");
     app.add_flag("--trace-pwph", trace_pwph, "Diagnostic simplex and PV membership trace (not for benchmarks)");
+    app.add_option("--g-model",g_model,"Cost model file; enables online quotient/defer G controller")->check(CLI::ExistingFile);
+    app.add_option("--g-margin",g_margin,"Minimum fractional predicted benefit; also requires >=0.5ms")->default_val(.05);
+    app.add_option("--g-memory-mib",g_memory_mib,"Forecast memory constraint, MiB, with 30% headroom")->default_val(4096);
+    app.add_flag("--cost-telemetry",cost_telemetry,"Cheap nonverbose window cost records for calibration");
+    app.add_option("--quotient-mask",quotient_mask,"Forced 0/1 actions at nonfinal checkpoints; diagnostic/offline replay")
+        ->delimiter(',')->check(CLI::Range(0,1));
+    app.add_option("--stop-after-window",stop_after_window,"Calibration only: stop after this many completed windows");
     app.add_option("--adaptive-target", adaptive_target, "Target fractional active-label reduction in (0,1]")
         ->default_val(0.35);
 
@@ -811,7 +837,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target, trace_pwph);
+                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window);
     }
     catch (const CLI::ParseError& err)
     {
