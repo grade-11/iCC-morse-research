@@ -609,9 +609,13 @@ int runTool(const std::string& tool,
             const double pv_cap_scale,
             const double pv_min_separation,
             const bool print_configuration,
-            const bool verbose)
+            const bool verbose,
+            const bool adaptive = false,
+            const double adaptive_target = 0.35)
 {
     const std::string normalized_tool = normalizeTool(tool);
+    if (adaptive && normalized_tool != PIECEWISE_PH_TOOL)
+        throw std::invalid_argument("--adaptive requires --tool piecewise.");
 
     validateRunOptions(normalized_tool, filename, maxdim, threadnumber, eps_breaks,
                        eps_interval_count, eps_interval_scale, maxeps);
@@ -652,7 +656,9 @@ int runTool(const std::string& tool,
         .threads = threadnumber,
         .pv_cap_scale = normalized_tool == PIECEWISE_PH_TOOL ? pv_cap_scale : 1.0,
         .pv_min_separation = normalized_tool == PIECEWISE_PH_TOOL ? pv_min_separation : 0.0,
-        .verbose = verbose};
+        .verbose = verbose,
+        .adaptive = adaptive,
+        .adaptive_target = adaptive_target};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -760,6 +766,11 @@ int runCommandLine(int argc, char** argv)
         ->check(CLI::PositiveNumber);
 
     app.add_flag("-v,--verbose", verbose, "Show diagnostic output");
+    bool adaptive = false;
+    double adaptive_target = 0.35;
+    app.add_flag("--adaptive", adaptive, "Pilot online scheduling on the explicit candidate grid");
+    app.add_option("--adaptive-target", adaptive_target, "Target fractional active-label reduction in (0,1]")
+        ->default_val(0.35);
 
     // For a std::vector option, CLI11 already accepts one or more values when
     // the option is present. Conditional requirement and resolved-value
@@ -795,7 +806,8 @@ int runCommandLine(int argc, char** argv)
     {
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
-                       eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose);
+                       eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
+                       adaptive, adaptive_target);
     }
     catch (const CLI::ParseError& err)
     {

@@ -4,6 +4,7 @@
 #include "Pipelines.hpp"
 #include "SimplexUtility.hpp"
 #include "WindowState.hpp"
+#include "AdaptiveSchedule.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -799,6 +800,32 @@ void testPwphFrozenPvsAndAppendOnlyLabels()
     CHECK(window.bounds().eps_hi == 0.0);
 }
 
+void testAdaptiveSchedule()
+{
+    const std::vector<double> grid{1.2,1.4,1.5,1.6,1.7,1.8,2.0};
+    CHECK(chooseAdaptiveEpsilon(grid,1.2,0.4,0.35)==1.7);
+    CHECK(chooseAdaptiveEpsilon(grid,1.2,0.0,0.35)==1.4);
+    CHECK(chooseAdaptiveEpsilon(grid,1.5,0.0,0.35)==1.7);
+    CHECK(chooseAdaptiveEpsilon(grid,1.8,0.0,0.35)==2.0);
+    for (double reduction : {0.0,0.1,0.4,1.0})
+    {
+        double current=1.2;
+        size_t count=0;
+        while (current<2.0 && count++<grid.size())
+        {
+            const double next=chooseAdaptiveEpsilon(grid,current,reduction,0.35);
+            CHECK(next>current);
+            CHECK(std::find(grid.begin(),grid.end(),next)!=grid.end());
+            current=next;
+        }
+        CHECK(current==2.0);
+    }
+    PipelineConfig invalid{.eps_breaks=grid,.maxdim=3,.adaptive=true,.adaptive_target=0.0};
+    bool rejected=false;
+    try { invalid.validate(); } catch (const std::invalid_argument&) { rejected=true; }
+    CHECK(rejected);
+}
+
 void runTest(const char* name, void (*test)())
 {
     const int failures_before = failure_count;
@@ -823,6 +850,7 @@ void runTest(const char* name, void (*test)())
 int main()
 {
     runTest("PipelineConfig", testPipelineConfig);
+    runTest("Adaptive finite-grid progress and validation", testAdaptiveSchedule);
     runTest("DistanceMatrix validation", testDistanceMatrixValidation);
     runTest("WindowState preparation", testWindowStatePreparation);
     runTest("DimensionFrame advancement and determinism", testDimensionFrameAdvancementAndDeterminism);

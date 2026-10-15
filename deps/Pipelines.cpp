@@ -7,6 +7,7 @@
 #include <exception>
 #include "DimensionFrame.hpp"
 #include "SimplexUtility.hpp"
+#include "AdaptiveSchedule.hpp"
 
 
 namespace
@@ -265,16 +266,25 @@ PwphPipeline::PwphPipeline(
 void PwphPipeline::run()
 {
     const auto& config = runtime_.config();
-    for (std::size_t window_index = 0;
-         window_index < config.eps_breaks.size();
-         ++window_index)
+    using Clock = std::chrono::steady_clock;
+    struct Observation
+    {
+        double lo, hi, next = -1, reduction = 0;
+        size_t active_before = 0, active_after = 0, top_cofacets = 0;
+        double matching_ms = 0, rebuild_ms = 0, elapsed_ms = 0, controller_us = 0;
+    };
+    std::vector<Observation> observations;
+    double eps_lo = 0.0;
+    double eps_hi = config.eps_breaks.front();
+    for (std::size_t window_index = 0;; ++window_index)
     {
         const WindowBounds bounds{
-            .eps_lo = window_index == 0
-                ? 0.0
-                : config.eps_breaks[window_index - 1],
-            .eps_hi = config.eps_breaks[window_index],
-            .is_final = window_index + 1 == config.eps_breaks.size()};
+            .eps_lo = eps_lo,
+            .eps_hi = eps_hi,
+            .is_final = eps_hi == config.finalEpsilon()};
+        const auto window_start = Clock::now();
+        Observation observation{.lo=eps_lo, .hi=eps_hi};
+        observation.active_before = window_state_.activeLabels().size();
 
         PwphWindowResources window_resources(
             config.verbose, bounds.eps_lo, bounds.eps_hi);
@@ -290,6 +300,8 @@ void PwphPipeline::run()
         const auto edges_start = Clock::now();
         auto edges = window_state_.prepareWindow(runtime_, bounds);
         const auto edges_end = Clock::now();
+        if (config.adaptive)
+            observation.rebuild_ms += std::chrono::duration<double, std::milli>(edges_end-edges_start).count();
 
         if (config.verbose)
         {
@@ -305,10 +317,19 @@ void PwphPipeline::run()
 
         DependencySupportBatch support_batch;
         {
+            const auto frame_start = Clock::now();
             DimensionFrame frame(runtime_, window_state_, std::move(edges));
+            if (config.adaptive)
+                observation.rebuild_ms += std::chrono::duration<double, std::milli>(Clock::now()-frame_start).count();
             for (;;)
             {
+                const auto match_start = Clock::now();
                 frame.matchPersistence(!bounds.is_final);
+                if (config.adaptive)
+                {
+                    observation.matching_ms += std::chrono::duration<double, std::milli>(Clock::now()-match_start).count();
+                    if (frame.isTopDimension()) observation.top_cofacets = frame.cofacetCount();
+                }
 
                 if (frame.dimension() >= 2)
                 {
@@ -360,7 +381,11 @@ void PwphPipeline::run()
                 if (frame.isTopDimension() && !bounds.is_final)
                     support_batch = frame.takeDependencySupportBatch();
 
-                if (!frame.advance())
+                const auto rebuild_start = Clock::now();
+                const bool advanced = frame.advance();
+                if (config.adaptive)
+                    observation.rebuild_ms += std::chrono::duration<double, std::milli>(Clock::now()-rebuild_start).count();
+                if (!advanced)
                     break;
             }
         }
@@ -373,7 +398,15 @@ void PwphPipeline::run()
             std::cout << '\n';
 
         if (bounds.is_final)
+        {
+            if (config.adaptive)
+            {
+                observation.active_after = window_state_.activeLabels().size();
+                observation.elapsed_ms = std::chrono::duration<double, std::milli>(Clock::now()-window_start).count();
+                observations.push_back(observation);
+            }
             break;
+        }
         const std::size_t active_labels_before =
         window_state_.activeLabels().size();
         const std::size_t previous_pv_count =
@@ -383,6 +416,20 @@ void PwphPipeline::run()
         runtime_.ensureBinomialCapacity(window_state_.totalLabelCount());
         const std::size_t new_pv_count =
             window_state_.pseudoVertices().size() - previous_pv_count;
+
+        eps_lo = eps_hi;
+        if (config.adaptive)
+        {
+            const auto controller_start = Clock::now();
+            observation.active_after = window_state_.activeLabels().size();
+            observation.reduction = 1.0 - static_cast<double>(observation.active_after) / active_labels_before;
+            eps_hi = chooseAdaptiveEpsilon(config.eps_breaks, eps_lo, observation.reduction, config.adaptive_target);
+            observation.next = eps_hi;
+            observation.controller_us = std::chrono::duration<double, std::micro>(Clock::now()-controller_start).count();
+            observation.elapsed_ms = std::chrono::duration<double, std::milli>(Clock::now()-window_start).count();
+            observations.push_back(observation);
+        }
+        else eps_hi = config.eps_breaks[window_index + 1];
 
         if (config.verbose)
         {
@@ -414,6 +461,15 @@ void PwphPipeline::run()
             }
         }
     }
+    // Deferred output: no logging in the timed controller, no verbose/FFI needed.
+    for (const auto& o : observations)
+        std::cout << "[adaptive] eps_lo=" << o.lo << " eps_hi=" << o.hi
+                  << " next=" << o.next << " reason=" << (o.next<0 ? "final" : "reduction-scaled-width")
+                  << " active_before=" << o.active_before << " active_after=" << o.active_after
+                  << " reduction=" << o.reduction << " target=" << config.adaptive_target
+                  << " top_cofacets=" << o.top_cofacets << " matching_ms=" << o.matching_ms
+                  << " rebuild_ms=" << o.rebuild_ms << " elapsed_ms=" << o.elapsed_ms
+                  << " controller_us=" << o.controller_us << '\n';
 }
 
 ApparentPairPipeline::ApparentPairPipeline(

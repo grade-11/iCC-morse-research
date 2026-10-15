@@ -15,6 +15,10 @@ constexpr size_t MAX_SIMPLEX_DIMENSION =
 
 void PipelineConfig::validate() const
 {
+    if (!std::isfinite(adaptive_target) || adaptive_target <= 0.0 || adaptive_target > 1.0)
+        throw std::invalid_argument("Adaptive reduction target must be in (0, 1].");
+    if (adaptive && eps_breaks != std::vector<double>{1.2,1.4,1.5,1.6,1.7,1.8,2.0})
+        throw std::invalid_argument("Adaptive pilot requires grid 1.2,1.4,1.5,1.6,1.7,1.8,2.0.");
     if (eps_breaks.empty())
         throw std::invalid_argument("Pipeline epsilon breaks must not be empty.");
 
