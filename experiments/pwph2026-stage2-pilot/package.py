@@ -36,7 +36,9 @@ def package(run):
         binary_sha256=sha(run/'build/iCC')),indent=2))
     def eligible(p):
         rel=p.relative_to(run)
-        return not any(x in {'build','build-original','__pycache__','.cache','.venv','packaging-capture'} for x in rel.parts) and not p.name.endswith(':Zone.Identifier')
+        return (rel.parts[0] not in {'build','build-original','packaging-capture'} and
+                not any(x in {'__pycache__','.cache','.venv'} for x in rel.parts) and
+                not p.name.endswith(':Zone.Identifier'))
     paths=sorted(p for p in run.rglob('*') if p.is_file() and eligible(p) and p.name!='MANIFEST.sha256.json')
     manifest={str(p.relative_to(run)):sha(p) for p in paths}
     write(run/'MANIFEST.sha256.json',manifest)
