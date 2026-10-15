@@ -26,7 +26,19 @@ def runner_lock(run):
 def execute(run,name,argv,inputs=(),timeout=300):
     left=remaining(run)
     need(left>0,'Experiment budget ended; reserve final 20 minutes for packaging')
-    return old.execute(run,name,argv,[*inputs,Path(__file__)],min(timeout,left))
+    model_inputs=[Path(argv[argv.index('--g-model')+1])] if '--g-model' in argv else []
+    # Explicit compatibility whitelist for a diagnostic-only harness fix.
+    # Child argv and every non-harness input must remain byte-identical.
+    rules=run/'COMPATIBLE-HARNESS.json'
+    expected={str(p):sha(p) for p in [*inputs,*model_inputs]}
+    if rules.exists():
+        allowed=json.loads(rules.read_text())['allow_source_hashes']
+        for path in (run/'cases').glob(name+'-*/context.json'):
+            c=json.loads(path.read_text());previous=c.get('inputs',{});labkey=str(Path(__file__))
+            if (c.get('status')=='OK' and c.get('argv')==list(map(str,argv)) and previous.get(labkey) in allowed and
+                {k:v for k,v in previous.items() if k!=labkey}==expected):
+                return path.parent,c
+    return old.execute(run,name,argv,[*inputs,*model_inputs,Path(__file__)],min(timeout,left))
 def note(run,name,**fields):
     old.index(run,dict(case=name,at=now(),**fields))
 
@@ -77,7 +89,9 @@ def check(run,name,binary,data,breaks=None,maxdim=3,cutoff=2,threads=4,extra=(),
     bo,bc=execute(run,'base-'+sha(data)[:12]+f'-d{maxdim}-c{cutoff}-t{threads}',command(binary,data,maxdim=maxdim,cutoff=cutoff,threads=threads),[binary,data])
     need(bc['status']=='OK','Baseline failed')
     base,_,_=compact((bo/'stdout.log').read_text(),'ph',maxdim,cutoff)
-    o,c=execute(run,name,command(binary,data,breaks,threads,maxdim,cutoff,extra=extra),[binary,data])
+    validation_extra=list(extra)
+    if breaks is not None and '--cost-telemetry' not in validation_extra:validation_extra+=['--cost-telemetry']
+    o,c=execute(run,name,command(binary,data,breaks,threads,maxdim,cutoff,extra=validation_extra),[binary,data])
     result=dict(case=name,binary_sha256=sha(binary),dataset_sha256=sha(data),dataset=str(data),breaks=breaks,maxdim=maxdim,cutoff=cutoff,threads=threads,
                 status=c['status'],exit_status=c['exit_status'],path=str(o))
     if c['status']=='OK':
@@ -88,7 +102,11 @@ def check(run,name,binary,data,breaks=None,maxdim=3,cutoff=2,threads=4,extra=(),
         result['status']='PASS' if all(result['exact'].values()) and all(result['ripser'].values()) and all(result['baseline_ripser'].values()) else 'PH_MISMATCH'
         result['H0']='H0_NOT_VERIFIED'
         if diagnostic:
-            vo,vc=execute(run,name+'-diagnostic',command(binary,data,breaks,threads,maxdim,cutoff,True,extra),[binary,data])
+            states=parse_states((o/'stdout.log').read_text())
+            actions=[int(s['action']=='QUOTIENT') for s in states if s['action'] not in ('FINAL','STOP')]
+            replay_breaks=[float(b) for a,b in result['windows']] if breaks is not None else None
+            replay_extra=(['--cost-telemetry']+(['--quotient-mask',*map(str,actions)] if actions else [])) if breaks is not None else []
+            vo,vc=execute(run,name+'-diagnostic-replay',command(binary,data,replay_breaks,threads,maxdim,cutoff,True,replay_extra),[binary,data])
             if vc['status']!='OK':result['status']=vc['status']
             else:
                 text=(vo/'stdout.log').read_text();frames=msf(text);need(frames,'No actual MSF')
@@ -97,9 +115,21 @@ def check(run,name,binary,data,breaks=None,maxdim=3,cutoff=2,threads=4,extra=(),
                 pp=vo/'parser-input.log';pp.write_text(text+'\niCC exit status: 0\n')
                 vb,vi=verbose_parser.parse_log(pp,dict(dataset=str(data),dim=maxdim,threads=threads,breaks=actual,alpha=Decimal('.85')),'ph' if breaks is None else 'piecewise')
                 need(vb==bars and vi==ignored,'Verbose/compact mismatch')
-                # A disconnected original graph is allowed only with no quotient.
-                h0ok=projected(frames[0]['pairs'])==refs[0] and (breaks is None or len(windows)==1 or frames[0]['metadata']['components']=='1')
-                result.update(H0='PASS' if h0ok else 'H0_NOT_VERIFIED',h0_first=serial(frames[0]['pairs']),diagnostic=str(vo))
+                if breaks is not None:
+                    replay_states=parse_states((vo/'stdout.log').read_text())
+                    need([s['state_hash'] for s in states]==[s['state_hash'] for s in replay_states],'Diagnostic replay state mismatch')
+                # Baseline edge-only run calls the same actual MSF clearing path,
+                # avoiding an unnecessary repeated high-dimensional baseline.
+                ho,hc=execute(run,'base-msf-'+sha(data)[:12]+f'-c{cutoff}-t{threads}',command(binary,data,maxdim=1,cutoff=cutoff,threads=threads,verbose=True),[binary,data])
+                need(hc['status']=='OK','Baseline MSF failed');base0=msf((ho/'stdout.log').read_text())[0]['pairs']
+                from h0_ledger import ledger
+                h0=ledger(frames,result['windows'] if breaks is not None else [['0',str(cutoff)]],base0,refs[0])
+                h0ok=h0['status']=='PASS'
+                result.update(H0='PASS' if h0ok else 'H0_NOT_VERIFIED',h0_ledger=h0,
+                              h0_verifier_sha256=sha(BASE/'h0_ledger.py'),diagnostic=str(vo),actions=actions)
                 if result['status']=='PASS' and not h0ok:result['status']='H0_NOT_VERIFIED'
     write(o/'ph-check.json',result);note(run,name,**{k:v for k,v in result.items() if k!='case'})
     return result
+
+def parse_states(text):
+    return [dict(x.split('=') for x in line.split()[1:]) for line in text.splitlines() if line.startswith('[state] ')]
