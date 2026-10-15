@@ -188,6 +188,25 @@ void DimensionFrame::enumerateInitialCofacets()
         config.threads);
 }
 
+void DimensionFrame::traceComplex() const
+{
+    if (!runtime_.config().trace_pwph) return;
+    const auto emit = [&](const SimplexList& simplices, size_t dim)
+    {
+        if (simplices.size()>10000) return;
+        for (const auto& [index,weight] : simplices)
+        {
+            std::cout << "[simplex] eps_hi=" << window_.bounds().eps_hi
+                      << " dimension=" << dim << " labels=";
+            const auto labels=SimplexUtility::getSimplexVertices(binomial_table_,index,window_.totalLabelCount(),dim);
+            for (auto label : labels) std::cout << label << ',';
+            std::cout << " weight=" << std::setprecision(17) << weight << std::setprecision(6) << '\n';
+        }
+    };
+    if (dimension_==2) emit(facet_list_,1);
+    emit(cofacet_list_,dimension_);
+}
+
 void DimensionFrame::matchPersistence(const bool collect_dependency_support)
 {
     using Clock = std::chrono::steady_clock;

@@ -211,6 +211,7 @@ void PersistentHomologyPipeline::run()
     DimensionFrame frame(runtime_, window, std::move(edges));
     for (;;)
     {
+        frame.traceComplex();
         frame.matchPersistence(false);
 
         if (frame.dimension() >= 2)
@@ -323,6 +324,7 @@ void PwphPipeline::run()
                 observation.rebuild_ms += std::chrono::duration<double, std::milli>(Clock::now()-frame_start).count();
             for (;;)
             {
+                frame.traceComplex();
                 const auto match_start = Clock::now();
                 frame.matchPersistence(!bounds.is_final);
                 if (config.adaptive)
@@ -414,6 +416,16 @@ void PwphPipeline::run()
         support_processor_.processPwph(
             runtime_, window_state_, bounds.eps_hi, std::move(support_batch));
         runtime_.ensureBinomialCapacity(window_state_.totalLabelCount());
+        if (config.trace_pwph)
+        {
+            for (size_t i=0;i<window_state_.pseudoVertices().size();++i)
+            {
+                std::cout << "[pv-members] eps_hi=" << bounds.eps_hi << " label="
+                          << window_state_.originalVertexCount()+i << " representatives=";
+                for (auto v : window_state_.pseudoVertices()[i].representatives) std::cout << v << ',';
+                std::cout << '\n';
+            }
+        }
         const std::size_t new_pv_count =
             window_state_.pseudoVertices().size() - previous_pv_count;
 

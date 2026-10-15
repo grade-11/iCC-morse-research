@@ -31,6 +31,7 @@ struct PipelineConfig
     bool verbose = false;
     bool adaptive = false;
     double adaptive_target = 0.35;
+    bool trace_pwph = false;
 
     void validate() const;
 

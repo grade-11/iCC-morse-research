@@ -24,6 +24,20 @@ void DependencySupportPostProcessor::processPwph(
         runtime.config().pv_cap_scale * eps_hi;
     const double min_separation = runtime.config().absoluteMinSeparation();
     const auto& distance_matrix = runtime.distanceMatrix();
+    if (runtime.config().trace_pwph)
+    {
+        std::vector<size_t> protected_labels(batch.protected_labels.begin(),batch.protected_labels.end());
+        std::sort(protected_labels.begin(),protected_labels.end());
+        std::cout << "[support-trace] eps_hi=" << eps_hi << " protected=";
+        for (auto label:protected_labels) std::cout << label << ',';
+        std::cout << '\n';
+        for (const auto& support:batch.supports)
+        {
+            std::cout << "[support-trace] eps_hi=" << eps_hi << " support=";
+            for (auto label:support.labels) std::cout << label << ',';
+            std::cout << '\n';
+        }
+    }
 
     std::vector<SelectedPV> selected_pvs;
     std::unordered_set<std::size_t> new_absorbed_labels;

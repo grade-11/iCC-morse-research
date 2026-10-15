@@ -32,6 +32,7 @@ public:
     // Match once per dimension, consume the results, then call advance().
     // Continue matching only if advance() returns true.
     void matchPersistence(bool collect_dependency_support);
+    void traceComplex() const;
     void matchApparentPairsOnly();
 
     [[nodiscard]]

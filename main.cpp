@@ -611,7 +611,8 @@ int runTool(const std::string& tool,
             const bool print_configuration,
             const bool verbose,
             const bool adaptive = false,
-            const double adaptive_target = 0.35)
+            const double adaptive_target = 0.35,
+            const bool trace_pwph = false)
 {
     const std::string normalized_tool = normalizeTool(tool);
     if (adaptive && normalized_tool != PIECEWISE_PH_TOOL)
@@ -658,7 +659,8 @@ int runTool(const std::string& tool,
         .pv_min_separation = normalized_tool == PIECEWISE_PH_TOOL ? pv_min_separation : 0.0,
         .verbose = verbose,
         .adaptive = adaptive,
-        .adaptive_target = adaptive_target};
+        .adaptive_target = adaptive_target,
+        .trace_pwph = trace_pwph};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -767,8 +769,10 @@ int runCommandLine(int argc, char** argv)
 
     app.add_flag("-v,--verbose", verbose, "Show diagnostic output");
     bool adaptive = false;
+    bool trace_pwph = false;
     double adaptive_target = 0.35;
     app.add_flag("--adaptive", adaptive, "Pilot online scheduling on the explicit candidate grid");
+    app.add_flag("--trace-pwph", trace_pwph, "Diagnostic simplex and PV membership trace (not for benchmarks)");
     app.add_option("--adaptive-target", adaptive_target, "Target fractional active-label reduction in (0,1]")
         ->default_val(0.35);
 
@@ -807,7 +811,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target);
+                       adaptive, adaptive_target, trace_pwph);
     }
     catch (const CLI::ParseError& err)
     {
