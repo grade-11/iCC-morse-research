@@ -1,0 +1,4 @@
+runs/
+__pycache__/
+*-handoff.tar.gz
+*-handoff.tar.gz.sha256

@@ -105,6 +105,12 @@ quotient and single-coordinate safety arguments assume the cap does not exceed
 the formation scale. Because admission is strict, use a scale below `1.0` to
 avoid the equality boundary.
 
+The cap alone does not guarantee preservation of the full PH diagram after a
+quotient. A deterministic eight-point unit-S2 example at cap scale `0.85` loses
+a future H1 interval with breaks `0.5 2.0`, including on untouched upstream
+commit `734be3d`. The [provenance study](experiments/pwph2026-provenance-continue/README.md)
+links the input, direct version comparisons and per-configuration results.
+
 ## Output and timing
 
 Direct PH retains the existing per-dimension persistent-pair report. Nonverbose
