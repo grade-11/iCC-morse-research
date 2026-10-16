@@ -39,6 +39,7 @@ struct PipelineConfig
     bool cost_telemetry = false;
     std::vector<int> quotient_mask;
     size_t stop_after_window = 0;
+    std::string continue_engine = "native-rebuild";
 
     void validate() const;
 

@@ -123,3 +123,26 @@ interval.
 Every command-line run prints `run time = ...` in milliseconds. Input reading,
 distance-matrix construction, and automatic epsilon-schedule generation happen
 before this timer starts.
+
+## Experimental no-quotient continuation
+
+`--continue-engine f2-stream` selects an explicit F2 boundary-reduction engine
+that retains reduced columns and live births between checkpoints. The control
+mode `f2-rebuild` starts the same F2 engine afresh at every checkpoint. Both
+support `--max-dim 2` (H0/H1), require an explicit all-zero `--quotient-mask`
+for multiple windows, and reject quotient, G, adaptive v1, H2, trace and early
+stop options. The default remains `native-rebuild` with the Morse pipeline.
+
+```bash
+./build/iCC --tool piecewise --file-name tests/data/irregular5.csv \
+ --max-dim 2 --threads 4 --eps-breaks 1.0 1.5 2.0 --pv-cap-scale .85 \
+ --quotient-mask 0 0 --continue-engine f2-stream --verbose
+```
+
+The F2 engine sorts input edges once per engine, generates triangles when their
+last edge arrives, and retains pivot columns by stable edge IDs. Its reduction
+is currently serial; `--threads` still bounds the process's configured worker
+count. H0 prefix output (including zero bars) is available with `--verbose`.
+Every startup, enumeration, checkpoint, reduction and logging cost is included
+in whole-process measurements. This experimental kernel does not implement
+continuation of native Morse interface workspaces or migration through quotient.

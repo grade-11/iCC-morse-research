@@ -9,6 +9,7 @@
 #include "SimplexUtility.hpp"
 #include "AdaptiveSchedule.hpp"
 #include "GCostController.hpp"
+#include "StreamingF2.hpp"
 #include <fstream>
 #include <bit>
 
@@ -270,6 +271,11 @@ PwphPipeline::PwphPipeline(
 void PwphPipeline::run()
 {
     const auto& config = runtime_.config();
+    if(config.continue_engine!="native-rebuild")
+    {
+        runStreamingF2(runtime_.distanceMatrix(),config);
+        return;
+    }
     const bool g_enabled=!config.g_model.empty();
     const bool measure=config.adaptive || config.cost_telemetry || g_enabled;
     GCostController controller;

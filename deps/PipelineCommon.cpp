@@ -16,6 +16,12 @@ constexpr size_t MAX_SIMPLEX_DIMENSION =
 
 void PipelineConfig::validate() const
 {
+    if(continue_engine!="native-rebuild" && continue_engine!="f2-stream" && continue_engine!="f2-rebuild")
+        throw std::invalid_argument("Unknown continuation engine");
+    if(continue_engine!="native-rebuild" && (maxdim!=2 || adaptive || !g_model.empty() || stop_after_window || trace_pwph ||
+        (eps_breaks.size()>1 && quotient_mask.size()+1!=eps_breaks.size()) ||
+        std::any_of(quotient_mask.begin(),quotient_mask.end(),[](int q){return q!=0;})))
+        throw std::invalid_argument("F2 stream/rebuild supports max-dim2 (H0/H1), explicit all-DEFER masks only; quotient/G/v1/trace/diagnostic stop unsupported");
     if (!std::isfinite(g_margin) || g_margin<0 || g_margin>1 || !std::isfinite(g_memory_mib) || g_memory_mib<=0)
         throw std::invalid_argument("Invalid G margin or memory budget");
     if ((!g_model.empty() && (adaptive || !quotient_mask.empty())) || (adaptive && !quotient_mask.empty()))
