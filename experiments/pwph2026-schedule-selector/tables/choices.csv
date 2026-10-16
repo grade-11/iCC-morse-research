@@ -1,0 +1,7 @@
+dataset,schedule,ticks,in_domain,reason,predicted_s,G_s
+final-uniform-n64-s2026101900,q10,"[10, 20]",True,minimum_predicted_seconds,0.016148511544480795,0.005411123615504724
+final-clustered-n64-s2026101901,q10,"[10, 20]",True,minimum_predicted_seconds,0.016469103714116272,0.005090531445869247
+final-uniform-n100-s2026101902,q10,"[10, 20]",True,minimum_predicted_seconds,0.03769447164107947,0.021871394371545054
+final-clustered-n100-s2026101903,q10,"[10, 20]",True,minimum_predicted_seconds,0.04245334146079742,0.018508511625354912
+final-uniform-n200-s2026101904,q10,"[10, 20]",True,minimum_predicted_seconds,0.1394589346155435,0.1487204532451872
+final-clustered-n200-s2026101905,q10,"[10, 20]",True,minimum_predicted_seconds,0.14748548642559073,0.14302501127283346

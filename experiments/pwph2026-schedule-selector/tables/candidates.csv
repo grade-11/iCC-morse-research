@@ -1,0 +1,11 @@
+schedule,epsilon_breaks,quotient_at,empirically_eligible,development_selection_failures
+noQ,null,[],True,[]
+q08,"[0.8, 2.0]",[0.8],False,"[""dev-clustered-n100-s2026101709""]"
+q10,"[1.0, 2.0]",[1.0],True,[]
+q12,"[1.2, 2.0]",[1.2],True,[]
+q14,"[1.4, 2.0]",[1.4],True,[]
+q16,"[1.6, 2.0]",[1.6],True,[]
+author,"[1.2, 1.7, 2.0]","[1.2, 1.7]",True,[]
+q11_16,"[1.1, 1.6, 2.0]","[1.1, 1.6]",True,[]
+q13_18,"[1.3, 1.8, 2.0]","[1.3, 1.8]",True,[]
+q08_12_16,"[0.8, 1.2, 1.6, 2.0]","[0.8, 1.2, 1.6]",False,"[""dev-clustered-n100-s2026101709""]"

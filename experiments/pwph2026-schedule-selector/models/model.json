@@ -1,0 +1,105 @@
+{
+  "created_at": "2026-10-16T06:59:36.350080+00:00",
+  "ridge": 0.01,
+  "coefficients": [
+    -2.9896957939688193,
+    2.2748650348191792,
+    1.0617574556638358,
+    0.09407134431650421,
+    -1.1855370495912714,
+    0.2561607742091289,
+    0.08503682057199519,
+    -0.38386301369315484,
+    3.7556375340109884,
+    -0.6080101482578609
+  ],
+  "selection_MAE_s": 0.00809006870100292,
+  "features": [
+    "intercept",
+    "log_n_over_100",
+    "edge_density_08",
+    "quotient_count",
+    "has_quotient",
+    "first_quotient_over_2",
+    "sum_edge_densities_at_quotients",
+    "hasQ_log_n",
+    "hasQ_density_08",
+    "boundary_distance_proxy"
+  ],
+  "eligible_schedules": [
+    "noQ",
+    "q10",
+    "q12",
+    "q14",
+    "q16",
+    "author",
+    "q11_16",
+    "q13_18"
+  ],
+  "empirical_eligibility": "PASS every dev+selection input, not a proof for new inputs",
+  "fallback": "noQ",
+  "domain": {
+    "n": [
+      64,
+      200
+    ],
+    "density08": [
+      0.12393939393939393,
+      0.20261904761904762
+    ]
+  },
+  "reference": "noQ",
+  "output_unit": "seconds",
+  "scope": {
+    "simplex_dimension_max": 2,
+    "PH": "H0-H1",
+    "field": 2,
+    "cutoff": 2.0,
+    "alpha": 0.85,
+    "threads": 4
+  },
+  "schedules": {
+    "noQ": null,
+    "q08": [
+      8,
+      20
+    ],
+    "q10": [
+      10,
+      20
+    ],
+    "q12": [
+      12,
+      20
+    ],
+    "q14": [
+      14,
+      20
+    ],
+    "q16": [
+      16,
+      20
+    ],
+    "author": [
+      12,
+      17,
+      20
+    ],
+    "q11_16": [
+      11,
+      16,
+      20
+    ],
+    "q13_18": [
+      13,
+      18,
+      20
+    ],
+    "q08_12_16": [
+      8,
+      12,
+      16,
+      20
+    ]
+  }
+}

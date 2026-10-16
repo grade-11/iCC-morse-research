@@ -1,0 +1,269 @@
+{
+  "created_at": "2026-10-16T06:53:41.013641+00:00",
+  "datasets": [
+    {
+      "id": "dev-uniform-n64-s2026101700",
+      "split": "dev",
+      "geometry": "uniform",
+      "n": 64,
+      "seed": 2026101700
+    },
+    {
+      "id": "dev-clustered-n64-s2026101701",
+      "split": "dev",
+      "geometry": "clustered",
+      "n": 64,
+      "seed": 2026101701
+    },
+    {
+      "id": "dev-uniform-n100-s2026101702",
+      "split": "dev",
+      "geometry": "uniform",
+      "n": 100,
+      "seed": 2026101702
+    },
+    {
+      "id": "dev-clustered-n100-s2026101703",
+      "split": "dev",
+      "geometry": "clustered",
+      "n": 100,
+      "seed": 2026101703
+    },
+    {
+      "id": "dev-uniform-n200-s2026101704",
+      "split": "dev",
+      "geometry": "uniform",
+      "n": 200,
+      "seed": 2026101704
+    },
+    {
+      "id": "dev-clustered-n200-s2026101705",
+      "split": "dev",
+      "geometry": "clustered",
+      "n": 200,
+      "seed": 2026101705
+    },
+    {
+      "id": "dev-uniform-n64-s2026101706",
+      "split": "dev",
+      "geometry": "uniform",
+      "n": 64,
+      "seed": 2026101706
+    },
+    {
+      "id": "dev-clustered-n64-s2026101707",
+      "split": "dev",
+      "geometry": "clustered",
+      "n": 64,
+      "seed": 2026101707
+    },
+    {
+      "id": "dev-uniform-n100-s2026101708",
+      "split": "dev",
+      "geometry": "uniform",
+      "n": 100,
+      "seed": 2026101708
+    },
+    {
+      "id": "dev-clustered-n100-s2026101709",
+      "split": "dev",
+      "geometry": "clustered",
+      "n": 100,
+      "seed": 2026101709
+    },
+    {
+      "id": "dev-uniform-n200-s2026101710",
+      "split": "dev",
+      "geometry": "uniform",
+      "n": 200,
+      "seed": 2026101710
+    },
+    {
+      "id": "dev-clustered-n200-s2026101711",
+      "split": "dev",
+      "geometry": "clustered",
+      "n": 200,
+      "seed": 2026101711
+    },
+    {
+      "id": "selection-uniform-n64-s2026101800",
+      "split": "selection",
+      "geometry": "uniform",
+      "n": 64,
+      "seed": 2026101800
+    },
+    {
+      "id": "selection-clustered-n64-s2026101801",
+      "split": "selection",
+      "geometry": "clustered",
+      "n": 64,
+      "seed": 2026101801
+    },
+    {
+      "id": "selection-uniform-n100-s2026101802",
+      "split": "selection",
+      "geometry": "uniform",
+      "n": 100,
+      "seed": 2026101802
+    },
+    {
+      "id": "selection-clustered-n100-s2026101803",
+      "split": "selection",
+      "geometry": "clustered",
+      "n": 100,
+      "seed": 2026101803
+    },
+    {
+      "id": "selection-uniform-n200-s2026101804",
+      "split": "selection",
+      "geometry": "uniform",
+      "n": 200,
+      "seed": 2026101804
+    },
+    {
+      "id": "selection-clustered-n200-s2026101805",
+      "split": "selection",
+      "geometry": "clustered",
+      "n": 200,
+      "seed": 2026101805
+    },
+    {
+      "id": "final-uniform-n64-s2026101900",
+      "split": "final",
+      "geometry": "uniform",
+      "n": 64,
+      "seed": 2026101900
+    },
+    {
+      "id": "final-clustered-n64-s2026101901",
+      "split": "final",
+      "geometry": "clustered",
+      "n": 64,
+      "seed": 2026101901
+    },
+    {
+      "id": "final-uniform-n100-s2026101902",
+      "split": "final",
+      "geometry": "uniform",
+      "n": 100,
+      "seed": 2026101902
+    },
+    {
+      "id": "final-clustered-n100-s2026101903",
+      "split": "final",
+      "geometry": "clustered",
+      "n": 100,
+      "seed": 2026101903
+    },
+    {
+      "id": "final-uniform-n200-s2026101904",
+      "split": "final",
+      "geometry": "uniform",
+      "n": 200,
+      "seed": 2026101904
+    },
+    {
+      "id": "final-clustered-n200-s2026101905",
+      "split": "final",
+      "geometry": "clustered",
+      "n": 200,
+      "seed": 2026101905
+    }
+  ],
+  "schedules": {
+    "noQ": null,
+    "q08": [
+      8,
+      20
+    ],
+    "q10": [
+      10,
+      20
+    ],
+    "q12": [
+      12,
+      20
+    ],
+    "q14": [
+      14,
+      20
+    ],
+    "q16": [
+      16,
+      20
+    ],
+    "author": [
+      12,
+      17,
+      20
+    ],
+    "q11_16": [
+      11,
+      16,
+      20
+    ],
+    "q13_18": [
+      13,
+      18,
+      20
+    ],
+    "q08_12_16": [
+      8,
+      12,
+      16,
+      20
+    ]
+  },
+  "scope": {
+    "simplex_dimension_max": 2,
+    "PH": "H0-H1",
+    "field": 2,
+    "cutoff": 2.0,
+    "alpha": 0.85,
+    "threads": 4
+  },
+  "survey": {
+    "warmups": 1,
+    "measured": 3
+  },
+  "final": {
+    "warmups": 1,
+    "measured": 5
+  },
+  "fallback": "noQ",
+  "ridge_candidates": [
+    0.01,
+    1.0
+  ],
+  "model_features": [
+    "intercept",
+    "log_n_over_100",
+    "edge_density_08",
+    "quotient_count",
+    "has_quotient",
+    "first_quotient_over_2",
+    "sum_edge_densities_at_quotients",
+    "hasQ_log_n",
+    "hasQ_density_08",
+    "boundary_distance_proxy"
+  ],
+  "model_target": "log whole-process seconds; predictions exponentiated to seconds",
+  "model_selection": "lowest selection MAE seconds; dev fit only; empirical eligibility PASS on every dev+selection dataset",
+  "best_fixed": "minimum geometric mean median whole-process runtime on dev+selection among empirically eligible schedules",
+  "final_policy": "Generate final only after LOCK; evaluate A/B/C/D/E, no final oracle or schedule change",
+  "clustered_generator": "six equally likely signed coordinate-axis centers + isotropic N(0,0.18²), normalize each vector; not coordinate scaling",
+  "uniform_generator": "independent isotropic Gaussian triples normalized, uniform surface-area S2",
+  "timing": "whole GNU-time process, G execv preserves one process across prediction and PH; verbose false",
+  "correctness": "Exact C++ Decimal endpoint multisets; Ripser float32 projection without tolerance; actual per-window MSF H0 ledger; diagnostics separate",
+  "scope_excluded": [
+    "CONTINUE development",
+    "f2-stream",
+    "f2-rebuild",
+    "PV rule changes",
+    "matching fixes",
+    "n300",
+    "H2"
+  ],
+  "engine_commit": "259d4bf",
+  "engine_reason": "Frozen pre-f2 Morse implementation, all new methods share this source and binary"
+}
