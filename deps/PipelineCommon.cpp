@@ -16,12 +16,17 @@ constexpr size_t MAX_SIMPLEX_DIMENSION =
 
 void PipelineConfig::validate() const
 {
-    if(continue_engine!="native-rebuild" && continue_engine!="f2-stream" && continue_engine!="f2-rebuild")
-        throw std::invalid_argument("Unknown continuation engine");
-    if(continue_engine!="native-rebuild" && (maxdim!=2 || adaptive || !g_model.empty() || stop_after_window || trace_pwph ||
-        (eps_breaks.size()>1 && quotient_mask.size()+1!=eps_breaks.size()) ||
-        std::any_of(quotient_mask.begin(),quotient_mask.end(),[](int q){return q!=0;})))
-        throw std::invalid_argument("F2 stream/rebuild supports max-dim2 (H0/H1), explicit all-DEFER masks only; quotient/G/v1/trace/diagnostic stop unsupported");
+    if(h1_realizations && (maxdim!=2 || !verbose))
+        throw std::invalid_argument("H1 realization diagnostics require --max-dim 2 --verbose");
+    if (!h1_risk.empty() && (maxdim!=2 || (h1_risk!="edge-fiber" && h1_risk!="selective" && h1_risk!="selective-fast" && h1_risk!="selective-graph" && h1_risk!="observe")))
+        throw std::invalid_argument("H1 risk mode must be edge-fiber, selective or observe, max-dim=2");
+    const bool growth_policy=ac_policy.starts_with("growth") || ac_policy.starts_with("payback");
+    const bool defer_retry_policy=ac_policy=="guard-defer-retry" || ac_policy=="guard-defer-retry-control";
+    if(defer_retry_policy && (h1_risk!="selective-fast" || !pack_mode.empty() || pv_cap_scale!=.85 || pv_min_separation!=0))
+        throw std::invalid_argument("DEFER_RETRY requires unchanged selective-fast, alpha=.85, delta=0 and no packing mode");
+    if (!ac_policy.empty() && ((ac_policy!="cost" && ac_policy!="rank" && ac_policy!="rank-base" && ac_policy!="rank-extra" && ac_policy!="guard" && ac_policy!="guard-base" && ac_policy!="guard50" && ac_policy!="guard70" && !growth_policy && !defer_retry_policy) || ac_model.empty() || adaptive || !g_model.empty() || !quotient_mask.empty() ||
+        ((growth_policy || defer_retry_policy) ? eps_breaks.size()!=1 : ac_policy=="cost" ? eps_breaks!=std::vector<double>{.6,.9,1.2,1.5,2.} : eps_breaks.size()!=5) || maxdim!=2))
+        throw std::invalid_argument("AC cost policy requires H1 candidate grid .6,.9,1.2,1.5,2 and independent model");
     if (!std::isfinite(g_margin) || g_margin<0 || g_margin>1 || !std::isfinite(g_memory_mib) || g_memory_mib<=0)
         throw std::invalid_argument("Invalid G margin or memory budget");
     if ((!g_model.empty() && (adaptive || !quotient_mask.empty())) || (adaptive && !quotient_mask.empty()))

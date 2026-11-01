@@ -39,7 +39,16 @@ struct PipelineConfig
     bool cost_telemetry = false;
     std::vector<int> quotient_mask;
     size_t stop_after_window = 0;
-    std::string continue_engine = "native-rebuild";
+    std::string ac_policy;
+    std::string ac_model;
+    std::string h1_risk;
+    bool h1_realizations = false;
+    std::string pack_mode;
+    std::string pack_model;
+    std::string payback_action = "auto";
+    bool full_endpoint = false;
+    bool calibration_targets = false;
+    double payback_aL = 0, payback_aM = 0, payback_bC = 0;
 
     void validate() const;
 

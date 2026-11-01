@@ -1,6 +1,8 @@
 #include "DistanceMatrix.hpp"
 #include "Pipelines.hpp"
 #include "readInput.hpp"
+#include "GeometryController.hpp"
+#include "PackDmtPayback.hpp"
 
 #include <CLI/CLI.hpp>
 #include <omp.h>
@@ -619,14 +621,40 @@ int runTool(const std::string& tool,
             const bool cost_telemetry = false,
             const std::vector<int>& quotient_mask = {},
             const size_t stop_after_window = 0,
-            const std::string& continue_engine = "native-rebuild")
+            const std::string& ac_policy = "",
+            const std::string& ac_model = "",
+            const double ac_auto_cutoff = 0,
+            const size_t geometry_cuts = 0,
+            const std::string& h1_risk = "",
+            const bool h1_realizations = false,
+            const std::string& pack_mode = "",
+            const std::string& pack_model = "",
+            const std::string& payback_action = "auto",
+            const bool calibration_targets = false)
 {
     const std::string normalized_tool = normalizeTool(tool);
+    if(h1_realizations && normalized_tool!=PIECEWISE_PH_TOOL)
+        throw std::invalid_argument("H1 realization diagnostics require piecewise");
+    if((geometry_cuts || !h1_risk.empty()) && (normalized_tool!=PIECEWISE_PH_TOOL || maxdim!=2))
+        throw std::invalid_argument("Geometry and H1 risk require piecewise --max-dim 2");
+    if(geometry_cuts && (geometry_cuts>2 || eps_breaks.size()!=1 || eps_interval_count || !ac_policy.empty() || adaptive || !g_model.empty() || !quotient_mask.empty()))
+        throw std::invalid_argument("Geometry requires cuts=1 or 2, one explicit final epsilon, no other scheduler/mask");
+    if ((!ac_policy.empty() || ac_auto_cutoff>0) && normalized_tool!=PIECEWISE_PH_TOOL)
+        throw std::invalid_argument("AC options require piecewise");
     if (adaptive && normalized_tool != PIECEWISE_PH_TOOL)
         throw std::invalid_argument("--adaptive requires --tool piecewise.");
-    if (normalized_tool != PIECEWISE_PH_TOOL && (!g_model.empty() || !quotient_mask.empty() || cost_telemetry || continue_engine!="native-rebuild"))
+    if (normalized_tool != PIECEWISE_PH_TOOL && (!g_model.empty() || !quotient_mask.empty() || cost_telemetry))
         throw std::invalid_argument("G/quotient/cost telemetry options require piecewise");
 
+    if(!pack_mode.empty() && (normalized_tool!=PIECEWISE_PH_TOOL || maxdim!=2 || geometry_cuts || adaptive || !g_model.empty() ||
+        (pack_mode!="plan" && pack_mode!="measure" && pack_mode!="probe" && pack_mode!="replay") ||
+        ((pack_mode=="plan" || pack_mode=="probe") && (eps_breaks.size()!=1 || !ac_policy.empty() || eps_interval_count))))
+        throw std::invalid_argument("Invalid packing mode or conflicting scheduler");
+    if(!pack_mode.empty() && (pv_cap_scale!=.85 || pv_min_separation!=0))throw std::invalid_argument("Packing locks alpha=.85 and delta=0");
+    if((pack_mode=="plan" || pack_mode=="replay") && pack_model.empty())throw std::invalid_argument("Packing requires frozen model");
+    if(payback_action!="auto" && payback_action!="commit" && payback_action!="defer")throw std::invalid_argument("Invalid payback action");
+    if((pack_mode=="plan" || pack_mode=="probe" || pack_mode=="replay") && h1_risk!="selective-fast" && h1_risk!="selective")
+        throw std::invalid_argument("Packing actions require locked selective filter");
     validateRunOptions(normalized_tool, filename, maxdim, threadnumber, eps_breaks,
                        eps_interval_count, eps_interval_scale, maxeps);
 
@@ -635,17 +663,58 @@ int runTool(const std::string& tool,
                               eps_interval_count, eps_interval_scale, maxeps, pv_cap_scale,
                               pv_min_separation);
 
+    const auto input_start=std::chrono::steady_clock::now();
     auto point_cloud = readInput::readCSV(filename);
+    const auto distance_start=std::chrono::steady_clock::now();
     omp_set_num_threads(threadnumber);
     DistanceMatrix distance_matrix(point_cloud);
+    const auto distance_end=std::chrono::steady_clock::now();
     decltype(point_cloud){}.swap(point_cloud);
 
+    PackDmtPayback packing;
     std::vector<double> resolved_eps_breaks;
     if (normalized_tool == PIECEWISE_PH_TOOL)
     {
         resolved_eps_breaks = resolveEpsilonBreaks(
             distance_matrix, eps_breaks, eps_interval_count, eps_interval_scale);
+        if(ac_auto_cutoff>0)
+        {
+            if(eps_interval_count==0 || !std::isfinite(ac_auto_cutoff) || ac_auto_cutoff<resolved_eps_breaks.back())
+                throw std::invalid_argument("Auto cutoff must extend native generated final bound");
+            resolved_eps_breaks.back()=ac_auto_cutoff;
+        }
+        if(geometry_cuts)
+        {
+            const double endpoint=resolved_eps_breaks.back();
+            GeometryController geometry;
+            geometry.load(distance_matrix,endpoint,pv_cap_scale,geometry_cuts);
+            if(geometry.fallback)
+            {
+                const auto fallback_start=std::chrono::steady_clock::now();
+                const size_t count=std::min(geometry_cuts+1,collectSortedUniquePositiveDistances(distance_matrix).size());
+                if(count)geometry.schedule=generateEpsilonBreaksFromIntervalCount(distance_matrix,count,2.);
+                geometry.schedule.erase(std::remove_if(geometry.schedule.begin(),geometry.schedule.end(),[&](double x){return x>=endpoint;}),geometry.schedule.end());
+                geometry.schedule.push_back(endpoint);
+                const double elapsed=std::chrono::duration<double>(std::chrono::steady_clock::now()-fallback_start).count();
+                geometry.selection_s+=elapsed;geometry.total_s+=elapsed;
+            }
+            resolved_eps_breaks=geometry.schedule;
+            geometry.report(verbose);
+            std::cout<<std::setprecision(17)<<"[geometry-input] read_s="<<std::chrono::duration<double>(distance_start-input_start).count()
+                <<" distance_s="<<std::chrono::duration<double>(distance_end-distance_start).count()<<'\n'<<std::setprecision(6);
+        }
 
+        if(!pack_mode.empty() && pack_mode!="replay"){
+            packing.load(distance_matrix,resolved_eps_breaks.back(),pack_mode,pack_model);
+            if(pack_mode!="measure"){
+                resolved_eps_breaks={packing.endpoint};
+                if(packing.chosen<packing.endpoint)resolved_eps_breaks.insert(resolved_eps_breaks.begin(),packing.chosen);
+            }
+            packing.report(pack_mode,verbose);
+        }
+        if(pack_mode=="replay")packing.model.load(pack_model);
+        bool duplicate_domain=false;
+        packing.full_endpoint=PackDmtPayback::fullEndpoint(distance_matrix,resolved_eps_breaks.back(),duplicate_domain);
         if (verbose && eps_breaks.empty())
         {
             std::cout << "  generated epsilon breaks:";
@@ -676,7 +745,13 @@ int runTool(const std::string& tool,
         .cost_telemetry = cost_telemetry,
         .quotient_mask = quotient_mask,
         .stop_after_window = stop_after_window,
-        .continue_engine = continue_engine};
+        .ac_policy = ac_policy,
+        .ac_model = ac_model,
+        .h1_risk = h1_risk,
+        .h1_realizations = h1_realizations,
+        .pack_mode = pack_mode, .pack_model = pack_model, .payback_action = payback_action,
+        .full_endpoint = packing.full_endpoint, .calibration_targets = calibration_targets,
+        .payback_aL = packing.model.aL, .payback_aM = packing.model.aM, .payback_bC = packing.model.bC};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -785,13 +860,29 @@ int runCommandLine(int argc, char** argv)
 
     app.add_flag("-v,--verbose", verbose, "Show diagnostic output");
     bool adaptive = false;
+    std::string ac_policy,ac_model;
+    double ac_auto_cutoff=0;
+    size_t geometry_cuts=0;
+    std::string h1_risk;
+    std::string pack_mode,pack_model,payback_action="auto";
+    bool calibration_targets=false;
+    bool h1_realizations=false;
+    app.add_flag("--h1-realizations",h1_realizations,"Post-rebuild H1 canonical edge/triangle witness diagnostics; requires verbose, no action filtering");
+    app.add_flag("--calibration-targets",calibration_targets,"Development-only native workload features, excluded from native timer");
+    app.add_option("--pack-mode",pack_mode,"Metric-only packing: measure, plan, probe, or same-prefix replay");
+    app.add_option("--pack-model",pack_model,"Frozen PACK_DMT_PAYBACK_V1 cost model");
+    app.add_option("--payback-action",payback_action,"Development marginal ablation: auto, commit, defer");
+    app.add_option("--geometry-cuts",geometry_cuts,"Mutual-kNN geometry schedule: 1 or 2 intermediate quotients; supply E as sole --eps-breaks");
+    app.add_option("--h1-risk",h1_risk,"Precommit H1 filter: edge-fiber, selective, or observe (diagnostic without rejection)");
+    app.add_option("--ac-policy",ac_policy,"Research window controller: cost");
+    app.add_option("--ac-model",ac_model,"Development-fitted AC controller model");
+    app.add_option("--ac-auto-cutoff",ac_auto_cutoff,"Extend native auto final bound to common research cutoff");
     bool trace_pwph = false;
     std::string g_model;
     double g_margin=.05,g_memory_mib=4096;
     bool cost_telemetry=false;
     std::vector<int> quotient_mask;
     size_t stop_after_window=0;
-    std::string continue_engine="native-rebuild";
     double adaptive_target = 0.35;
     app.add_flag("--adaptive", adaptive, "Pilot online scheduling on the explicit candidate grid");
     app.add_flag("--trace-pwph", trace_pwph, "Diagnostic simplex and PV membership trace (not for benchmarks)");
@@ -801,7 +892,6 @@ int runCommandLine(int argc, char** argv)
     app.add_flag("--cost-telemetry",cost_telemetry,"Cheap nonverbose window cost records for calibration");
     app.add_option("--quotient-mask",quotient_mask,"Forced 0/1 actions at nonfinal checkpoints; diagnostic/offline replay")
         ->delimiter(',')->check(CLI::Range(0,1));
-    app.add_option("--continue-engine",continue_engine,"native-rebuild (default), or experimental f2-stream/f2-rebuild: different F2 kernel, H0/H1 only, explicit no quotient")->check(CLI::IsMember({"native-rebuild","f2-stream","f2-rebuild"}));
     app.add_option("--stop-after-window",stop_after_window,"Calibration only: stop after this many completed windows");
     app.add_option("--adaptive-target", adaptive_target, "Target fractional active-label reduction in (0,1]")
         ->default_val(0.35);
@@ -841,7 +931,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,continue_engine);
+                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets);
     }
     catch (const CLI::ParseError& err)
     {

@@ -1,4 +1,8 @@
 #include "DependencySupportPostProcessor.hpp"
+#include "H1EdgeRisk.hpp"
+#include "PackDmtPayback.hpp"
+#include "GeometryShadow.hpp"
+#include "PolicyCostLog.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,7 +12,7 @@
 #include <utility>
 #include <chrono>
 
-void DependencySupportPostProcessor::processPwph(
+std::size_t DependencySupportPostProcessor::processPwph(
     const PipelineRuntime& runtime,
     WindowState& window,
     const double eps_hi,
@@ -16,6 +20,7 @@ void DependencySupportPostProcessor::processPwph(
 {
     using Clock = std::chrono::steady_clock;
     const auto selection_start = Clock::now();
+    if(auto* cost=PolicyCost::active)cost->mark("SELECTOR_BEGIN");
 
     const std::size_t raw_support_count = batch.supports.size();
     const std::size_t original_vertex_count = window.originalVertexCount();
@@ -167,6 +172,7 @@ void DependencySupportPostProcessor::processPwph(
     }
     
     const auto selection_end = Clock::now();
+    if(auto* cost=PolicyCost::active)cost->mark("FILTER_END");
     
     if (runtime.config().verbose && runtime.config().maxdim >= 2)
     {
@@ -191,12 +197,141 @@ void DependencySupportPostProcessor::processPwph(
                   << " selected=" << selected_pvs.size() << '\n';
     }
 
-    const auto commit_start = Clock::now();
-    window.commitSelectedPVs(
-        std::move(selected_pvs),
-        new_absorbed_labels);
-    const auto commit_end = Clock::now();
-
+    const auto& cfg=runtime.config();
+    const auto& risk_mode=cfg.h1_risk;
+    const bool selective=risk_mode=="selective" || risk_mode=="selective-fast" || risk_mode=="selective-graph";
+    const bool fast=risk_mode=="selective-fast" || risk_mode=="selective-graph";
+    const size_t eligible_count=selected_pvs.size();
+    H1EdgeRisk::Result risk;
+    size_t risk_scans=0,remaining_warnings=0;
+    bool skipped_live=risk_mode=="selective-fast" && !batch.protected_labels.empty();
+    std::vector<std::vector<size_t>> removed_supports;
+    if(!risk_mode.empty())
+    {
+        if(!skipped_live){
+            risk=H1EdgeRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon());
+            risk_scans=1;remaining_warnings=risk.warnings.size();
+        }
+        if((risk_mode=="edge-fiber" && (!batch.protected_labels.empty() || !risk.warnings.empty())) ||
+           (selective && !batch.protected_labels.empty()))
+        {
+            selected_pvs.clear();new_absorbed_labels.clear();
+        }
+        else if(selective && !risk.warnings.empty())
+        {
+            if(fast){
+                const auto drops=H1EdgeRisk::greedyDrops(risk,selected_pvs,window.totalLabelCount());
+                std::vector<bool> kept(selected_pvs.size(),true);
+                for(size_t id:drops){kept[id]=false;removed_supports.push_back(selected_pvs[id].representatives);}
+                std::vector<SelectedPV> remaining;
+                for(size_t id=0;id<selected_pvs.size();++id)if(kept[id])remaining.push_back(std::move(selected_pvs[id]));
+                selected_pvs=std::move(remaining);remaining_warnings=0;
+            }else{
+                auto current=risk;
+                while(!current.warnings.empty() && !selected_pvs.empty())
+                {
+                    std::vector<size_t> incident(selected_pvs.size(),0);
+                    for(const auto& warning:current.warnings)
+                        for(size_t block:{warning.lhs,warning.rhs})
+                            if(current.blocks[block].proposed)
+                                ++incident.at(current.blocks[block].label-window.totalLabelCount());
+                    size_t remove=selected_pvs.size();double best=std::numeric_limits<double>::infinity();
+                    for(size_t p=0;p<selected_pvs.size();++p)if(incident[p])
+                    {
+                        const double cost=double(selected_pvs[p].representatives.size()-1)/incident[p];
+                        if(cost<best){best=cost;remove=p;}
+                    }
+                    if(remove==selected_pvs.size())throw std::logic_error("Risk pair has no proposed support");
+                    removed_supports.push_back(selected_pvs[remove].representatives);
+                    selected_pvs.erase(selected_pvs.begin()+remove);
+                    current=H1EdgeRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon());
+                    ++risk_scans;risk.seconds+=current.seconds;
+                }
+                remaining_warnings=current.warnings.size();
+            }
+            new_absorbed_labels.clear();
+            for(const auto& pv:selected_pvs)new_absorbed_labels.insert(pv.representatives.begin(),pv.representatives.end());
+        }
+    }
+    const size_t retained_count=selected_pvs.size();
+    uint64_t retained_hash=1469598103934665603ULL;
+    std::vector<std::vector<size_t>> retained_members;
+    for(const auto& pv:selected_pvs){
+        retained_hash^=pv.representatives.size();retained_hash*=1099511628211ULL;
+        for(auto v:pv.representatives){retained_hash^=v;retained_hash*=1099511628211ULL;}
+        if(cfg.verbose)retained_members.push_back(pv.representatives);
+    }
+    if(auto* cost=PolicyCost::active)
+        cost->retained(raw_support_count,batch.protected_labels.size(),eligible_count,remaining_warnings,
+                       skipped_live,retained_hash,selected_pvs,window.activeLabels().size(),
+                       window.pseudoVertices().size(),window.totalLabelCount());
+    if(auto* shadow=GeoShadow::active;shadow && shadow->awaitingCommit())
+        shadow->retained(eps_hi,raw_support_count,batch.protected_labels.size(),eligible_count,
+                         remaining_warnings,skipped_live,retained_hash,selected_pvs);
+    if(auto* cost=PolicyCost::active)cost->mark("VALUATION_BEGIN");
+    const auto valuation_start=Clock::now();
+    // Calibration valuations use the actual partition; they never modify it.
+    const double Hbefore=PackDmtPayback::actualH(distance_matrix,window,{},cfg.finalEpsilon(),cfg.full_endpoint);
+    const double Hafter=PackDmtPayback::actualH(distance_matrix,window,selected_pvs,cfg.finalEpsilon(),cfg.full_endpoint);
+    const double deltaH=Hbefore-Hafter;
+    const double C_hat=cfg.payback_bC*double(original_vertex_count)*original_vertex_count;
+    const bool gated=cfg.pack_mode=="plan" || cfg.pack_mode=="replay";
+    const bool payback=cfg.payback_aL*deltaH>1.25*C_hat;
+    std::string reason=!batch.protected_labels.empty() && selective?"live-H1-history":eligible_count==0?"no-useful-support":retained_count==0?"selective-empty":"retained-supports";
+    if(auto* cost=PolicyCost::active){cost->mark("VALUATION_END");cost->mark("DECISION_READY");}
+    const bool force_defer=cfg.payback_action=="defer";
+    if(retained_count && (force_defer || (gated && cfg.payback_action=="auto" && !payback))){
+        selected_pvs.clear();new_absorbed_labels.clear();
+        reason=force_defer?"development-forced-DEFER":"payback-not-confirmed";
+    }
+    const auto valuation_end=Clock::now();
+    const size_t committed_count=selected_pvs.size();
+    // Membership output is diagnostic I/O, outside the precommit and commit targets.
+    const auto f_end=Clock::now();
+    if(cfg.verbose)for(size_t id=0;id<retained_members.size();++id){
+        std::cout<<std::setprecision(17)<<"[pv-retained] epsilon="<<eps_hi<<" order="<<id<<" members=";
+        for(auto v:retained_members[id])std::cout<<v<<',';std::cout<<'\n'<<std::setprecision(6);
+    }
+    if(cfg.verbose)for(size_t id=0;id<selected_pvs.size();++id){
+        std::cout<<std::setprecision(17)<<"[pv-selected] epsilon="<<eps_hi<<" order="<<id<<" members=";
+        for(auto v:selected_pvs[id].representatives)std::cout<<v<<',';std::cout<<'\n'<<std::setprecision(6);
+    }
+    if(auto* cost=PolicyCost::active)cost->mark("MUTATION_BEGIN");
+    const auto commit_start=Clock::now();
+    if(committed_count)window.commitSelectedPVs(std::move(selected_pvs),new_absorbed_labels);
+    const auto commit_end=Clock::now();
+    if(auto* cost=PolicyCost::active)cost->mark("MUTATION_END");
+    const double F=std::chrono::duration<double>(f_end-selection_start).count();
+    const double C=std::chrono::duration<double>(commit_end-commit_start).count();
+    if(!risk_mode.empty()){
+        if(skipped_live)std::cout<<std::setprecision(17)<<"[h1-risk] epsilon="<<eps_hi<<" horizon="<<cfg.finalEpsilon()
+            <<" mode="<<risk_mode<<" eligible="<<eligible_count<<" committed="<<committed_count
+            <<" live_protected="<<batch.protected_labels.size()<<" risky_pairs=NA pairs_checked=NA edges_checked=NA event_batches=NA seconds=0 risk_scan=SKIPPED/live-H1 reason=live-H1-history\n"<<std::setprecision(6);
+        else H1EdgeRisk::report(risk,eps_hi,cfg.finalEpsilon(),batch.protected_labels.size(),eligible_count,committed_count,risk_mode,cfg.verbose);
+    }
+    if(selective){
+        std::cout<<std::setprecision(17)<<"[h1-risk-selection] epsilon="<<eps_hi
+            <<" scans="<<risk_scans<<" removed="<<removed_supports.size()
+            <<" initial_warnings="<<(skipped_live?"NA":std::to_string(risk.warnings.size()))
+            <<" remaining_warnings="<<(skipped_live?"NA":std::to_string(remaining_warnings))
+            <<" total_scan_s="<<risk.seconds<<" committed="<<committed_count<<'\n'<<std::setprecision(6);
+        if(cfg.verbose)for(const auto& members:removed_supports){
+            std::cout<<std::setprecision(17)<<"[h1-risk-removed] epsilon="<<eps_hi<<" members=";
+            for(auto v:members)std::cout<<v<<',';std::cout<<'\n'<<std::setprecision(6);
+        }
+    }
+    uint64_t post=1469598103934665603ULL;
+    const auto add=[&](uint64_t value){post^=value;post*=1099511628211ULL;};
+    for(auto label:window.activeLabels())add(label);
+    for(const auto& pv:window.pseudoVertices()){add(pv.representatives.size());for(auto v:pv.representatives)add(v);}
+    std::cout<<std::setprecision(17)<<"[postcommit] epsilon="<<eps_hi<<" eps_bits="<<std::bit_cast<uint64_t>(eps_hi)
+        <<" eligible="<<eligible_count<<" retained="<<retained_count<<" committed="<<committed_count
+        <<" retained_hash="<<retained_hash<<" Hbefore="<<Hbefore<<" Hafter="<<Hafter<<" deltaH="<<deltaH
+        <<" marginal_M="<<cfg.payback_aM*deltaH-C_hat<<" C_hat="<<C_hat<<" payback="<<payback
+        <<" F_s="<<F<<" C_s="<<C<<" C_observed="<<(committed_count>0)
+        <<" valuation_s="<<std::chrono::duration<double>(valuation_end-valuation_start).count()
+        <<" diagnostic="<<cfg.verbose<<" post_state_hash="<<post<<" active="<<window.activeLabels().size()
+        <<" reason="<<reason<<'\n'<<std::setprecision(6);
     if (runtime.config().verbose && runtime.config().maxdim >= 2)
     {
         const double selection_ms =
@@ -210,6 +345,8 @@ void DependencySupportPostProcessor::processPwph(
                   << " selection_ms=" << selection_ms
                   << " commit_ms=" << commit_ms << '\n';
     }
+    if(auto* cost=PolicyCost::active)cost->mark("DSP_RETURN");
+    return committed_count;
 }
 
 double DependencySupportPostProcessor::maxPairwiseDistance(

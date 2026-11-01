@@ -13,6 +13,7 @@
 
 #include "ImplicitMorseMatching.hpp"
 #include "SimplexUtility.hpp"
+#include "H1RealizationDiagnostics.hpp"
 
 namespace
 {
@@ -148,7 +149,8 @@ void DimensionFrame::enumerateInitialCofacets()
     const auto& config = runtime_.config();
     const bool ffi_requested =
         config.verbose && !window_.pseudoVertices().empty() && config.maxdim >= 3;
-    const bool collect_ffi = ffi_requested && config.maxdim < MAX_FFI_PACKED_LABELS;
+    const bool collect_h1 = config.h1_realizations && config.maxdim==2 && !window_.pseudoVertices().empty();
+    const bool collect_ffi = (ffi_requested && config.maxdim < MAX_FFI_PACKED_LABELS) || collect_h1;
 
     if (ffi_requested && !collect_ffi)
     {
@@ -175,6 +177,8 @@ void DimensionFrame::enumerateInitialCofacets()
             window_.bounds().eps_hi,
             config.threads,
             ffi_realizations_->cofacet_realizations);
+        if(collect_h1)
+            H1RealizationDiagnostics::report(runtime_,window_,facet_list_,cofacet_list_,ffi_realizations_->cofacet_realizations);
         return;
     }
 

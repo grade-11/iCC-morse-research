@@ -32,7 +32,6 @@ add_library(icc_core STATIC
     deps/DependencySupportPostProcessor.cpp
     deps/Pipelines.cpp
     deps/SimplexEnumerator.cpp
-    deps/StreamingF2.cpp
 )
 
 target_include_directories(icc_core
@@ -49,9 +48,15 @@ add_executable(iCC main.cpp)
 target_link_libraries(iCC PRIVATE icc_core CLI11::CLI11)
 
 if(BUILD_TESTING)
-    add_executable(icc_stream_tests tests/stream_tests.cpp)
-    target_link_libraries(icc_stream_tests PRIVATE icc_core)
-    add_test(NAME icc_stream_tests COMMAND icc_stream_tests)
+    add_executable(icc_defer_retry_tests tests/defer_retry_tests.cpp)
+    target_link_libraries(icc_defer_retry_tests PRIVATE icc_core)
+    add_test(NAME icc_defer_retry_tests COMMAND icc_defer_retry_tests)
+    add_executable(icc_pack_filter_tests tests/pack_filter_tests.cpp)
+    target_link_libraries(icc_pack_filter_tests PRIVATE icc_core)
+    add_test(NAME icc_pack_filter_tests COMMAND icc_pack_filter_tests)
+    add_executable(icc_geometry_tests tests/geometry_tests.cpp)
+    target_link_libraries(icc_geometry_tests PRIVATE icc_core)
+    add_test(NAME icc_geometry_tests COMMAND icc_geometry_tests)
     add_executable(icc_core_tests tests/core_tests.cpp)
     target_link_libraries(icc_core_tests PRIVATE icc_core)
     add_test(NAME icc_core_tests COMMAND icc_core_tests)

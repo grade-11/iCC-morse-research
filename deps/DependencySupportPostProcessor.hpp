@@ -12,7 +12,7 @@ class DependencySupportPostProcessor
 public:
     // Current frozen-PV policy. A future absorbing policy belongs beside this
     // method and would need to flatten PV-containing supports before commit.
-    void processPwph(
+    std::size_t processPwph(
         const PipelineRuntime& runtime,
         WindowState& window,
         double eps_hi,
