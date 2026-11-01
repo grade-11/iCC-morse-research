@@ -246,6 +246,21 @@ void DimensionFrame::enumerateInitialCofacets()
         return;
     }
 
+    // A window without pseudo vertices is a plain VR prefix. Enumerating each
+    // triangle from its longest edge yields the same sorted list faster than the
+    // geometric enumerator. The EXTEND direct probe keeps the geometric path as
+    // an independent oracle for the extension gate.
+    if (runtime_.mode() == PipelineMode::PwPH && dimension_ == 2 &&
+        window_.pseudoVertices().empty() &&
+        window_.activeLabels().size() == window_.originalVertexCount() &&
+        !config.extend_direct_probe)
+    {
+        cofacet_list_.clear();
+        simplex_enumerator_.appendFirstWindowTriangleTail(
+            facet_list_, 0.0, window_.bounds().eps_hi, config.threads, cofacet_list_);
+        return;
+    }
+
     cofacet_list_ = simplex_enumerator_.getGeometricCofacetList(
         facet_list_,
         window_.activeLabels(),
