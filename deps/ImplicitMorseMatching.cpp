@@ -218,7 +218,8 @@ void ImplicitMorseMatching::collectImmediateCofacetRanks(
 
 void ImplicitMorseMatching::matchPersistence(
     DimensionFrame& frame,
-    const bool collect_dependency_support) const
+    const bool collect_dependency_support,
+    const bool resume_matching) const
 {
     auto& workspace = *frame.interface_workspace_;
     const std::size_t cofacet_count = frame.cofacet_list_.size();
@@ -254,6 +255,14 @@ void ImplicitMorseMatching::matchPersistence(
 
         if (frame.active_facet_index_.find(facet.first) ==
             frame.active_facet_index_.end())
+        {
+            continue;
+        }
+
+        // An extension preserves every old finite pair. Only new facets and
+        // old unmatched facets need another pass through the same matcher.
+        if (resume_matching &&
+            workspace.facet_mates[facet_list_index] != workspace.UNMATCHED)
         {
             continue;
         }

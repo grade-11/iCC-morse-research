@@ -278,6 +278,11 @@ PwphPipeline::PwphPipeline(
 
 void PwphPipeline::run()
 {
+    if(runtime_.config().ac_policy=="guard-extend-ladder" || runtime_.config().extend_direct_probe)
+    {
+        runGuardExtendLadder();
+        return;
+    }
     const auto& config = runtime_.config();
     auto policy_cost = PolicyCost::Logger::create(runtime_.distanceMatrix(),config);
     if(policy_cost)policy_cost->mark("GEO_PREPASS_BEGIN");

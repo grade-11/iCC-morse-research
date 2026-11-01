@@ -49,6 +49,10 @@ struct PipelineConfig
     bool full_endpoint = false;
     bool calibration_targets = false;
     double payback_aL = 0, payback_aM = 0, payback_bC = 0;
+    // Gate-only snapshots are written outside the compact persistence stream.
+    std::string extend_dump;
+    bool extend_force_chain = false;
+    bool extend_direct_probe = false;
 
     void validate() const;
 

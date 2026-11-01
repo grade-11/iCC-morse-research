@@ -31,6 +31,7 @@ add_library(icc_core STATIC
     deps/ImplicitMorseMatching.cpp
     deps/DependencySupportPostProcessor.cpp
     deps/Pipelines.cpp
+    deps/GuardExtendPipeline.cpp
     deps/SimplexEnumerator.cpp
 )
 
@@ -48,6 +49,9 @@ add_executable(iCC main.cpp)
 target_link_libraries(iCC PRIVATE icc_core CLI11::CLI11)
 
 if(BUILD_TESTING)
+    add_executable(icc_extend_frame_tests tests/extend_frame_tests.cpp)
+    target_link_libraries(icc_extend_frame_tests PRIVATE icc_core)
+    add_test(NAME icc_extend_frame_tests COMMAND icc_extend_frame_tests)
     add_executable(icc_defer_retry_tests tests/defer_retry_tests.cpp)
     target_link_libraries(icc_defer_retry_tests PRIVATE icc_core)
     add_test(NAME icc_defer_retry_tests COMMAND icc_defer_retry_tests)

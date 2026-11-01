@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <limits>
 #include <numeric>
 #include <stdexcept>
@@ -208,6 +209,19 @@ SimplexList WindowState::prepareWindow(
     bounds_ = bounds;
 
     return sorted_edges;
+}
+
+void WindowState::extendFirstWindowTo(const double eps_hi)
+{
+    if (bounds_.eps_lo != 0.0 || !pv_list_.empty() ||
+        active_label_list_.size() != original_vertex_count_ ||
+        active_label_mask_.size() != original_vertex_count_)
+    {
+        throw std::logic_error("EXTEND requires prepared first-window geometry without PVs.");
+    }
+    if (!std::isfinite(eps_hi) || !(eps_hi > bounds_.eps_hi))
+        throw std::invalid_argument("EXTEND requires a strictly larger finite cut.");
+    bounds_.eps_hi = eps_hi;
 }
 
 void WindowState::commitSelectedPVs(

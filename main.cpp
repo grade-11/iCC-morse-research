@@ -630,9 +630,18 @@ int runTool(const std::string& tool,
             const std::string& pack_mode = "",
             const std::string& pack_model = "",
             const std::string& payback_action = "auto",
-            const bool calibration_targets = false)
+            const bool calibration_targets = false,
+            const std::string& extend_dump = "",
+            const bool extend_force_chain = false,
+            const bool extend_direct_probe = false)
 {
     const std::string normalized_tool = normalizeTool(tool);
+    if(ac_policy=="guard-extend-ladder" || extend_direct_probe || extend_force_chain || !extend_dump.empty())
+    {
+        if(normalized_tool!=PIECEWISE_PH_TOOL || maxdim!=2 || eps_breaks.empty() ||
+           eps_interval_count || geometry_cuts || ac_auto_cutoff>0)
+            throw std::invalid_argument("EXTEND and its gate probes require piecewise --max-dim 2 with explicit --eps-breaks");
+    }
     if(h1_realizations && normalized_tool!=PIECEWISE_PH_TOOL)
         throw std::invalid_argument("H1 realization diagnostics require piecewise");
     if((geometry_cuts || !h1_risk.empty()) && (normalized_tool!=PIECEWISE_PH_TOOL || maxdim!=2))
@@ -751,7 +760,9 @@ int runTool(const std::string& tool,
         .h1_realizations = h1_realizations,
         .pack_mode = pack_mode, .pack_model = pack_model, .payback_action = payback_action,
         .full_endpoint = packing.full_endpoint, .calibration_targets = calibration_targets,
-        .payback_aL = packing.model.aL, .payback_aM = packing.model.aM, .payback_bC = packing.model.bC};
+        .payback_aL = packing.model.aL, .payback_aM = packing.model.aM, .payback_bC = packing.model.bC,
+        .extend_dump = extend_dump, .extend_force_chain = extend_force_chain,
+        .extend_direct_probe = extend_direct_probe};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -861,6 +872,11 @@ int runCommandLine(int argc, char** argv)
     app.add_flag("-v,--verbose", verbose, "Show diagnostic output");
     bool adaptive = false;
     std::string ac_policy,ac_model;
+    std::string extend_dump;
+    bool extend_force_chain=false,extend_direct_probe=false;
+    app.add_option("--extend-dump",extend_dump,"Gate-only JSONL snapshot file; never enable for timing");
+    app.add_flag("--extend-force-chain",extend_force_chain,"Gate-only continuation through every explicit cut; requires --extend-dump");
+    app.add_flag("--extend-direct-probe",extend_direct_probe,"Gate-only fresh first-window oracle using ordinary matching; requires --extend-dump");
     double ac_auto_cutoff=0;
     size_t geometry_cuts=0;
     std::string h1_risk;
@@ -931,7 +947,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets);
+                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe);
     }
     catch (const CLI::ParseError& err)
     {

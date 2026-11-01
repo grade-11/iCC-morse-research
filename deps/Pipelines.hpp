@@ -27,6 +27,8 @@ public:
     void run();
 
 private:
+    void runGuardExtendLadder();
+
     PipelineRuntime runtime_;
     WindowState window_state_;
     DependencySupportPostProcessor support_processor_;

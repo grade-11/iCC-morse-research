@@ -22,7 +22,8 @@ public:
     DimensionFrame(
         const PipelineRuntime& runtime,
         const WindowState& window,
-        SimplexList prepared_edges);
+        SimplexList prepared_edges,
+        bool retain_for_extension = false);
 
     DimensionFrame(const DimensionFrame&) = delete;
     DimensionFrame& operator=(const DimensionFrame&) = delete;
@@ -32,6 +33,10 @@ public:
     // Match once per dimension, consume the results, then call advance().
     // Continue matching only if advance() returns true.
     void matchPersistence(bool collect_dependency_support);
+    // First-window H1 only. Retain the matching workspace across larger cuts.
+    void matchPersistenceForExtension(bool collect_dependency_support = true);
+    void extendTo(double eps_hi);
+    [[nodiscard]] DependencySupportBatch snapshotDependencySupportBatch() const;
     void traceComplex() const;
     void matchApparentPairsOnly();
 
@@ -97,6 +102,7 @@ private:
     {
     public:
         explicit FullCofacetIndex(const SimplexList& cofacets);
+        void appendRanks(std::size_t first_rank);
 
         [[nodiscard]]
         bool tryFindRank(
@@ -108,11 +114,11 @@ private:
         {
             using is_transparent = void;
 
-            const SimplexRecord* cofacets;
+            const SimplexList* cofacets;
 
             std::size_t operator()(const RankIndex rank) const noexcept
             {
-                return robin_hood::hash<SimplexBindex>{}(cofacets[rank].first);
+                return robin_hood::hash<SimplexBindex>{}((*cofacets)[rank].first);
             }
 
             std::size_t operator()(const SimplexBindex bindex) const noexcept
@@ -125,25 +131,26 @@ private:
         {
             using is_transparent = void;
 
-            const SimplexRecord* cofacets;
+            const SimplexList* cofacets;
 
             bool operator()(const RankIndex lhs, const RankIndex rhs) const noexcept
             {
-                return cofacets[lhs].first == cofacets[rhs].first;
+                return (*cofacets)[lhs].first == (*cofacets)[rhs].first;
             }
 
             bool operator()(const SimplexBindex bindex, const RankIndex rank) const noexcept
             {
-                return bindex == cofacets[rank].first;
+                return bindex == (*cofacets)[rank].first;
             }
 
             bool operator()(const RankIndex rank, const SimplexBindex bindex) const noexcept
             {
-                return cofacets[rank].first == bindex;
+                return (*cofacets)[rank].first == bindex;
             }
         };
 
-        // Borrows cofacet storage, which stays fixed until the workspace is released.
+        // Borrow the vector object, not data(): append may reallocate its storage.
+        const SimplexList* cofacets_;
         robin_hood::unordered_flat_set<RankIndex, IndirectHash, IndirectEqual> ranks_;
     };
 
@@ -184,6 +191,9 @@ private:
     const BinomialTable& binomial_table_;
 
     std::size_t dimension_ = 2;
+    bool retain_for_extension_ = false;
+    bool extension_matched_ = false;
+    double extension_hi_ = 0.0;
 
     SimplexEnumerator simplex_enumerator_;
 
@@ -191,11 +201,14 @@ private:
     SimplexList cofacet_list_;
 
     robin_hood::unordered_map<SimplexBindex, std::size_t> active_facet_index_;
+    std::vector<std::size_t> extension_kruskal_parent_;
 
     std::vector<std::uint8_t> next_active_facet_mask_;
     std::size_t next_active_facet_count_ = 0;
 
     std::vector<PersistentPairInfo> persistent_pairs_;
+    std::vector<std::optional<PersistentPairInfo>> extension_pairs_by_facet_;
+    std::vector<std::optional<DependencySupport>> extension_supports_by_facet_;
     std::vector<double> unmatched_facet_weights_;
     std::vector<double> unmatched_top_cofacet_weights_;
 
@@ -211,6 +224,7 @@ private:
         robin_hood::unordered_map<SimplexBindex, std::uint64_t>* realization_output);
 
     void materializeMatchSupport(RawMatchSupportInfo raw_support_info);
+    void mergeExtensionResults();
     void finalizeNextActiveFacets();
     void releaseActiveFacetIndex();
     void initializeInterfaceWorkspace();

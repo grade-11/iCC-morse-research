@@ -22,9 +22,23 @@ void PipelineConfig::validate() const
         throw std::invalid_argument("H1 risk mode must be edge-fiber, selective or observe, max-dim=2");
     const bool growth_policy=ac_policy.starts_with("growth") || ac_policy.starts_with("payback");
     const bool defer_retry_policy=ac_policy=="guard-defer-retry" || ac_policy=="guard-defer-retry-control";
+    const bool extend_policy=ac_policy=="guard-extend-ladder";
+    if(extend_policy || extend_direct_probe || extend_force_chain || !extend_dump.empty())
+    {
+        if ((!extend_policy && !extend_direct_probe) ||
+            (extend_direct_probe && !ac_policy.empty()) ||
+            (extend_force_chain && !extend_policy) ||
+            ((extend_force_chain || extend_direct_probe) && extend_dump.empty()) ||
+            maxdim!=2 || h1_risk!="selective-fast" || pv_cap_scale!=.85 || pv_min_separation!=0 ||
+            !ac_model.empty() || adaptive || !g_model.empty() || !quotient_mask.empty() ||
+            !pack_mode.empty() || payback_action!="auto" || stop_after_window || cost_telemetry ||
+            calibration_targets || h1_realizations ||
+            (extend_policy && eps_breaks.size()<2))
+            throw std::invalid_argument("EXTEND requires an explicit ladder, H1 selective-fast, alpha=.85, delta=0, no conflicting scheduler; probes require --extend-dump");
+    }
     if(defer_retry_policy && (h1_risk!="selective-fast" || !pack_mode.empty() || pv_cap_scale!=.85 || pv_min_separation!=0))
         throw std::invalid_argument("DEFER_RETRY requires unchanged selective-fast, alpha=.85, delta=0 and no packing mode");
-    if (!ac_policy.empty() && ((ac_policy!="cost" && ac_policy!="rank" && ac_policy!="rank-base" && ac_policy!="rank-extra" && ac_policy!="guard" && ac_policy!="guard-base" && ac_policy!="guard50" && ac_policy!="guard70" && !growth_policy && !defer_retry_policy) || ac_model.empty() || adaptive || !g_model.empty() || !quotient_mask.empty() ||
+    if (!extend_policy && !ac_policy.empty() && ((ac_policy!="cost" && ac_policy!="rank" && ac_policy!="rank-base" && ac_policy!="rank-extra" && ac_policy!="guard" && ac_policy!="guard-base" && ac_policy!="guard50" && ac_policy!="guard70" && !growth_policy && !defer_retry_policy) || ac_model.empty() || adaptive || !g_model.empty() || !quotient_mask.empty() ||
         ((growth_policy || defer_retry_policy) ? eps_breaks.size()!=1 : ac_policy=="cost" ? eps_breaks!=std::vector<double>{.6,.9,1.2,1.5,2.} : eps_breaks.size()!=5) || maxdim!=2))
         throw std::invalid_argument("AC cost policy requires H1 candidate grid .6,.9,1.2,1.5,2 and independent model");
     if (!std::isfinite(g_margin) || g_margin<0 || g_margin>1 || !std::isfinite(g_memory_mib) || g_memory_mib<=0)

@@ -15,7 +15,8 @@ private:
 
     void matchPersistence(
         DimensionFrame& frame,
-        bool collect_dependency_support) const;
+        bool collect_dependency_support,
+        bool resume_matching = false) const;
 
     void matchApparentPairsOnly(DimensionFrame& frame) const;
 

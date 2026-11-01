@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <numeric>
 #include <stdexcept>
 #include <utility>
 #include <chrono>
@@ -21,8 +22,15 @@ constexpr std::size_t MAX_FFI_PACKED_LABELS = sizeof(std::uint64_t);
 }
 
 DimensionFrame::FullCofacetIndex::FullCofacetIndex(const SimplexList& cofacets)
-    : ranks_(0, IndirectHash{cofacets.data()}, IndirectEqual{cofacets.data()})
+    : cofacets_(&cofacets),
+      ranks_(0, IndirectHash{&cofacets}, IndirectEqual{&cofacets})
 {
+    appendRanks(0);
+}
+
+void DimensionFrame::FullCofacetIndex::appendRanks(const std::size_t first_rank)
+{
+    const auto& cofacets = *cofacets_;
     if (cofacets.empty())
         return;
 
@@ -32,7 +40,7 @@ DimensionFrame::FullCofacetIndex::FullCofacetIndex(const SimplexList& cofacets)
     }
 
     ranks_.reserve(cofacets.size());
-    for (std::size_t rank = 0; rank < cofacets.size(); ++rank)
+    for (std::size_t rank = first_rank; rank < cofacets.size(); ++rank)
         ranks_.emplace(static_cast<RankIndex>(rank));
 }
 
@@ -60,14 +68,24 @@ DimensionFrame::InterfaceWorkspace::InterfaceWorkspace(
 DimensionFrame::DimensionFrame(
     const PipelineRuntime& runtime,
     const WindowState& window,
-    SimplexList prepared_edges)
+    SimplexList prepared_edges,
+    const bool retain_for_extension)
     : runtime_(runtime),
       window_(window),
       binomial_table_(runtime.binomialTable()),
       dimension_(runtime.config().maxdim == 1 ? 1 : 2),
+      retain_for_extension_(retain_for_extension),
+      extension_hi_(window.bounds().eps_hi),
       simplex_enumerator_(runtime.distanceMatrix(), binomial_table_),
       facet_list_(std::move(prepared_edges))
 {
+    if (retain_for_extension_ &&
+        (runtime.mode() != PipelineMode::PwPH || runtime.config().maxdim != 2 ||
+         window.bounds().eps_lo != 0.0 || !window.pseudoVertices().empty() ||
+         window.activeLabels().size() != window.originalVertexCount()))
+    {
+        throw std::invalid_argument("EXTEND is restricted to the first PwPH H1 frame without PVs.");
+    }
     buildInitialActiveFacetIndex();
 
     if (dimension_ >= 2)
@@ -98,8 +116,31 @@ void DimensionFrame::buildInitialActiveFacetIndex()
     using Clock = std::chrono::steady_clock;
     const auto active_facets_start = Clock::now();
 
-    active_facet_index_ = SimplexUtility::getActiveEdgeIndexHashTable(
-        binomial_table_, facet_list_, window_.totalLabelCount());
+    if (!retain_for_extension_)
+    {
+        active_facet_index_ = SimplexUtility::getActiveEdgeIndexHashTable(
+            binomial_table_, facet_list_, window_.totalLabelCount());
+    }
+    else
+    {
+        extension_kruskal_parent_.resize(window_.totalLabelCount());
+        std::iota(extension_kruskal_parent_.begin(), extension_kruskal_parent_.end(), std::size_t{0});
+        active_facet_index_.reserve(facet_list_.size());
+        for (std::size_t i = 0; i < facet_list_.size(); ++i)
+        {
+            const auto labels = SimplexUtility::getSimplexVertices(
+                binomial_table_, facet_list_[i].first, window_.totalLabelCount(), 1);
+            if (SimplexUtility::mstFindRoot(extension_kruskal_parent_, labels[0]) !=
+                SimplexUtility::mstFindRoot(extension_kruskal_parent_, labels[1]))
+            {
+                SimplexUtility::mstSetUnion(extension_kruskal_parent_, labels[0], labels[1]);
+            }
+            else
+            {
+                active_facet_index_.emplace(facet_list_[i].first, i);
+            }
+        }
+    }
 
     const auto active_facets_end = Clock::now();
 
@@ -330,6 +371,135 @@ void DimensionFrame::matchPersistence(const bool collect_dependency_support)
             materializeMatchSupport(std::move(raw_support_info));
         });
     }
+}
+
+void DimensionFrame::matchPersistenceForExtension(const bool collect_dependency_support)
+{
+    if (!retain_for_extension_ || extension_matched_)
+        throw std::logic_error("EXTEND initial matching requires a fresh retained frame.");
+    if (!collect_dependency_support)
+        throw std::invalid_argument("EXTEND must retain first-pass dependency supports.");
+
+    clearCurrentInterfaceResults();
+    initializeInterfaceWorkspace();
+    extension_pairs_by_facet_.resize(facet_list_.size());
+    extension_supports_by_facet_.resize(facet_list_.size());
+    ImplicitMorseMatching matcher;
+    matcher.matchPersistence(*this, true);
+    mergeExtensionResults();
+    extension_matched_ = true;
+}
+
+void DimensionFrame::extendTo(const double eps_hi)
+{
+    if (!retain_for_extension_ || !extension_matched_ || !interface_workspace_)
+        throw std::logic_error("EXTEND requires a retained matched first-window frame.");
+    if (!std::isfinite(eps_hi) || !(eps_hi > extension_hi_) ||
+        window_.bounds().eps_hi != eps_hi || !window_.pseudoVertices().empty())
+    {
+        throw std::invalid_argument("Widen WindowState to the strictly larger EXTEND cut first.");
+    }
+
+    auto new_edges = simplex_enumerator_.getFirstWindowEdgeTail(
+        extension_hi_, eps_hi, runtime_.config().threads);
+    auto new_triangles = simplex_enumerator_.getFirstWindowTriangleTail(
+        new_edges, extension_hi_, eps_hi, runtime_.config().threads);
+    const std::size_t old_facet_count = facet_list_.size();
+    const std::size_t old_cofacet_count = cofacet_list_.size();
+    constexpr std::size_t max_mate_count = InterfaceWorkspace::UNMATCHED;
+    if (new_edges.size() > max_mate_count - old_facet_count ||
+        new_triangles.size() > max_mate_count - old_cofacet_count)
+    {
+        throw std::overflow_error("EXTEND exceeds the uint32_t mate capacity.");
+    }
+
+    // Old lists are strict filtration prefixes, so every old rank stays fixed.
+    facet_list_.insert(facet_list_.end(), new_edges.begin(), new_edges.end());
+    cofacet_list_.insert(cofacet_list_.end(), new_triangles.begin(), new_triangles.end());
+    active_facet_index_.reserve(facet_list_.size());
+    for (std::size_t i = old_facet_count; i < facet_list_.size(); ++i)
+    {
+        const auto labels = SimplexUtility::getSimplexVertices(
+            binomial_table_, facet_list_[i].first, window_.totalLabelCount(), 1);
+        if (SimplexUtility::mstFindRoot(extension_kruskal_parent_, labels[0]) !=
+            SimplexUtility::mstFindRoot(extension_kruskal_parent_, labels[1]))
+        {
+            SimplexUtility::mstSetUnion(extension_kruskal_parent_, labels[0], labels[1]);
+        }
+        else
+        {
+            active_facet_index_.emplace(facet_list_[i].first, i);
+        }
+    }
+
+    auto& workspace = *interface_workspace_;
+    workspace.facet_mates.resize(facet_list_.size(), InterfaceWorkspace::UNMATCHED);
+    workspace.cofacet_mates.resize(cofacet_list_.size(), InterfaceWorkspace::UNMATCHED);
+    workspace.cofacet_lookup.appendRanks(old_cofacet_count);
+    extension_pairs_by_facet_.resize(facet_list_.size());
+    extension_supports_by_facet_.resize(facet_list_.size());
+    for (auto& pair : extension_pairs_by_facet_)
+    {
+        // These classes may die in the tail; their old -1 output is provisional.
+        if (pair && pair->cofacet_weight < 0.0)
+            pair.reset();
+    }
+    persistent_pairs_.clear();
+    ImplicitMorseMatching matcher;
+    matcher.matchPersistence(*this, true, true);
+    mergeExtensionResults();
+    extension_hi_ = eps_hi;
+}
+
+void DimensionFrame::mergeExtensionResults()
+{
+    auto& workspace = *interface_workspace_;
+    for (const auto& pair : persistent_pairs_)
+    {
+        const auto owner = active_facet_index_.find(pair.facet_bindex);
+        if (owner == active_facet_index_.end())
+            throw std::logic_error("EXTEND pair has no active owning facet.");
+        extension_pairs_by_facet_[owner->second] = pair;
+    }
+
+    std::vector<std::size_t> support_owners;
+    support_owners.reserve(workspace.raw_support_info.support_cofacet_indices.size());
+    for (const auto& ranks : workspace.raw_support_info.support_cofacet_indices)
+    {
+        if (ranks.empty() || workspace.cofacet_mates[ranks.front()] == InterfaceWorkspace::UNMATCHED)
+            throw std::logic_error("EXTEND support has no matched terminal cofacet.");
+        support_owners.push_back(workspace.cofacet_mates[ranks.front()]);
+    }
+
+    // The current unmatched set can shrink: do not union protection across cuts.
+    protected_labels_.clear();
+    materializeMatchSupport(std::move(workspace.raw_support_info));
+    if (dependency_support_batch_.supports.size() != support_owners.size())
+        throw std::logic_error("EXTEND support ownership count differs from materialization.");
+    for (std::size_t i = 0; i < support_owners.size(); ++i)
+    {
+        extension_supports_by_facet_[support_owners[i]] =
+            std::move(dependency_support_batch_.supports[i]);
+    }
+
+    persistent_pairs_.clear();
+    dependency_support_batch_.supports.clear();
+    for (std::size_t i = facet_list_.size(); i > 0; --i)
+    {
+        const std::size_t owner = i - 1;
+        if (extension_pairs_by_facet_[owner])
+            persistent_pairs_.push_back(*extension_pairs_by_facet_[owner]);
+        if (extension_supports_by_facet_[owner])
+            dependency_support_batch_.supports.push_back(*extension_supports_by_facet_[owner]);
+    }
+}
+
+DependencySupportBatch DimensionFrame::snapshotDependencySupportBatch() const
+{
+    DependencySupportBatch batch;
+    batch.supports = dependency_support_batch_.supports;
+    batch.protected_labels = protected_labels_;
+    return batch;
 }
 
 void DimensionFrame::matchApparentPairsOnly()

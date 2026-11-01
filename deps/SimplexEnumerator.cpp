@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <array>
+#include <functional>
 
 #include "omp.h"
 #include <chrono>
@@ -31,6 +33,78 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::getSortedVREdges(cons
     SimplexUtility::sortSimplexByWeightThenIndex(sorted_edge);
 
     return sorted_edge;
+}
+
+SimplexList SimplexEnumerator::getFirstWindowEdgeTail(
+    const double eps_lo, const double eps_hi, const int threads)
+{
+    const int worker_count = threads > 0 ? threads : 1;
+    std::vector<SimplexList> chunks(static_cast<std::size_t>(worker_count));
+    const std::size_t n = distance_matrix_.vertexCount();
+#pragma omp parallel for schedule(dynamic) num_threads(worker_count)
+    for (std::size_t i = 0; i < n; ++i)
+    {
+        auto& chunk = chunks[omp_get_thread_num()];
+        for (std::size_t j = i + 1; j < n; ++j)
+        {
+            const double weight = distance_matrix_.distance(i, j);
+            if (weight > 0.0 && weight >= eps_lo && weight < eps_hi)
+                chunk.emplace_back(SimplexUtility::getEdgeBinomialIndex(binomial_table_, j, i), weight);
+        }
+    }
+    return SimplexUtility::sortAndMergeSimplexChunks(chunks, worker_count);
+}
+
+SimplexList SimplexEnumerator::getFirstWindowTriangleTail(
+    const SimplexList& new_edges, const double eps_lo, const double eps_hi,
+    const int threads)
+{
+    const int worker_count = threads > 0 ? threads : 1;
+    std::vector<SimplexList> chunks(static_cast<std::size_t>(worker_count));
+    const std::size_t n = distance_matrix_.vertexCount();
+#pragma omp parallel for schedule(dynamic) num_threads(worker_count)
+    for (std::size_t i = 0; i < new_edges.size(); ++i)
+    {
+        auto& chunk = chunks[omp_get_thread_num()];
+        const auto& [edge_bindex, edge_weight] = new_edges[i];
+        const auto endpoints = SimplexUtility::getSimplexVertices(binomial_table_, edge_bindex, n, 1);
+        const std::size_t u = endpoints[0];
+        const std::size_t v = endpoints[1];
+        for (std::size_t w = 0; w < n; ++w)
+        {
+            if (w == u || w == v)
+                continue;
+            const double uw = distance_matrix_.distance(u, w);
+            const double vw = distance_matrix_.distance(v, w);
+            const auto uw_bindex = SimplexUtility::getEdgeBinomialIndex(binomial_table_, u, w);
+            const auto vw_bindex = SimplexUtility::getEdgeBinomialIndex(binomial_table_, v, w);
+
+            // Every admitted triangle has a newly admitted maximum edge.
+            // Tie by bindex to assign it exactly one tail owner. The direct
+            // enumerator's canonical edge is unrelated to this maximum edge.
+            if (uw > edge_weight || (uw == edge_weight && uw_bindex > edge_bindex) ||
+                vw > edge_weight || (vw == edge_weight && vw_bindex > edge_bindex))
+            {
+                continue;
+            }
+            if (!(edge_weight > 0.0 && edge_weight >= eps_lo && edge_weight < eps_hi))
+                continue;
+
+            std::array<std::size_t, 3> labels{u, v, w};
+            std::sort(labels.begin(), labels.end(), std::greater<std::size_t>{});
+            // Direct PwPH triangles are owned by their two largest labels.
+            // A zero-distance canonical owner is absent from prepared edges.
+            if (!(distance_matrix_.distance(labels[0], labels[1]) > 0.0))
+                continue;
+            const auto triangle_bindex = binomial_table_[labels[0]][3] +
+                binomial_table_[labels[1]][2] + labels[2];
+            chunk.emplace_back(triangle_bindex, edge_weight);
+        }
+    }
+    auto triangles = SimplexUtility::sortAndMergeSimplexChunks(chunks, worker_count);
+    triangles.erase(std::unique(triangles.begin(), triangles.end(),
+        [](const auto& lhs, const auto& rhs) { return lhs.first == rhs.first; }), triangles.end());
+    return triangles;
 }
 
 std::vector<std::pair<int64_t, double>> SimplexEnumerator::getSortedVRCofacets(const std::vector<std::pair<int64_t, double>>& sorted_simplex_list, const size_t dim, const double maxeps, const int threadnum)

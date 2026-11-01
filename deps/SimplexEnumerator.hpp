@@ -24,6 +24,12 @@ public:
 
     std::vector<std::pair<int64_t, double>> getSortedVREdges(const double maxeps);
 
+    // Native first-window PwPH tails (no pseudo-vertices), with the same strict
+    // upper bound and zero-edge exclusion as WindowState::prepareWindow.
+    SimplexList getFirstWindowEdgeTail(double eps_lo, double eps_hi, int threads);
+    SimplexList getFirstWindowTriangleTail(
+        const SimplexList& new_edges, double eps_lo, double eps_hi, int threads);
+
     std::vector<std::pair<int64_t, double>> getSortedVRCofacets(const std::vector<std::pair<int64_t, double>>& sorted_simplex, const size_t dim, const double maxeps, const int threadnum);
 
     // Geometric enumeration for quotient complexes with pseudo-vertices.

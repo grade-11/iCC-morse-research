@@ -67,6 +67,9 @@ public:
         const PipelineRuntime& runtime,
         const WindowBounds& bounds);
 
+    // No quotient has occurred: widening changes no label geometry or caches.
+    void extendFirstWindowTo(double eps_hi);
+
     // End the prepared-window geometry lifetime after its DimensionFrame dies.
     // Persistent active-label and pseudo-vertex state remains available for
     // support postprocessing and the next window.
