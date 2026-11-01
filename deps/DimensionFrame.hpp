@@ -165,7 +165,11 @@ private:
         static constexpr RankIndex UNMATCHED =
             std::numeric_limits<RankIndex>::max();
 
-        explicit InterfaceWorkspace(const SimplexList& cofacets, std::size_t facet_count);
+        InterfaceWorkspace(
+            const SimplexList& cofacets,
+            std::size_t facet_count,
+            std::size_t facet_capacity_hint = 0,
+            std::size_t cofacet_capacity_hint = 0);
 
         FullCofacetIndex cofacet_lookup;
         // facet_mates[f] = c and cofacet_mates[c] = f; otherwise UNMATCHED.

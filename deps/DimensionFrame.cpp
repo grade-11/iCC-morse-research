@@ -19,6 +19,12 @@
 namespace
 {
 constexpr std::size_t MAX_FFI_PACKED_LABELS = sizeof(std::uint64_t);
+// A retained EXTEND frame grows by appending each cut's tail. Reserving a
+// multiple of the first window up front avoids copying the lists at every cut;
+// untouched vector capacity is only address space. The rank index is left to
+// grow on demand: pre-sizing it measured no net gain, since an oversized hash
+// table slows every lookup during the early cuts.
+constexpr std::size_t EXTENSION_RESERVE_FACTOR = 8;
 }
 
 DimensionFrame::FullCofacetIndex::FullCofacetIndex(const SimplexList& cofacets)
@@ -58,11 +64,15 @@ bool DimensionFrame::FullCofacetIndex::tryFindRank(
 
 DimensionFrame::InterfaceWorkspace::InterfaceWorkspace(
     const SimplexList& cofacets,
-    const std::size_t facet_count)
-    : cofacet_lookup(cofacets),
-      facet_mates(facet_count, UNMATCHED),
-      cofacet_mates(cofacets.size(), UNMATCHED)
+    const std::size_t facet_count,
+    const std::size_t facet_capacity_hint,
+    const std::size_t cofacet_capacity_hint)
+    : cofacet_lookup(cofacets)
 {
+    facet_mates.reserve(std::max(facet_capacity_hint, facet_count));
+    facet_mates.assign(facet_count, UNMATCHED);
+    cofacet_mates.reserve(std::max(cofacet_capacity_hint, cofacets.size()));
+    cofacet_mates.assign(cofacets.size(), UNMATCHED);
 }
 
 DimensionFrame::DimensionFrame(
@@ -93,6 +103,11 @@ DimensionFrame::DimensionFrame(
         using Clock = std::chrono::steady_clock;
         const auto cofacets_start = Clock::now();
         enumerateInitialCofacets();
+        if (retain_for_extension_)
+        {
+            facet_list_.reserve(EXTENSION_RESERVE_FACTOR * facet_list_.size());
+            cofacet_list_.reserve(EXTENSION_RESERVE_FACTOR * cofacet_list_.size());
+        }
         const auto cofacets_end = Clock::now();
 
         if (runtime_.mode() == PipelineMode::PwPH &&
@@ -615,7 +630,17 @@ void DimensionFrame::initializeInterfaceWorkspace()
         throw std::overflow_error("Facet or cofacet count exceeds the uint32_t mate capacity.");
     }
 
-    interface_workspace_.emplace(cofacet_list_, facet_list_.size());
+    if (retain_for_extension_)
+    {
+        interface_workspace_.emplace(
+            cofacet_list_, facet_list_.size(),
+            EXTENSION_RESERVE_FACTOR * facet_list_.size(),
+            EXTENSION_RESERVE_FACTOR * cofacet_list_.size());
+    }
+    else
+    {
+        interface_workspace_.emplace(cofacet_list_, facet_list_.size());
+    }
 }
 
 DimensionFrame::RawMatchSupportInfo
