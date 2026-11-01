@@ -34,6 +34,14 @@ private:
         DimensionFrame& frame,
         std::int64_t facet_bindex);
 
+    static void collectLiveReductionTail(
+        DimensionFrame& frame,
+        std::size_t facet_list_index);
+
+    static void saveLiveReduction(
+        DimensionFrame& frame,
+        std::size_t facet_list_index);
+
     static std::int64_t findCompressedTerminalCofacet(
         DimensionFrame& frame,
         const std::vector<std::size_t>& start_cofacet_indices);

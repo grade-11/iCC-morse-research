@@ -226,6 +226,7 @@ void ImplicitMorseMatching::matchPersistence(
     const std::size_t facet_count = frame.facet_list_.size();
     const bool collect_raw_support =
         collect_dependency_support && frame.isTopDimension();
+    const bool trace_live_reductions = frame.retain_for_extension_;
 
     workspace.cofacet_indices.reserve(frame.dimension_ < 5 ? 32 : 64);
     workspace.facet_indices.reserve(frame.dimension_ + 1);
@@ -267,27 +268,56 @@ void ImplicitMorseMatching::matchPersistence(
             continue;
         }
 
-        if (tryInstallApparentPair(frame, facet_list_index))
-            continue;
-
-        // tryInstallApparentPair leaves the complete immediate-cofacet ranks
-        // in the reusable workspace whenever no pair was installed.
-        if (workspace.cofacet_indices.empty())
+        // A live EXTEND reduction resumes on the appended cofacets only. Its
+        // facet already failed the apparent test on unchanged older cofacets.
+        const bool live_resume =
+            trace_live_reductions && resume_matching &&
+            frame.live_reductions_.contains(facet_list_index);
+        if (live_resume)
         {
-            frame.persistent_pairs_.push_back(
-                {facet.second, -1.0, facet.first, -1});
-            if (collect_dependency_support)
+            collectLiveReductionTail(frame, facet_list_index);
+            workspace.reduction_trace.clear();
+        }
+        else
+        {
+            if (tryInstallApparentPair(frame, facet_list_index))
+                continue;
+
+            // tryInstallApparentPair leaves the complete immediate-cofacet ranks
+            // in the reusable workspace whenever no pair was installed.
+            if (workspace.cofacet_indices.empty())
             {
-                workspace.raw_support_info.protected_facet_indices.push_back(
-                    facet_list_index);
+                frame.persistent_pairs_.push_back(
+                    {facet.second, -1.0, facet.first, -1});
+                if (collect_dependency_support)
+                {
+                    workspace.raw_support_info.protected_facet_indices.push_back(
+                        facet_list_index);
+                }
+                continue;
             }
-            continue;
+
+            if (trace_live_reductions)
+            {
+                workspace.reduction_trace.assign(
+                    1, static_cast<DimensionFrame::RankIndex>(facet_list_index));
+            }
         }
 
+        workspace.record_reduction_trace = trace_live_reductions;
         const std::int64_t terminal_cofacet =
             findCompressedTerminalCofacet(
                 frame,
                 workspace.cofacet_indices);
+        workspace.record_reduction_trace = false;
+
+        if (trace_live_reductions)
+        {
+            if (terminal_cofacet < 0)
+                saveLiveReduction(frame, facet_list_index);
+            else
+                frame.live_reductions_.erase(facet_list_index);
+        }
 
         if (terminal_cofacet < 0)
         {
@@ -395,6 +425,108 @@ void ImplicitMorseMatching::matchApparentPairsOnly(
     }
 }
 
+void ImplicitMorseMatching::collectLiveReductionTail(
+    DimensionFrame& frame,
+    const std::size_t facet_list_index)
+{
+    auto& workspace = *frame.interface_workspace_;
+    const auto& live = frame.live_reductions_.at(facet_list_index);
+    const auto& distance_matrix = frame.runtime_.distanceMatrix();
+    const double eps_hi = frame.window_.bounds().eps_hi;
+    workspace.cofacet_indices.clear();
+
+    for (const auto reducer : live.reducer_facets)
+    {
+        const auto& vertices = workspace.vertex_workspace;
+        double edge_weight = 0.0;
+        // Only appended cofacets, weight in [eps_lo, eps_hi), can be new.
+        // The weight filter is exact for this H1 frame without PVs; the rank
+        // lookup still decides membership, as in collectImmediateCofacetRanks.
+        const auto collect_appended_cofacet =
+            [&](const std::size_t covertex,
+                const std::int64_t candidate_bindex) -> bool
+        {
+            const double weight = std::max(
+                {edge_weight,
+                 distance_matrix.distance(vertices[0], covertex),
+                 distance_matrix.distance(vertices[1], covertex)});
+            if (!(weight >= live.eps_lo && weight < eps_hi))
+                return false;
+
+            std::size_t cofacet_rank = 0;
+            if (frame.tryFindCofacetRank(candidate_bindex, cofacet_rank))
+            {
+                if (cofacet_rank < live.cofacet_frontier)
+                {
+                    throw std::logic_error(
+                        "collectLiveReductionTail: appended-weight cofacet has an old rank");
+                }
+                workspace.cofacet_indices.push_back(cofacet_rank);
+            }
+            return false;
+        };
+
+        SimplexUtility::getSimplexVerticesInPlace(
+            frame.binomial_table_,
+            workspace.vertex_workspace,
+            frame.facet_list_[reducer].first,
+            frame.window_.totalLabelCount(),
+            frame.dimension_ - 1);
+        edge_weight = distance_matrix.distance(vertices[0], vertices[1]);
+
+        SimplexUtility::forEachImmediateCofacetInBindexOrder(
+            frame.binomial_table_,
+            workspace.vertex_workspace,
+            frame.facet_list_[reducer].first,
+            frame.window_.totalLabelCount(),
+            frame.dimension_ - 1,
+            collect_appended_cofacet);
+    }
+
+    // The compressed queue cancels equal ranks in pairs, so mod 2 suffices.
+    auto& ranks = workspace.cofacet_indices;
+    std::sort(ranks.begin(), ranks.end());
+    std::size_t kept = 0;
+    for (std::size_t i = 0; i < ranks.size();)
+    {
+        std::size_t j = i;
+        while (j < ranks.size() && ranks[j] == ranks[i])
+            ++j;
+        if (((j - i) & 1U) != 0U)
+            ranks[kept++] = ranks[i];
+        i = j;
+    }
+    ranks.resize(kept);
+}
+
+void ImplicitMorseMatching::saveLiveReduction(
+    DimensionFrame& frame,
+    const std::size_t facet_list_index)
+{
+    auto& workspace = *frame.interface_workspace_;
+    auto& live = frame.live_reductions_[facet_list_index];
+    auto& reducers = live.reducer_facets;
+    reducers.insert(
+        reducers.end(),
+        workspace.reduction_trace.begin(),
+        workspace.reduction_trace.end());
+    std::sort(reducers.begin(), reducers.end());
+    std::size_t kept = 0;
+    for (std::size_t i = 0; i < reducers.size();)
+    {
+        std::size_t j = i;
+        while (j < reducers.size() && reducers[j] == reducers[i])
+            ++j;
+        if (((j - i) & 1U) != 0U)
+            reducers[kept++] = reducers[i];
+        i = j;
+    }
+    reducers.resize(kept);
+    live.cofacet_frontier = frame.cofacet_list_.size();
+    live.eps_lo = frame.window_.bounds().eps_hi;
+    workspace.reduction_trace.clear();
+}
+
 std::int64_t ImplicitMorseMatching::findCompressedTerminalCofacet(
     DimensionFrame& frame,
     const std::vector<std::size_t>& start_cofacet_indices)
@@ -457,6 +589,11 @@ void ImplicitMorseMatching::enqueueReducedCompressedColumnTail(
     MinQueue& target_queue)
 {
     auto& workspace = *frame.interface_workspace_;
+    if (workspace.record_reduction_trace)
+    {
+        workspace.reduction_trace.push_back(
+            static_cast<DimensionFrame::RankIndex>(facet_list_index));
+    }
 
     collectImmediateCofacetRanks(
         frame,

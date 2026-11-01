@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <limits>
 #include <optional>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -180,8 +181,22 @@ private:
         std::vector<std::size_t> facet_indices;
         std::vector<std::size_t> vertex_workspace;
         std::vector<std::size_t> priority_queue_workspace;
+        // EXTEND only: facets whose coboundaries a compressed reduction added.
+        std::vector<RankIndex> reduction_trace;
+        bool record_reduction_trace = false;
 
         RawMatchSupportInfo raw_support_info;
+    };
+
+    // EXTEND only: an active facet whose compressed reduction emptied in the
+    // current frame. After appending cofacets of weight >= eps_lo, a fresh
+    // reduction replays every older pop exactly; what reaches the new cofacets
+    // is, mod 2, the coboundary of the reducer set on those cofacets alone.
+    struct LiveReduction
+    {
+        std::vector<RankIndex> reducer_facets; // sorted; each present once (mod 2)
+        std::size_t cofacet_frontier = 0;
+        double eps_lo = 0.0;
     };
 
     struct FfiRealizationState
@@ -213,6 +228,7 @@ private:
     std::vector<PersistentPairInfo> persistent_pairs_;
     std::vector<std::optional<PersistentPairInfo>> extension_pairs_by_facet_;
     std::vector<std::optional<DependencySupport>> extension_supports_by_facet_;
+    std::unordered_map<std::size_t, LiveReduction> live_reductions_;
     std::vector<double> unmatched_facet_weights_;
     std::vector<double> unmatched_top_cofacet_weights_;
 
