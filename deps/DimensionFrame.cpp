@@ -34,7 +34,7 @@ DimensionFrame::FullCofacetIndex::FullCofacetIndex(const SimplexList& cofacets)
     appendRanks(0);
 }
 
-void DimensionFrame::FullCofacetIndex::appendRanks(const std::size_t first_rank)
+void DimensionFrame::FullCofacetIndex::appendRanks(std::size_t first_rank)
 {
     const auto& cofacets = *cofacets_;
     if (cofacets.empty())
@@ -45,6 +45,14 @@ void DimensionFrame::FullCofacetIndex::appendRanks(const std::size_t first_rank)
         throw std::overflow_error("Cofacet lookup ranks exceed the uint32_t range.");
     }
 
+    if (first_rank > 0 &&
+        cofacets.size() > ranks_.calcMaxNumElementsAllowed(ranks_.mask() + 1))
+    {
+        // Growing rehashes in slot order, which reads the borrowed list at
+        // random. Rebuild in rank order instead: same table, sequential reads.
+        ranks_ = decltype(ranks_)(0, IndirectHash{cofacets_}, IndirectEqual{cofacets_});
+        first_rank = 0;
+    }
     ranks_.reserve(cofacets.size());
     for (std::size_t rank = first_rank; rank < cofacets.size(); ++rank)
         ranks_.emplace(static_cast<RankIndex>(rank));
@@ -417,20 +425,18 @@ void DimensionFrame::extendTo(const double eps_hi)
 
     auto new_edges = simplex_enumerator_.getFirstWindowEdgeTail(
         extension_hi_, eps_hi, runtime_.config().threads);
-    auto new_triangles = simplex_enumerator_.getFirstWindowTriangleTail(
-        new_edges, extension_hi_, eps_hi, runtime_.config().threads);
     const std::size_t old_facet_count = facet_list_.size();
     const std::size_t old_cofacet_count = cofacet_list_.size();
+    // Old lists are strict filtration prefixes, so every old rank stays fixed.
+    simplex_enumerator_.appendFirstWindowTriangleTail(
+        new_edges, extension_hi_, eps_hi, runtime_.config().threads, cofacet_list_);
     constexpr std::size_t max_mate_count = InterfaceWorkspace::UNMATCHED;
     if (new_edges.size() > max_mate_count - old_facet_count ||
-        new_triangles.size() > max_mate_count - old_cofacet_count)
+        cofacet_list_.size() > max_mate_count)
     {
         throw std::overflow_error("EXTEND exceeds the uint32_t mate capacity.");
     }
-
-    // Old lists are strict filtration prefixes, so every old rank stays fixed.
     facet_list_.insert(facet_list_.end(), new_edges.begin(), new_edges.end());
-    cofacet_list_.insert(cofacet_list_.end(), new_triangles.begin(), new_triangles.end());
     active_facet_index_.reserve(facet_list_.size());
     for (std::size_t i = old_facet_count; i < facet_list_.size(); ++i)
     {

@@ -55,9 +55,9 @@ SimplexList SimplexEnumerator::getFirstWindowEdgeTail(
     return SimplexUtility::sortAndMergeSimplexChunks(chunks, worker_count);
 }
 
-SimplexList SimplexEnumerator::getFirstWindowTriangleTail(
+std::size_t SimplexEnumerator::appendFirstWindowTriangleTail(
     const SimplexList& new_edges, const double eps_lo, const double eps_hi,
-    const int threads)
+    const int threads, SimplexList& out)
 {
     const int worker_count = threads > 0 ? threads : 1;
     std::vector<SimplexList> chunks(static_cast<std::size_t>(worker_count));
@@ -101,9 +101,40 @@ SimplexList SimplexEnumerator::getFirstWindowTriangleTail(
             chunk.emplace_back(triangle_bindex, edge_weight);
         }
     }
-    auto triangles = SimplexUtility::sortAndMergeSimplexChunks(chunks, worker_count);
-    triangles.erase(std::unique(triangles.begin(), triangles.end(),
-        [](const auto& lhs, const auto& rhs) { return lhs.first == rhs.first; }), triangles.end());
+    // Same sort and sequential inplace_merge as sortAndMergeSimplexChunks, but
+    // merged on the tail of `out` so the list is not copied a second time.
+    const auto sort_lambda = [](const auto& lhs, const auto& rhs)
+    { return (lhs.second < rhs.second) || ((lhs.second == rhs.second) && (lhs.first < rhs.first)); };
+#pragma omp parallel for schedule(dynamic) num_threads(worker_count)
+    for (std::size_t c = 0; c < chunks.size(); ++c)
+        std::sort(chunks[c].begin(), chunks[c].end(), sort_lambda);
+    std::size_t total = 0;
+    for (const auto& chunk : chunks)
+        total += chunk.size();
+    const std::size_t base = out.size();
+    out.reserve(base + total);
+    for (auto& chunk : chunks)
+    {
+        if (chunk.empty())
+            continue;
+        const std::size_t range_begin = out.size();
+        out.insert(out.end(), chunk.begin(), chunk.end());
+        SimplexList().swap(chunk);
+        std::inplace_merge(out.begin() + static_cast<std::ptrdiff_t>(base),
+                           out.begin() + static_cast<std::ptrdiff_t>(range_begin),
+                           out.end(), sort_lambda);
+    }
+    out.erase(std::unique(out.begin() + static_cast<std::ptrdiff_t>(base), out.end(),
+        [](const auto& lhs, const auto& rhs) { return lhs.first == rhs.first; }), out.end());
+    return out.size() - base;
+}
+
+SimplexList SimplexEnumerator::getFirstWindowTriangleTail(
+    const SimplexList& new_edges, const double eps_lo, const double eps_hi,
+    const int threads)
+{
+    SimplexList triangles;
+    appendFirstWindowTriangleTail(new_edges, eps_lo, eps_hi, threads, triangles);
     return triangles;
 }
 

@@ -29,6 +29,10 @@ public:
     SimplexList getFirstWindowEdgeTail(double eps_lo, double eps_hi, int threads);
     SimplexList getFirstWindowTriangleTail(
         const SimplexList& new_edges, double eps_lo, double eps_hi, int threads);
+    // Same tail, merged in filtration order directly onto the end of `out`.
+    std::size_t appendFirstWindowTriangleTail(
+        const SimplexList& new_edges, double eps_lo, double eps_hi, int threads,
+        SimplexList& out);
 
     std::vector<std::pair<int64_t, double>> getSortedVRCofacets(const std::vector<std::pair<int64_t, double>>& sorted_simplex, const size_t dim, const double maxeps, const int threadnum);
 
