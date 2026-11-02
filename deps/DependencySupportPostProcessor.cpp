@@ -296,6 +296,25 @@ std::size_t DependencySupportPostProcessor::processPwph(
         std::cout<<std::setprecision(17)<<"[pv-selected] epsilon="<<eps_hi<<" order="<<id<<" members=";
         for(auto v:selected_pvs[id].representatives)std::cout<<v<<',';std::cout<<'\n'<<std::setprecision(6);
     }
+    // EXTEND gain rule: the share of the next window's predicted top-dimension work this
+    // commit removes. The pipeline keeps cutting only while it reaches the threshold.
+    // The cost rule assumes the next commit removes the same share g of the final window's work, and
+    // weighs that saving against the work of the extra window up to the next cut.
+    if((cfg.extend_min_gain>0 || cfg.extend_cost_rule) && committed_count)
+    {
+        const auto next=std::upper_bound(cfg.eps_breaks.begin(),cfg.eps_breaks.end(),eps_hi);
+        const double x=next==cfg.eps_breaks.end()?cfg.finalEpsilon():*next;
+        const double before=PackDmtPayback::topWork(distance_matrix,window,{},x,cfg.maxdim);
+        const double after=PackDmtPayback::topWork(distance_matrix,window,selected_pvs,x,cfg.maxdim);
+        const double after_end=PackDmtPayback::topWork(distance_matrix,window,selected_pvs,cfg.finalEpsilon(),cfg.maxdim);
+        last_gain_=before>0?1.0-after/before:0.0;
+        last_gain_epsilon_=eps_hi;
+        last_keep_cutting_=cfg.extend_cost_rule?last_gain_*after_end>after:last_gain_>=cfg.extend_min_gain;
+        std::cout<<std::setprecision(17)<<"[extend-gain] epsilon="<<eps_hi<<" next="<<x<<" work_before="<<before
+            <<" work_after="<<after<<" work_after_end="<<after_end<<" gain="<<last_gain_
+            <<" predicted_saving="<<last_gain_*after_end<<" rule="<<(cfg.extend_cost_rule?"cost":"threshold")
+            <<" threshold="<<cfg.extend_min_gain<<" action="<<(last_keep_cutting_?"KEEP-CUTTING":"CLOSE")<<'\n'<<std::setprecision(6);
+    }
     if(auto* cost=PolicyCost::active)cost->mark("MUTATION_BEGIN");
     const auto commit_start=Clock::now();
     if(committed_count)window.commitSelectedPVs(std::move(selected_pvs),new_absorbed_labels);

@@ -64,7 +64,12 @@ struct PackDmtPayback {
             for(const auto& p:selected)blocks-=p.representatives.size()-1;
             return completeH(blocks);
         }
-        const size_t n=state.originalVertexCount();std::vector<size_t> owner(n,n),absorbed(n,0);size_t count=0;
+        std::vector<size_t> owner;const size_t count=partition(state,selected,owner);
+        return full?completeH(count):graphH(d,owner,count,x);
+    }
+    // Blocks of the label set after committing `selected`; owner[v] is v's block.
+    static size_t partition(const WindowState& state,const std::vector<SelectedPV>& selected,std::vector<size_t>& owner) {
+        const size_t n=state.originalVertexCount();owner.assign(n,n);std::vector<size_t> absorbed(n,0);size_t count=0;
         for(const auto& p:selected)for(auto v:p.representatives)absorbed.at(v)=1;
         for(auto label:state.activeLabels()){
             if(label<n){if(!absorbed[label])owner[label]=count++;}
@@ -72,7 +77,22 @@ struct PackDmtPayback {
         }
         for(const auto& p:selected){for(auto v:p.representatives)owner.at(v)=count;++count;}
         if(std::find(owner.begin(),owner.end(),n)!=owner.end())throw std::logic_error("Incomplete partition");
-        return full?completeH(count):graphH(d,owner,count,x);
+        return count;
+    }
+    // Work forecast for a window up to x in max dimension k: each block counts the
+    // k-subsets of its neighbours below x, so a top simplex is counted once per vertex.
+    static double topWork(const DistanceMatrix& d,const WindowState& state,
+                          const std::vector<SelectedPV>& selected,double x,size_t k) {
+        std::vector<size_t> owner;const size_t count=partition(state,selected,owner);
+        std::vector<unsigned char> adjacent(count*count,0);std::vector<size_t> degree(count,0);
+        for(size_t i=0;i<owner.size();++i)for(size_t j=i+1;j<owner.size();++j){
+            const size_t a=owner[i],b=owner[j];if(a==b || adjacent[a*count+b])continue;
+            const double w=d.distance(i,j);
+            if(w>0 && w<x){adjacent[a*count+b]=adjacent[b*count+a]=1;++degree[a];++degree[b];}
+        }
+        double work=0;
+        for(size_t g:degree)if(g>=k){double c=1;for(size_t i=0;i<k;++i)c*=double(g-i)/double(i+1);work+=c;}
+        return work;
     }
     void load(const DistanceMatrix& d,double e,const std::string& mode,const std::string& file) {
         const auto start=std::chrono::steady_clock::now();endpoint=e;chosen=e;

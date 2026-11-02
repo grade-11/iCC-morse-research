@@ -358,6 +358,9 @@ void PwphPipeline::run()
         first_window_index = config.extend_commit_once ? config.eps_breaks.size() - 1 : *committed_cut + 1;
         repair_cut = eps_lo = config.eps_breaks[*committed_cut];
         eps_hi = config.eps_breaks[first_window_index];
+        // Gain rule: a commit that removes too little predicted work ends the cutting.
+        if((config.extend_min_gain>0 || config.extend_cost_rule) && !support_processor_.lastKeepCutting())
+            eps_hi = config.finalEpsilon();
     }
     for (std::size_t window_index = first_window_index;; ++window_index)
     {
@@ -726,6 +729,9 @@ void PwphPipeline::run()
             observations.push_back(observation);
         }
         else eps_hi = config.eps_breaks[window_index + 1];
+        if((config.extend_min_gain>0 || config.extend_cost_rule) && support_processor_.lastGainEpsilon()==eps_lo &&
+           !support_processor_.lastKeepCutting())
+            eps_hi=config.finalEpsilon();
         if (measure && !config.adaptive)
         {
             observation.active_after=window_state_.activeLabels().size();

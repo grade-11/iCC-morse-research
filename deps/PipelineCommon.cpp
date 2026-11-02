@@ -18,8 +18,9 @@ void PipelineConfig::validate() const
 {
     if(h1_realizations && (maxdim!=2 || !verbose))
         throw std::invalid_argument("H1 realization diagnostics require --max-dim 2 --verbose");
-    if (!h1_risk.empty() && (maxdim!=2 || (h1_risk!="edge-fiber" && h1_risk!="selective" && h1_risk!="selective-fast" && h1_risk!="selective-graph" && h1_risk!="observe")))
-        throw std::invalid_argument("H1 risk mode must be edge-fiber, selective or observe, max-dim=2");
+    // Under the live guard the H1 filter also runs in H2 computations (max-dim 3).
+    if (!h1_risk.empty() && ((maxdim!=2 && !(maxdim==3 && live_guard)) || (h1_risk!="edge-fiber" && h1_risk!="selective" && h1_risk!="selective-fast" && h1_risk!="selective-graph" && h1_risk!="observe")))
+        throw std::invalid_argument("H1 risk mode must be edge-fiber, selective or observe, max-dim=2 (or 3 with --live-guard)");
     const bool growth_policy=ac_policy.starts_with("growth") || ac_policy.starts_with("payback");
     const bool defer_retry_policy=ac_policy=="guard-defer-retry" || ac_policy=="guard-defer-retry-control";
     const bool extend_policy=ac_policy=="guard-extend-ladder";

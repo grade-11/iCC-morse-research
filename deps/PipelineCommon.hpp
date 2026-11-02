@@ -65,6 +65,13 @@ struct PipelineConfig
     // With live_guard_extend: after the first committed quotient, skip the remaining
     // cuts and close with one window up to the endpoint, as the H1 EXTEND ladder does.
     bool extend_commit_once = false;
+    // With live_guard_extend: after each commit, keep cutting only if that commit removed at least
+    // this fraction of the next window's predicted top-dimension work; 0 disables the rule.
+    double extend_min_gain = 0.0;
+    // With live_guard_extend: after each commit, keep cutting only if the next cut is predicted to pay,
+    // i.e. the share g of predicted work the commit removed, applied to the final window, exceeds the
+    // predicted work of the extra window up to the next cut. Parameter free; adapts to max dimension.
+    bool extend_cost_rule = false;
 
     void validate() const;
 
