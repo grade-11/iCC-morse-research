@@ -56,6 +56,8 @@ struct PipelineConfig
     // Keep the pre-quotient birth of a class alive across a quotient; veto a quotient
     // that two classes of one dimension would survive.
     bool birth_repair = false;
+    // Veto every quotient while any class of any dimension is alive (implies birth_repair's checks).
+    bool live_guard = false;
 
     void validate() const;
 

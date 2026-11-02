@@ -608,7 +608,8 @@ void PwphPipeline::run()
         if(config.birth_repair)
         {
             bool crowded=false;
-            for(const auto& births:live_births)crowded=crowded || births.size()>1;
+            const std::size_t allowed=config.live_guard?0:1;
+            for(const auto& births:live_births)crowded=crowded || births.size()>allowed;
             if(crowded)do_quotient=false;
             std::cout<<"[birth-repair] epsilon="<<std::setprecision(17)<<bounds.eps_hi<<std::setprecision(6)<<" live=";
             for(std::size_t d=2;d<=config.maxdim;++d)std::cout<<(d>2?",":"")<<live_births[d].size();
