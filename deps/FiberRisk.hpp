@@ -115,11 +115,15 @@ struct FiberRisk
             ++result.triples;
             std::vector<size_t> vs=A.vertices;vs.insert(vs.end(),Bk.vertices.begin(),Bk.vertices.end());vs.insert(vs.end(),C.vertices.begin(),C.vertices.end());
             const double from=std::max(q,w_tau);
-            // From a scale above the union's diameter on, the fiber is one simplex: no void left.
-            double diameter=0;
-            for(size_t i=0;i<vs.size();++i)for(size_t j=i+1;j<vs.size();++j)diameter=std::max(diameter,d.distance(vs[i],vs[j]));
-            if(diameter<=from){--result.triples;continue;}
-            const double v=firstVoid(d,vs,from,endpoint);
+            // Once one vertex is adjacent to all others the fiber is a cone and stays one: only
+            // scales below that radius can carry a void.
+            double radius=std::numeric_limits<double>::infinity();
+            for(size_t i=0;i<vs.size();++i){
+                double far=0;for(size_t j=0;j<vs.size();++j)if(j!=i)far=std::max(far,d.distance(vs[i],vs[j]));
+                radius=std::min(radius,far);
+            }
+            if(radius<=from){--result.triples;continue;}
+            const double v=firstVoid(d,vs,from,std::min(endpoint,std::nextafter(radius,std::numeric_limits<double>::infinity())));
             if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from)});
         }
         result.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
