@@ -647,7 +647,8 @@ int runTool(const std::string& tool,
            eps_interval_count || geometry_cuts || ac_auto_cutoff>0)
             throw std::invalid_argument("EXTEND and its gate probes require piecewise --max-dim 2 with explicit --eps-breaks");
     }
-    if((birth_repair || live_guard) && (normalized_tool!=PIECEWISE_PH_TOOL || !ac_policy.empty() || !h1_risk.empty() || adaptive ||
+    // The H1 risk filter composes with the live guard; it only drops supports.
+    if((birth_repair || live_guard) && (normalized_tool!=PIECEWISE_PH_TOOL || !ac_policy.empty() || (!h1_risk.empty() && !live_guard) || adaptive ||
         !g_model.empty() || geometry_cuts || !pack_mode.empty() || !quotient_mask.empty() || eps_breaks.empty()))
         throw std::invalid_argument("--birth-repair and --live-guard require plain piecewise with explicit --eps-breaks");
     if((live_guard_extend || extend_gate) && (!live_guard || maxdim<2 || maxdim>3 || eps_interval_count || ac_auto_cutoff>0 ||
