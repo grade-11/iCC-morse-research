@@ -150,75 +150,91 @@ std::size_t SimplexEnumerator::appendFirstWindowTetrahedronTail(
     const int worker_count = threads > 0 ? threads : 1;
     // Every tetrahedron weighs its owning edge, so each edge's list is sorted
     // by bindex alone and the lists follow the edge order; only edges of equal
-    // weight need a merge. This avoids sorting the whole tail.
-    std::vector<SimplexList> owned(new_edges.size());
+    // weight need a merge. This avoids sorting the whole tail. Contiguous
+    // blocks of edges fill one buffer each, appended in order and freed one by
+    // one, so the tail is held about once, not twice.
+    const std::size_t block_count = std::min<std::size_t>(
+        new_edges.size(), static_cast<std::size_t>(worker_count) * 64);
+    std::vector<SimplexList> blocks(block_count);
+    std::vector<std::size_t> owned_count(new_edges.size(), 0);
     std::vector<std::vector<std::size_t>> candidates(static_cast<std::size_t>(worker_count));
+    std::vector<SimplexList> edge_lists(static_cast<std::size_t>(worker_count));
     const std::size_t n = distance_matrix_.vertexCount();
 #pragma omp parallel for schedule(dynamic) num_threads(worker_count)
-    for (std::size_t i = 0; i < new_edges.size(); ++i)
+    for (std::size_t b = 0; b < block_count; ++b)
     {
-        auto& below = candidates[static_cast<std::size_t>(omp_get_thread_num())];
-        auto& chunk = owned[i];
-        const auto& [edge_bindex, edge_weight] = new_edges[i];
-        if (!(edge_weight > 0.0 && edge_weight >= eps_lo && edge_weight < eps_hi))
-            continue;
-        const auto endpoints = SimplexUtility::getSimplexVertices(binomial_table_, edge_bindex, n, 1);
-        // As in the triangle tail, every admitted tetrahedron is owned by its
-        // maximum edge under the (weight, bindex) order.
-        const auto precedes = [&](const std::size_t a, const std::size_t b)
+        const auto thread_id = static_cast<std::size_t>(omp_get_thread_num());
+        auto& below = candidates[thread_id];
+        auto& edge_list = edge_lists[thread_id];
+        const std::size_t first = b * new_edges.size() / block_count;
+        const std::size_t last = (b + 1) * new_edges.size() / block_count;
+        for (std::size_t i = first; i < last; ++i)
         {
-            const double weight = distance_matrix_.distance(a, b);
-            return weight < edge_weight ||
-                   (weight == edge_weight && SimplexUtility::getEdgeBinomialIndex(binomial_table_, a, b) < edge_bindex);
-        };
-        below.clear();
-        for (std::size_t w = 0; w < n; ++w)
-        {
-            if (w != endpoints[0] && w != endpoints[1] && precedes(endpoints[0], w) && precedes(endpoints[1], w))
-                below.push_back(w);
-        }
-        for (std::size_t p = 0; p < below.size(); ++p)
-        {
-            for (std::size_t q = p + 1; q < below.size(); ++q)
+            const auto& [edge_bindex, edge_weight] = new_edges[i];
+            if (!(edge_weight > 0.0 && edge_weight >= eps_lo && edge_weight < eps_hi))
+                continue;
+            const auto endpoints = SimplexUtility::getSimplexVertices(binomial_table_, edge_bindex, n, 1);
+            // As in the triangle tail, every admitted tetrahedron is owned by
+            // its maximum edge under the (weight, bindex) order.
+            const auto precedes = [&](const std::size_t a, const std::size_t c)
             {
-                if (!precedes(below[p], below[q]))
-                    continue;
-                std::array<std::size_t, 4> labels{endpoints[0], endpoints[1], below[p], below[q]};
-                std::sort(labels.begin(), labels.end(), std::greater<std::size_t>{});
-                // Direct tetrahedra are cofacets of the triangle on their three
-                // largest labels, which is owned by the edge on its two largest.
-                if (!(distance_matrix_.distance(labels[0], labels[1]) > 0.0))
-                    continue;
-                const auto tetrahedron_bindex = binomial_table_[labels[0]][4] + binomial_table_[labels[1]][3] +
-                    binomial_table_[labels[2]][2] + labels[3];
-                chunk.emplace_back(tetrahedron_bindex, edge_weight);
+                const double weight = distance_matrix_.distance(a, c);
+                return weight < edge_weight ||
+                       (weight == edge_weight && SimplexUtility::getEdgeBinomialIndex(binomial_table_, a, c) < edge_bindex);
+            };
+            below.clear();
+            for (std::size_t w = 0; w < n; ++w)
+            {
+                if (w != endpoints[0] && w != endpoints[1] && precedes(endpoints[0], w) && precedes(endpoints[1], w))
+                    below.push_back(w);
             }
+            edge_list.clear();
+            for (std::size_t p = 0; p < below.size(); ++p)
+            {
+                for (std::size_t q = p + 1; q < below.size(); ++q)
+                {
+                    if (!precedes(below[p], below[q]))
+                        continue;
+                    std::array<std::size_t, 4> labels{endpoints[0], endpoints[1], below[p], below[q]};
+                    std::sort(labels.begin(), labels.end(), std::greater<std::size_t>{});
+                    // Direct tetrahedra are cofacets of the triangle on their three
+                    // largest labels, which is owned by the edge on its two largest.
+                    if (!(distance_matrix_.distance(labels[0], labels[1]) > 0.0))
+                        continue;
+                    const auto tetrahedron_bindex = binomial_table_[labels[0]][4] + binomial_table_[labels[1]][3] +
+                        binomial_table_[labels[2]][2] + labels[3];
+                    edge_list.emplace_back(tetrahedron_bindex, edge_weight);
+                }
+            }
+            std::sort(edge_list.begin(), edge_list.end(),
+                      [](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+            owned_count[i] = edge_list.size();
+            blocks[b].insert(blocks[b].end(), edge_list.begin(), edge_list.end());
         }
-        std::sort(chunk.begin(), chunk.end(), [](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
     }
 
-    std::vector<std::size_t> offset(new_edges.size() + 1, out.size());
-    for (std::size_t i = 0; i < new_edges.size(); ++i)
-        offset[i + 1] = offset[i] + owned[i].size();
+    std::size_t total = 0;
+    for (const auto& block : blocks)
+        total += block.size();
     const std::size_t base = out.size();
-    out.resize(offset.back());
-#pragma omp parallel for schedule(dynamic) num_threads(worker_count)
-    for (std::size_t i = 0; i < new_edges.size(); ++i)
+    out.reserve(base + total);
+    for (auto& block : blocks)
     {
-        std::copy(owned[i].begin(), owned[i].end(), out.begin() + static_cast<std::ptrdiff_t>(offset[i]));
-        SimplexList().swap(owned[i]);
+        out.insert(out.end(), block.begin(), block.end());
+        SimplexList().swap(block);
     }
-    for (std::size_t i = 0; i < new_edges.size();)
+    for (std::size_t i = 0, offset = base; i < new_edges.size();)
     {
-        std::size_t j = i + 1;
+        std::size_t j = i, group_end = offset;
         while (j < new_edges.size() && new_edges[j].second == new_edges[i].second)
-            ++j;
+            group_end += owned_count[j++];
         if (j - i > 1)
         {
-            std::sort(out.begin() + static_cast<std::ptrdiff_t>(offset[i]),
-                      out.begin() + static_cast<std::ptrdiff_t>(offset[j]),
+            std::sort(out.begin() + static_cast<std::ptrdiff_t>(offset),
+                      out.begin() + static_cast<std::ptrdiff_t>(group_end),
                       [](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
         }
+        offset = group_end;
         i = j;
     }
     return out.size() - base;
