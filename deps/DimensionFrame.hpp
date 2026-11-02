@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -124,10 +125,27 @@ private:
     public:
         explicit FullCofacetIndex(const SimplexList& cofacets);
         void appendRanks(std::size_t first_rank);
+        // EXTEND tetrahedra: index an appended tail, every cofacet of weight
+        // >= weight_lo, in a table of its own. One growing table would be
+        // rehashed at almost every cut.
+        void appendSegment(std::size_t first_rank, double weight_lo);
+
+        [[nodiscard]]
+        bool segmented() const noexcept
+        {
+            return !segment_lo_.empty();
+        }
 
         [[nodiscard]]
         bool tryFindRank(
             SimplexBindex bindex,
+            std::size_t& rank_out) const noexcept;
+
+        // `weight` is the candidate's filtration weight; it selects the table.
+        [[nodiscard]]
+        bool tryFindRank(
+            SimplexBindex bindex,
+            double weight,
             std::size_t& rank_out) const noexcept;
 
     private:
@@ -170,9 +188,15 @@ private:
             }
         };
 
+        using RankSet = robin_hood::unordered_flat_set<RankIndex, IndirectHash, IndirectEqual>;
+
         // Borrow the vector object, not data(): append may reallocate its storage.
         const SimplexList* cofacets_;
-        robin_hood::unordered_flat_set<RankIndex, IndirectHash, IndirectEqual> ranks_;
+        RankSet ranks_;
+        // Segment s holds the ranks appended with weights in
+        // [segment_lo_[s], segment_lo_[s + 1]); ranks_ holds the weights below.
+        std::vector<double> segment_lo_;
+        std::vector<RankSet> segments_;
     };
 
     struct RawMatchSupportInfo
@@ -267,7 +291,9 @@ private:
     };
     DimensionFrame(UpperFrameTag, const DimensionFrame& lower);
 
-    void resumeExtension(std::size_t old_cofacet_count, double eps_hi);
+    void resumeExtension(
+        std::size_t old_cofacet_count, double eps_hi,
+        std::chrono::steady_clock::time_point tail_start);
     void buildInitialActiveFacetIndex();
     void enumerateInitialCofacets();
     SimplexList enumerateNextCofacets(
@@ -286,6 +312,19 @@ private:
     bool tryFindCofacetRank(
         SimplexBindex bindex,
         std::size_t& rank_out) const noexcept;
+
+    [[nodiscard]]
+    bool tryFindCofacetRank(
+        SimplexBindex bindex,
+        double weight,
+        std::size_t& rank_out) const noexcept;
+
+    // True when cofacet lookups must carry the candidate's weight.
+    [[nodiscard]]
+    bool segmentedCofacetIndex() const noexcept
+    {
+        return interface_workspace_.has_value() && interface_workspace_->cofacet_lookup.segmented();
+    }
 
     void reportFalseFacetIdentificationStats() const;
 };

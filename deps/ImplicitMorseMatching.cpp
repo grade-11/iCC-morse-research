@@ -63,8 +63,10 @@ std::int64_t ImplicitMorseMatching::findOptimizedApparentPairCofacet(
     const auto probe_exact_tie =
         [&](const std::int64_t candidate_bindex) -> bool
     {
+        // Only a cofacet of exactly the facet's weight qualifies, so that
+        // weight also routes a segmented lookup.
         std::size_t cofacet_rank = 0;
-        if (!frame.tryFindCofacetRank(candidate_bindex, cofacet_rank))
+        if (!frame.tryFindCofacetRank(candidate_bindex, facet_weight, cofacet_rank))
             return false;
 
         if (frame.cofacet_list_[cofacet_rank].second != facet_weight)
@@ -175,7 +177,7 @@ bool ImplicitMorseMatching::tryInstallApparentPair(
 
     // The optimized search is only a filter. Rebuild the complete immediate
     // cofacet list before applying the ordinary apparent-pair test.
-    collectImmediateCofacetRanks(frame, facet.first);
+    collectImmediateCofacetRanks(frame, facet_list_index);
     if (workspace.cofacet_indices.empty())
         return false;
 
@@ -192,10 +194,40 @@ bool ImplicitMorseMatching::tryInstallApparentPair(
 
 void ImplicitMorseMatching::collectImmediateCofacetRanks(
     DimensionFrame& frame,
-    const std::int64_t facet_bindex)
+    const std::size_t facet_list_index)
 {
     auto& workspace = *frame.interface_workspace_;
     workspace.cofacet_indices.clear();
+    const auto& [facet_bindex, facet_weight] = frame.facet_list_[facet_list_index];
+
+    if (frame.segmentedCofacetIndex())
+    {
+        // A segmented (EXTEND, no PV) frame weighs a candidate by its edges,
+        // which also skips candidates beyond the cut without a lookup.
+        const auto& distance_matrix = frame.runtime_.distanceMatrix();
+        const double eps_hi = frame.window_.bounds().eps_hi;
+        const auto& vertices = workspace.vertex_workspace;
+        const auto collect_weighed_cofacet =
+            [&](const std::size_t covertex,
+                const std::int64_t candidate_bindex) -> bool
+        {
+            double weight = facet_weight;
+            for (const std::size_t vertex : vertices)
+                weight = std::max(weight, distance_matrix.distance(vertex, covertex));
+            std::size_t cofacet_rank = 0;
+            if (weight < eps_hi && frame.tryFindCofacetRank(candidate_bindex, weight, cofacet_rank))
+                workspace.cofacet_indices.push_back(cofacet_rank);
+            return false;
+        };
+        SimplexUtility::forEachImmediateCofacetInBindexOrder(
+            frame.binomial_table_,
+            workspace.vertex_workspace,
+            facet_bindex,
+            frame.window_.totalLabelCount(),
+            frame.dimension_ - 1,
+            collect_weighed_cofacet);
+        return;
+    }
 
     const auto collect_existing_cofacet =
         [&](const std::size_t,
@@ -454,7 +486,7 @@ void ImplicitMorseMatching::collectLiveReductionTail(
                 return false;
 
             std::size_t cofacet_rank = 0;
-            if (frame.tryFindCofacetRank(candidate_bindex, cofacet_rank))
+            if (frame.tryFindCofacetRank(candidate_bindex, weight, cofacet_rank))
             {
                 if (cofacet_rank < live.cofacet_frontier)
                 {
@@ -589,7 +621,7 @@ void ImplicitMorseMatching::enqueueReducedCompressedColumnTail(
 
     collectImmediateCofacetRanks(
         frame,
-        frame.facet_list_[facet_list_index].first);
+        facet_list_index);
 
     const auto minimum_cofacet = std::min_element(
         workspace.cofacet_indices.begin(),

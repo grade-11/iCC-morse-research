@@ -32,7 +32,7 @@ private:
 
     static void collectImmediateCofacetRanks(
         DimensionFrame& frame,
-        std::int64_t facet_bindex);
+        std::size_t facet_list_index);
 
     static void collectLiveReductionTail(
         DimensionFrame& frame,

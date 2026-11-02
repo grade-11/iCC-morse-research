@@ -58,12 +58,53 @@ void DimensionFrame::FullCofacetIndex::appendRanks(std::size_t first_rank)
         ranks_.emplace(static_cast<RankIndex>(rank));
 }
 
+void DimensionFrame::FullCofacetIndex::appendSegment(const std::size_t first_rank, const double weight_lo)
+{
+    const auto& cofacets = *cofacets_;
+    if (!cofacets.empty() && cofacets.size() - 1 > std::numeric_limits<RankIndex>::max())
+        throw std::overflow_error("Cofacet lookup ranks exceed the uint32_t range.");
+    if (!segment_lo_.empty() && !(weight_lo > segment_lo_.back()))
+        throw std::logic_error("EXTEND index segments must start at increasing weights.");
+    RankSet segment(0, IndirectHash{cofacets_}, IndirectEqual{cofacets_});
+    segment.reserve(cofacets.size() - first_rank);
+    for (std::size_t rank = first_rank; rank < cofacets.size(); ++rank)
+        segment.emplace(static_cast<RankIndex>(rank));
+    segment_lo_.push_back(weight_lo);
+    segments_.push_back(std::move(segment));
+}
+
 bool DimensionFrame::FullCofacetIndex::tryFindRank(
     const SimplexBindex bindex,
     std::size_t& rank_out) const noexcept
 {
     const auto it = ranks_.find(bindex);
-    if (it == ranks_.end())
+    if (it != ranks_.end())
+    {
+        rank_out = *it;
+        return true;
+    }
+    for (const auto& segment : segments_)
+    {
+        const auto found = segment.find(bindex);
+        if (found != segment.end())
+        {
+            rank_out = *found;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool DimensionFrame::FullCofacetIndex::tryFindRank(
+    const SimplexBindex bindex,
+    const double weight,
+    std::size_t& rank_out) const noexcept
+{
+    const auto upper = std::upper_bound(segment_lo_.begin(), segment_lo_.end(), weight);
+    const RankSet& table = upper == segment_lo_.begin()
+        ? ranks_ : segments_[static_cast<std::size_t>(upper - segment_lo_.begin()) - 1];
+    const auto it = table.find(bindex);
+    if (it == table.end())
         return false;
 
     rank_out = *it;
@@ -477,6 +518,7 @@ void DimensionFrame::extendTo(const double eps_hi)
         throw std::invalid_argument("Widen WindowState to the strictly larger EXTEND cut first.");
     }
 
+    const auto tail_start = std::chrono::steady_clock::now();
     auto new_edges = simplex_enumerator_.getFirstWindowEdgeTail(
         extension_hi_, eps_hi, runtime_.config().threads);
     const std::size_t old_facet_count = facet_list_.size();
@@ -508,7 +550,7 @@ void DimensionFrame::extendTo(const double eps_hi)
         }
     }
 
-    resumeExtension(old_cofacet_count, eps_hi);
+    resumeExtension(old_cofacet_count, eps_hi, tail_start);
 }
 
 void DimensionFrame::extendWith(const DimensionFrame& lower)
@@ -520,6 +562,7 @@ void DimensionFrame::extendWith(const DimensionFrame& lower)
     {
         throw std::logic_error("EXTEND tetrahedra follow their edge frame to its larger cut.");
     }
+    const auto tail_start = std::chrono::steady_clock::now();
     const double eps_hi = lower.extension_hi_;
     const auto& lower_mates = lower.interface_workspace_->cofacet_mates;
     // A resumed H1 reduction reaches appended triangles only, so every old
@@ -547,15 +590,25 @@ void DimensionFrame::extendWith(const DimensionFrame& lower)
     constexpr std::size_t max_mate_count = InterfaceWorkspace::UNMATCHED;
     if (facet_list_.size() > max_mate_count || cofacet_list_.size() > max_mate_count)
         throw std::overflow_error("EXTEND exceeds the uint32_t mate capacity.");
-    resumeExtension(old_cofacet_count, eps_hi);
+    resumeExtension(old_cofacet_count, eps_hi, tail_start);
 }
 
-void DimensionFrame::resumeExtension(const std::size_t old_cofacet_count, const double eps_hi)
+void DimensionFrame::resumeExtension(
+    const std::size_t old_cofacet_count, const double eps_hi,
+    const std::chrono::steady_clock::time_point tail_start)
 {
+    using Clock = std::chrono::steady_clock;
+    const auto ms = [](const Clock::time_point a, const Clock::time_point b)
+    { return std::chrono::duration<double, std::milli>(b - a).count(); };
+    const auto index_start = Clock::now();
     auto& workspace = *interface_workspace_;
     workspace.facet_mates.resize(facet_list_.size(), InterfaceWorkspace::UNMATCHED);
     workspace.cofacet_mates.resize(cofacet_list_.size(), InterfaceWorkspace::UNMATCHED);
-    workspace.cofacet_lookup.appendRanks(old_cofacet_count);
+    // The tail weighs at least the previous cut, extension_hi_ until the end here.
+    if (dimension_ == 3)
+        workspace.cofacet_lookup.appendSegment(old_cofacet_count, extension_hi_);
+    else
+        workspace.cofacet_lookup.appendRanks(old_cofacet_count);
     extension_pairs_by_facet_.resize(facet_list_.size());
     extension_supports_by_facet_.resize(facet_list_.size());
     for (auto& pair : extension_pairs_by_facet_)
@@ -565,10 +618,20 @@ void DimensionFrame::resumeExtension(const std::size_t old_cofacet_count, const 
             pair.reset();
     }
     persistent_pairs_.clear();
+    const auto match_start = Clock::now();
     ImplicitMorseMatching matcher;
     matcher.matchPersistence(*this, true, true);
+    const auto merge_start = Clock::now();
     mergeExtensionResults();
     extension_hi_ = eps_hi;
+    if (runtime_.config().verbose)
+    {
+        std::cout << std::setprecision(17) << "[extend-timing] dim=" << dimension_ << " eps_hi=" << eps_hi
+                  << std::setprecision(6) << " facets=" << facet_list_.size()
+                  << " cofacets=" << cofacet_list_.size() << " live_reductions=" << live_reductions_.size()
+                  << " tail_ms=" << ms(tail_start, index_start) << " index_ms=" << ms(index_start, match_start)
+                  << " match_ms=" << ms(match_start, merge_start) << " merge_ms=" << ms(merge_start, Clock::now()) << '\n';
+    }
 }
 
 void DimensionFrame::mergeExtensionResults()
@@ -776,6 +839,15 @@ bool DimensionFrame::tryFindCofacetRank(
            interface_workspace_->cofacet_lookup.tryFindRank(bindex, rank_out);
 }
 
+bool DimensionFrame::tryFindCofacetRank(
+    const SimplexBindex bindex,
+    const double weight,
+    std::size_t& rank_out) const noexcept
+{
+    return interface_workspace_.has_value() &&
+           interface_workspace_->cofacet_lookup.tryFindRank(bindex, weight, rank_out);
+}
+
 SimplexList DimensionFrame::enumerateNextCofacets(
     robin_hood::unordered_map<SimplexBindex, std::uint64_t>* const realization_output)
 {
@@ -814,6 +886,26 @@ bool DimensionFrame::advance()
     if (isTopDimension())
         return false;
 
+    // A window without pseudo vertices enumerates its tetrahedra from their
+    // longest edges, as EXTEND appends them, so every schedule shares that
+    // enumerator; the gate oracles keep the geometric one.
+    const auto& config = runtime_.config();
+    const bool edge_owned_tetrahedra =
+        runtime_.mode() == PipelineMode::PwPH && dimension_ == 2 &&
+        window_.pseudoVertices().empty() &&
+        window_.activeLabels().size() == window_.originalVertexCount() &&
+        !ffi_realizations_.has_value() && !config.extend_direct_probe &&
+        !(config.extend_gate && !retain_for_extension_);
+
+    using Clock = std::chrono::steady_clock;
+    const auto cofacets_start = Clock::now();
+    SimplexList next_cofacets;
+    if (edge_owned_tetrahedra)
+    {
+        simplex_enumerator_.appendFirstWindowTetrahedronTail(
+            facet_list_, 0.0, window_.bounds().eps_hi, config.threads, next_cofacets);
+    }
+
     // The old active-facet index was released immediately after matching.
     // Release the previous facet list before enumeration as well. Building the
     // next active-facet index afterward is an intentional peak-RSS improvement
@@ -828,10 +920,11 @@ bool DimensionFrame::advance()
         next_cofacet_realizations.emplace();
     }
 
-    using Clock = std::chrono::steady_clock;
-    const auto cofacets_start = Clock::now();
-    auto next_cofacets = enumerateNextCofacets(
-        next_cofacet_realizations.has_value() ? &*next_cofacet_realizations : nullptr);
+    if (!edge_owned_tetrahedra)
+    {
+        next_cofacets = enumerateNextCofacets(
+            next_cofacet_realizations.has_value() ? &*next_cofacet_realizations : nullptr);
+    }
     const auto cofacets_end = Clock::now();
 
     if (runtime_.mode() == PipelineMode::PwPH &&
