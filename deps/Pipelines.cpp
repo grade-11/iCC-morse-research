@@ -355,7 +355,7 @@ void PwphPipeline::run()
         if(!committed_cut)
             return;
         // Nothing was alive at the committed cut; the repair checks stay armed.
-        first_window_index = *committed_cut + 1;
+        first_window_index = config.extend_commit_once ? config.eps_breaks.size() - 1 : *committed_cut + 1;
         repair_cut = eps_lo = config.eps_breaks[*committed_cut];
         eps_hi = config.eps_breaks[first_window_index];
     }

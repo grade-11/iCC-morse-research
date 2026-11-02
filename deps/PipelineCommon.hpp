@@ -62,6 +62,9 @@ struct PipelineConfig
     bool live_guard_extend = false;
     // Gate only: extend through every cut and compare with a direct window at each.
     bool extend_gate = false;
+    // With live_guard_extend: after the first committed quotient, skip the remaining
+    // cuts and close with one window up to the endpoint, as the H1 EXTEND ladder does.
+    bool extend_commit_once = false;
 
     void validate() const;
 
