@@ -640,7 +640,8 @@ int runTool(const std::string& tool,
             const bool extend_gate = false,
             const bool extend_commit_once = false,
             const double extend_min_gain = 0.0,
-            const bool extend_cost_rule = false)
+            const bool extend_cost_rule = false,
+            const bool fiber_risk = false)
 {
     const std::string normalized_tool = normalizeTool(tool);
     if(ac_policy=="guard-extend-ladder" || extend_direct_probe || extend_force_chain || !extend_dump.empty())
@@ -662,6 +663,8 @@ int runTool(const std::string& tool,
         throw std::invalid_argument("--extend-commit-once requires --extend");
     if(extend_min_gain!=0.0 && (!live_guard_extend || extend_commit_once || !(extend_min_gain>0.0 && extend_min_gain<1.0)))
         throw std::invalid_argument("--extend-min-gain requires --extend, no --extend-commit-once, and a value in (0, 1)");
+    if(fiber_risk && (!live_guard || maxdim!=3))
+        throw std::invalid_argument("--fiber-risk requires --live-guard and --max-dim 3");
     if(extend_cost_rule && (!live_guard_extend || extend_commit_once || extend_min_gain!=0.0))
         throw std::invalid_argument("--extend-cost-rule requires --extend and excludes --extend-commit-once and --extend-min-gain");
     if(h1_realizations && normalized_tool!=PIECEWISE_PH_TOOL)
@@ -788,7 +791,7 @@ int runTool(const std::string& tool,
         .extend_direct_probe = extend_direct_probe, .birth_repair = birth_repair || live_guard, .live_guard = live_guard,
         .live_guard_extend = live_guard_extend, .extend_gate = extend_gate,
         .extend_commit_once = extend_commit_once, .extend_min_gain = extend_min_gain,
-        .extend_cost_rule = extend_cost_rule};
+        .extend_cost_rule = extend_cost_rule, .fiber_risk = fiber_risk};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -912,6 +915,8 @@ int runCommandLine(int argc, char** argv)
     app.add_flag("--extend-commit-once",extend_commit_once,"With --extend: after the first committed quotient, close with one window up to the endpoint");
     double extend_min_gain=0.0;
     app.add_option("--extend-min-gain",extend_min_gain,"With --extend: keep cutting only while a commit removes at least this share of the next window's predicted top-dimension work");
+    bool fiber_risk=false;
+    app.add_flag("--fiber-risk",fiber_risk,"With --live-guard --max-dim 3: drop supports whose three-block fiber carries a void");
     bool extend_cost_rule=false;
     app.add_flag("--extend-cost-rule",extend_cost_rule,"With --extend: keep cutting only while the next cut is predicted to save more work than its extra window costs");
     app.add_flag("--birth-repair",birth_repair,"Keep the pre-quotient birth of a class alive across a quotient; veto a quotient two classes of one dimension would survive");
@@ -985,7 +990,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard,live_guard_extend,extend_gate,extend_commit_once,extend_min_gain,extend_cost_rule);
+                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard,live_guard_extend,extend_gate,extend_commit_once,extend_min_gain,extend_cost_rule,fiber_risk);
     }
     catch (const CLI::ParseError& err)
     {

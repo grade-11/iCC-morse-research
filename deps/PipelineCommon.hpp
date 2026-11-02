@@ -72,6 +72,8 @@ struct PipelineConfig
     // i.e. the share g of predicted work the commit removed, applied to the final window, exceeds the
     // predicted work of the extra window up to the next cut. Parameter free; adapts to max dimension.
     bool extend_cost_rule = false;
+    // With live_guard at max-dim 3: drop proposed supports whose three-block fiber carries a void.
+    bool fiber_risk = false;
 
     void validate() const;
 

@@ -1,5 +1,6 @@
 #include "DependencySupportPostProcessor.hpp"
 #include "H1EdgeRisk.hpp"
+#include "FiberRisk.hpp"
 #include "PackDmtPayback.hpp"
 #include "GeometryShadow.hpp"
 #include "PolicyCostLog.hpp"
@@ -252,6 +253,23 @@ std::size_t DependencySupportPostProcessor::processPwph(
             new_absorbed_labels.clear();
             for(const auto& pv:selected_pvs)new_absorbed_labels.insert(pv.representatives.begin(),pv.representatives.end());
         }
+    }
+    // Three-block fiber check for H2, after the pair filter above.
+    if(cfg.fiber_risk && !selected_pvs.empty() && batch.protected_labels.empty())
+    {
+        const auto fiber=FiberRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon());
+        const auto drops=FiberRisk::greedyDrops(fiber,selected_pvs.size());
+        std::vector<bool> kept(selected_pvs.size(),true);for(size_t id:drops)kept[id]=false;
+        std::vector<SelectedPV> remaining;
+        for(size_t id=0;id<selected_pvs.size();++id)if(kept[id])remaining.push_back(std::move(selected_pvs[id]));
+        selected_pvs=std::move(remaining);
+        new_absorbed_labels.clear();
+        for(const auto& pv:selected_pvs)new_absorbed_labels.insert(pv.representatives.begin(),pv.representatives.end());
+        std::cout<<std::setprecision(17)<<"[fiber-risk] epsilon="<<eps_hi<<" blocks="<<fiber.blocks.size()
+            <<" triples="<<fiber.triples<<" warnings="<<fiber.warnings.size()<<" removed="<<drops.size()
+            <<" kept="<<selected_pvs.size()<<" seconds="<<fiber.seconds;
+        for(const auto& w:fiber.warnings)std::cout<<" void@"<<w.epsilon;
+        std::cout<<'\n'<<std::setprecision(6);
     }
     const size_t retained_count=selected_pvs.size();
     uint64_t retained_hash=1469598103934665603ULL;
