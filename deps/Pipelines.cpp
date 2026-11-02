@@ -20,6 +20,8 @@
 #include <fstream>
 #include <bit>
 #include <algorithm>
+#include <optional>
+#include <stdexcept>
 
 
 namespace
@@ -334,6 +336,16 @@ void PwphPipeline::run()
     };
     std::vector<Observation> observations;
     std::vector<bool> guard_quotients;
+    // Birth repair. After a quotient at q the next window is rebuilt from scale zero, and the
+    // witness weights preserve the filtration only from q on, so a class alive across q is
+    // re-born in the quotient complex at a wrong scale below q. Its death is unaffected. With at
+    // most one such class per dimension the class is identified by its new birth lying below q,
+    // and the birth seen before the quotient is printed instead.
+    std::vector<std::optional<double>> carried_birth(config.maxdim+1);
+    std::vector<std::size_t> carried_seen(config.maxdim+1);
+    std::vector<bool> carried_died(config.maxdim+1);
+    std::vector<std::vector<double>> live_births(config.maxdim+1);
+    double repair_cut=-1;
     double eps_lo = 0.0;
     double eps_hi = defer_retry_enabled?defer_retry_controller.first:growth_enabled?growth_controller.first:rank_enabled?rank_controller.first:config.eps_breaks.front();
     for (std::size_t window_index = 0;; ++window_index)
@@ -388,6 +400,10 @@ void PwphPipeline::run()
                       << " edges_ms=" << edges_ms << '\n';
         }
 
+        if(config.birth_repair)
+            for(std::size_t d=0;d<=config.maxdim;++d)
+            {carried_seen[d]=0;carried_died[d]=false;live_births[d].clear();}
+
         DependencySupportBatch support_batch;
         {
             const auto frame_start = Clock::now();
@@ -434,10 +450,25 @@ void PwphPipeline::run()
                             continue;
                         }
 
+                        PersistentPairInfo shown = pair;
+                        if (config.birth_repair)
+                        {
+                            const std::size_t d = frame.dimension();
+                            if (repair_cut >= 0.0 && pair.facet_weight < repair_cut)
+                            {
+                                if (!carried_birth[d] || ++carried_seen[d] > 1)
+                                    throw std::runtime_error("birth repair: unexpected class born before the last quotient");
+                                shown.facet_weight = *carried_birth[d];
+                                carried_died[d] = pair.cofacet_weight >= 0.0;
+                            }
+                            if (pair.cofacet_weight < 0.0)
+                                live_births[d].push_back(shown.facet_weight);
+                        }
+
                         if (config.verbose)
                         {
                             printPersistencePair(
-                                pair,
+                                shown,
                                 runtime_.binomialTable(),
                                 frame.dimension(),
                                 window_state_.totalLabelCount());
@@ -445,7 +476,7 @@ void PwphPipeline::run()
                         else
                         {
                             std::cout << frame.dimension() << ", ";
-                            printBirthDeath(pair);
+                            printBirthDeath(shown);
                             std::cout << '\n';
                         }
 
@@ -476,6 +507,13 @@ void PwphPipeline::run()
         }
 
         observation.protected_count=support_batch.protected_labels.size();
+        if(config.birth_repair)
+            for(std::size_t d=0;d<=config.maxdim;++d)
+            {
+                if(carried_birth[d] && carried_seen[d]!=1)
+                    throw std::runtime_error("birth repair: class alive across the last quotient is missing");
+                if(carried_died[d])carried_birth[d].reset();
+            }
         // DimensionFrame was the final consumer of this window's geometry.
         // Support postprocessing needs persistent labels/PVs and eps_hi only.
         window_state_.invalidateCurrentWindow();
@@ -567,6 +605,15 @@ void PwphPipeline::run()
         // suppress only the second nonfinal action after common guard checks.
         if(retry_control_enabled && window_index==1)
         {do_quotient=false;retry_control_forced_defer=true;}
+        if(config.birth_repair)
+        {
+            bool crowded=false;
+            for(const auto& births:live_births)crowded=crowded || births.size()>1;
+            if(crowded)do_quotient=false;
+            std::cout<<"[birth-repair] epsilon="<<std::setprecision(17)<<bounds.eps_hi<<std::setprecision(6)<<" live=";
+            for(std::size_t d=2;d<=config.maxdim;++d)std::cout<<(d>2?",":"")<<live_births[d].size();
+            std::cout<<" action="<<(crowded?"VETO":"ALLOW")<<'\n';
+        }
         observation.action=do_quotient?"QUOTIENT":"DEFER";
         if(guard_enabled)guard_quotients.push_back(do_quotient);
         if(geometry_shadow)geometry_shadow->firstDecision(bounds.eps_hi,do_quotient,
@@ -575,6 +622,12 @@ void PwphPipeline::run()
         if (do_quotient)
         {
             const auto committed=support_processor_.processPwph(runtime_,window_state_,bounds.eps_hi,std::move(support_batch));
+            if(config.birth_repair && committed)
+            {
+                repair_cut=bounds.eps_hi;
+                for(std::size_t d=0;d<=config.maxdim;++d)
+                    carried_birth[d]=live_births[d].empty()?std::nullopt:std::optional<double>(live_births[d].front());
+            }
             if(committed){
                 if(policy_cost)policy_cost->mark("BINOMIAL_BEGIN");
                 const auto bookkeeping_start=Clock::now();

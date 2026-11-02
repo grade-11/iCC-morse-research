@@ -53,6 +53,9 @@ struct PipelineConfig
     std::string extend_dump;
     bool extend_force_chain = false;
     bool extend_direct_probe = false;
+    // Keep the pre-quotient birth of a class alive across a quotient; veto a quotient
+    // that two classes of one dimension would survive.
+    bool birth_repair = false;
 
     void validate() const;
 
