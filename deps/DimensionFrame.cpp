@@ -83,6 +83,41 @@ DimensionFrame::InterfaceWorkspace::InterfaceWorkspace(
     cofacet_mates.assign(cofacets.size(), UNMATCHED);
 }
 
+std::unique_ptr<DimensionFrame> DimensionFrame::retainedUpperFrame(const DimensionFrame& lower)
+{
+    return std::unique_ptr<DimensionFrame>(new DimensionFrame(UpperFrameTag{}, lower));
+}
+
+DimensionFrame::DimensionFrame(UpperFrameTag, const DimensionFrame& lower)
+    : runtime_(lower.runtime_),
+      window_(lower.window_),
+      binomial_table_(lower.binomial_table_),
+      dimension_(3),
+      retain_for_extension_(true),
+      extension_hi_(lower.extension_hi_),
+      simplex_enumerator_(lower.runtime_.distanceMatrix(), lower.binomial_table_),
+      facet_list_(lower.cofacet_list_)
+{
+    if (lower.dimension_ != 2 || !lower.retain_for_extension_ || !lower.extension_matched_ ||
+        !lower.interface_workspace_ || runtime_.config().maxdim != 3)
+    {
+        throw std::logic_error("EXTEND tetrahedra require a matched retained edge frame at max dimension 3.");
+    }
+    // Facets are all triangles, as after advance(); the active ones are those
+    // the edge frame left unmatched. Tetrahedra dominate memory, so their lists
+    // grow tail by tail instead of reserving a multiple up front.
+    const auto& lower_mates = lower.interface_workspace_->cofacet_mates;
+    active_facet_index_.reserve(static_cast<std::size_t>(
+        std::count(lower_mates.begin(), lower_mates.end(), InterfaceWorkspace::UNMATCHED)));
+    for (std::size_t i = 0; i < facet_list_.size(); ++i)
+    {
+        if (lower_mates[i] == InterfaceWorkspace::UNMATCHED)
+            active_facet_index_.emplace(facet_list_[i].first, i);
+    }
+    simplex_enumerator_.appendFirstWindowTetrahedronTail(
+        lower.facet_list_, 0.0, extension_hi_, runtime_.config().threads, cofacet_list_);
+}
+
 DimensionFrame::DimensionFrame(
     const PipelineRuntime& runtime,
     const WindowState& window,
@@ -98,12 +133,15 @@ DimensionFrame::DimensionFrame(
       facet_list_(std::move(prepared_edges))
 {
     if (retain_for_extension_ &&
-        (runtime.mode() != PipelineMode::PwPH || runtime.config().maxdim != 2 ||
+        (runtime.mode() != PipelineMode::PwPH || runtime.config().maxdim < 2 ||
+         runtime.config().maxdim > 3 ||
          window.bounds().eps_lo != 0.0 || !window.pseudoVertices().empty() ||
          window.activeLabels().size() != window.originalVertexCount()))
     {
-        throw std::invalid_argument("EXTEND is restricted to the first PwPH H1 frame without PVs.");
+        throw std::invalid_argument("EXTEND is restricted to the first PwPH frame without PVs, max dimension 2 or 3.");
     }
+    if (retain_for_extension_)
+        extension_reserve_factor_ = EXTENSION_RESERVE_FACTOR;
     buildInitialActiveFacetIndex();
 
     if (dimension_ >= 2)
@@ -113,8 +151,8 @@ DimensionFrame::DimensionFrame(
         enumerateInitialCofacets();
         if (retain_for_extension_)
         {
-            facet_list_.reserve(EXTENSION_RESERVE_FACTOR * facet_list_.size());
-            cofacet_list_.reserve(EXTENSION_RESERVE_FACTOR * cofacet_list_.size());
+            facet_list_.reserve(extension_reserve_factor_ * facet_list_.size());
+            cofacet_list_.reserve(extension_reserve_factor_ * cofacet_list_.size());
         }
         const auto cofacets_end = Clock::now();
 
@@ -248,12 +286,13 @@ void DimensionFrame::enumerateInitialCofacets()
 
     // A window without pseudo vertices is a plain VR prefix. Enumerating each
     // triangle from its longest edge yields the same sorted list faster than the
-    // geometric enumerator. The EXTEND direct probe keeps the geometric path as
-    // an independent oracle for the extension gate.
+    // geometric enumerator. The EXTEND direct probe, and every non-retained
+    // frame under the live-guard EXTEND gate, keep the geometric path as an
+    // independent oracle for the extension gate.
     if (runtime_.mode() == PipelineMode::PwPH && dimension_ == 2 &&
         window_.pseudoVertices().empty() &&
         window_.activeLabels().size() == window_.originalVertexCount() &&
-        !config.extend_direct_probe)
+        !config.extend_direct_probe && !(config.extend_gate && !retain_for_extension_))
     {
         cofacet_list_.clear();
         simplex_enumerator_.appendFirstWindowTriangleTail(
@@ -442,6 +481,7 @@ void DimensionFrame::extendTo(const double eps_hi)
         extension_hi_, eps_hi, runtime_.config().threads);
     const std::size_t old_facet_count = facet_list_.size();
     const std::size_t old_cofacet_count = cofacet_list_.size();
+    extension_facet_tail_ = old_facet_count;
     // Old lists are strict filtration prefixes, so every old rank stays fixed.
     simplex_enumerator_.appendFirstWindowTriangleTail(
         new_edges, extension_hi_, eps_hi, runtime_.config().threads, cofacet_list_);
@@ -468,6 +508,50 @@ void DimensionFrame::extendTo(const double eps_hi)
         }
     }
 
+    resumeExtension(old_cofacet_count, eps_hi);
+}
+
+void DimensionFrame::extendWith(const DimensionFrame& lower)
+{
+    if (dimension_ != 3 || !retain_for_extension_ || !extension_matched_ || !interface_workspace_ ||
+        lower.dimension_ != 2 || !lower.interface_workspace_ ||
+        !(lower.extension_hi_ > extension_hi_) || window_.bounds().eps_hi != lower.extension_hi_ ||
+        lower.cofacet_list_.size() < facet_list_.size())
+    {
+        throw std::logic_error("EXTEND tetrahedra follow their edge frame to its larger cut.");
+    }
+    const double eps_hi = lower.extension_hi_;
+    const auto& lower_mates = lower.interface_workspace_->cofacet_mates;
+    // A resumed H1 reduction reaches appended triangles only, so every old
+    // triangle keeps the status it had when this frame last matched.
+    for (const auto& [bindex, rank] : active_facet_index_)
+    {
+        if (lower_mates[rank] != InterfaceWorkspace::UNMATCHED)
+            throw std::logic_error("EXTEND: an old active triangle became matched in the edge frame.");
+    }
+
+    const std::size_t old_facet_count = facet_list_.size();
+    const std::size_t old_cofacet_count = cofacet_list_.size();
+    facet_list_.insert(facet_list_.end(),
+        lower.cofacet_list_.begin() + static_cast<std::ptrdiff_t>(old_facet_count), lower.cofacet_list_.end());
+    for (std::size_t i = old_facet_count; i < facet_list_.size(); ++i)
+    {
+        if (lower_mates[i] == InterfaceWorkspace::UNMATCHED)
+            active_facet_index_.emplace(facet_list_[i].first, i);
+    }
+    const std::span<const SimplexRecord> new_edges(
+        lower.facet_list_.data() + lower.extension_facet_tail_,
+        lower.facet_list_.size() - lower.extension_facet_tail_);
+    simplex_enumerator_.appendFirstWindowTetrahedronTail(
+        new_edges, extension_hi_, eps_hi, runtime_.config().threads, cofacet_list_);
+    constexpr std::size_t max_mate_count = InterfaceWorkspace::UNMATCHED;
+    if (facet_list_.size() > max_mate_count || cofacet_list_.size() > max_mate_count)
+        throw std::overflow_error("EXTEND exceeds the uint32_t mate capacity.");
+    resumeExtension(old_cofacet_count, eps_hi);
+}
+
+void DimensionFrame::resumeExtension(const std::size_t old_cofacet_count, const double eps_hi)
+{
     auto& workspace = *interface_workspace_;
     workspace.facet_mates.resize(facet_list_.size(), InterfaceWorkspace::UNMATCHED);
     workspace.cofacet_mates.resize(cofacet_list_.size(), InterfaceWorkspace::UNMATCHED);
@@ -655,8 +739,8 @@ void DimensionFrame::initializeInterfaceWorkspace()
     {
         interface_workspace_.emplace(
             cofacet_list_, facet_list_.size(),
-            EXTENSION_RESERVE_FACTOR * facet_list_.size(),
-            EXTENSION_RESERVE_FACTOR * cofacet_list_.size());
+            extension_reserve_factor_ * facet_list_.size(),
+            extension_reserve_factor_ * cofacet_list_.size());
     }
     else
     {

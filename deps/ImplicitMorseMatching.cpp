@@ -438,18 +438,18 @@ void ImplicitMorseMatching::collectLiveReductionTail(
     for (const auto reducer : live.reducer_facets)
     {
         const auto& vertices = workspace.vertex_workspace;
-        double edge_weight = 0.0;
+        // In a first window without PVs a facet weighs its longest edge.
+        const double facet_weight = frame.facet_list_[reducer].second;
         // Only appended cofacets, weight in [eps_lo, eps_hi), can be new.
-        // The weight filter is exact for this H1 frame without PVs; the rank
+        // The weight filter is exact for this frame without PVs; the rank
         // lookup still decides membership, as in collectImmediateCofacetRanks.
         const auto collect_appended_cofacet =
             [&](const std::size_t covertex,
                 const std::int64_t candidate_bindex) -> bool
         {
-            const double weight = std::max(
-                {edge_weight,
-                 distance_matrix.distance(vertices[0], covertex),
-                 distance_matrix.distance(vertices[1], covertex)});
+            double weight = facet_weight;
+            for (const std::size_t vertex : vertices)
+                weight = std::max(weight, distance_matrix.distance(vertex, covertex));
             if (!(weight >= live.eps_lo && weight < eps_hi))
                 return false;
 
@@ -465,14 +465,6 @@ void ImplicitMorseMatching::collectLiveReductionTail(
             }
             return false;
         };
-
-        SimplexUtility::getSimplexVerticesInPlace(
-            frame.binomial_table_,
-            workspace.vertex_workspace,
-            frame.facet_list_[reducer].first,
-            frame.window_.totalLabelCount(),
-            frame.dimension_ - 1);
-        edge_weight = distance_matrix.distance(vertices[0], vertices[1]);
 
         SimplexUtility::forEachImmediateCofacetInBindexOrder(
             frame.binomial_table_,

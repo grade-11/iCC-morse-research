@@ -635,7 +635,9 @@ int runTool(const std::string& tool,
             const bool extend_force_chain = false,
             const bool extend_direct_probe = false,
             const bool birth_repair = false,
-            const bool live_guard = false)
+            const bool live_guard = false,
+            const bool live_guard_extend = false,
+            const bool extend_gate = false)
 {
     const std::string normalized_tool = normalizeTool(tool);
     if(ac_policy=="guard-extend-ladder" || extend_direct_probe || extend_force_chain || !extend_dump.empty())
@@ -647,6 +649,11 @@ int runTool(const std::string& tool,
     if((birth_repair || live_guard) && (normalized_tool!=PIECEWISE_PH_TOOL || !ac_policy.empty() || !h1_risk.empty() || adaptive ||
         !g_model.empty() || geometry_cuts || !pack_mode.empty() || !quotient_mask.empty() || eps_breaks.empty()))
         throw std::invalid_argument("--birth-repair and --live-guard require plain piecewise with explicit --eps-breaks");
+    if((live_guard_extend || extend_gate) && (!live_guard || maxdim<2 || maxdim>3 || eps_interval_count || ac_auto_cutoff>0 ||
+        stop_after_window || cost_telemetry))
+        throw std::invalid_argument("--extend requires --live-guard, --max-dim 2 or 3 and explicit --eps-breaks only");
+    if(extend_gate && !live_guard_extend)
+        throw std::invalid_argument("--extend-gate requires --extend");
     if(h1_realizations && normalized_tool!=PIECEWISE_PH_TOOL)
         throw std::invalid_argument("H1 realization diagnostics require piecewise");
     if((geometry_cuts || !h1_risk.empty()) && (normalized_tool!=PIECEWISE_PH_TOOL || maxdim!=2))
@@ -767,7 +774,8 @@ int runTool(const std::string& tool,
         .full_endpoint = packing.full_endpoint, .calibration_targets = calibration_targets,
         .payback_aL = packing.model.aL, .payback_aM = packing.model.aM, .payback_bC = packing.model.bC,
         .extend_dump = extend_dump, .extend_force_chain = extend_force_chain,
-        .extend_direct_probe = extend_direct_probe, .birth_repair = birth_repair || live_guard, .live_guard = live_guard};
+        .extend_direct_probe = extend_direct_probe, .birth_repair = birth_repair || live_guard, .live_guard = live_guard,
+        .live_guard_extend = live_guard_extend, .extend_gate = extend_gate};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -884,6 +892,9 @@ int runCommandLine(int argc, char** argv)
     app.add_flag("--extend-direct-probe",extend_direct_probe,"Gate-only fresh first-window oracle using ordinary matching; requires --extend-dump");
     bool birth_repair=false,live_guard=false;
     app.add_flag("--live-guard",live_guard,"Veto every quotient while any class of any dimension is alive at the cut");
+    bool live_guard_extend=false,extend_gate=false;
+    app.add_flag("--extend",live_guard_extend,"With --live-guard: retain the first window across vetoed cuts and extend it to the next cut");
+    app.add_flag("--extend-gate",extend_gate,"Gate only: with --extend, extend through every cut and compare with a direct window at each");
     app.add_flag("--birth-repair",birth_repair,"Keep the pre-quotient birth of a class alive across a quotient; veto a quotient two classes of one dimension would survive");
     double ac_auto_cutoff=0;
     size_t geometry_cuts=0;
@@ -955,7 +966,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard);
+                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard,live_guard_extend,extend_gate);
     }
     catch (const CLI::ParseError& err)
     {

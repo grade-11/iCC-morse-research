@@ -348,7 +348,18 @@ void PwphPipeline::run()
     double repair_cut=-1;
     double eps_lo = 0.0;
     double eps_hi = defer_retry_enabled?defer_retry_controller.first:growth_enabled?growth_controller.first:rank_enabled?rank_controller.first:config.eps_breaks.front();
-    for (std::size_t window_index = 0;; ++window_index)
+    std::size_t first_window_index = 0;
+    if(config.live_guard_extend)
+    {
+        const auto committed_cut = runLiveGuardExtendPrefix();
+        if(!committed_cut)
+            return;
+        // Nothing was alive at the committed cut; the repair checks stay armed.
+        first_window_index = *committed_cut + 1;
+        repair_cut = eps_lo = config.eps_breaks[*committed_cut];
+        eps_hi = config.eps_breaks[first_window_index];
+    }
+    for (std::size_t window_index = first_window_index;; ++window_index)
     {
         if(geometry_shadow)geometry_shadow->noteWindow();
         const WindowBounds bounds{

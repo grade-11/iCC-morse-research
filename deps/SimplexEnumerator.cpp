@@ -9,6 +9,39 @@
 #include "SimplexUtility.hpp"
 #include "WindowState.hpp"
 
+namespace
+{
+// Same sort and sequential inplace_merge as sortAndMergeSimplexChunks, but
+// merged on the tail of `out` so the list is not copied a second time.
+std::size_t appendSortedChunks(std::vector<SimplexList>& chunks, const int worker_count, SimplexList& out)
+{
+    const auto sort_lambda = [](const auto& lhs, const auto& rhs)
+    { return (lhs.second < rhs.second) || ((lhs.second == rhs.second) && (lhs.first < rhs.first)); };
+#pragma omp parallel for schedule(dynamic) num_threads(worker_count)
+    for (std::size_t c = 0; c < chunks.size(); ++c)
+        std::sort(chunks[c].begin(), chunks[c].end(), sort_lambda);
+    std::size_t total = 0;
+    for (const auto& chunk : chunks)
+        total += chunk.size();
+    const std::size_t base = out.size();
+    out.reserve(base + total);
+    for (auto& chunk : chunks)
+    {
+        if (chunk.empty())
+            continue;
+        const std::size_t range_begin = out.size();
+        out.insert(out.end(), chunk.begin(), chunk.end());
+        SimplexList().swap(chunk);
+        std::inplace_merge(out.begin() + static_cast<std::ptrdiff_t>(base),
+                           out.begin() + static_cast<std::ptrdiff_t>(range_begin),
+                           out.end(), sort_lambda);
+    }
+    out.erase(std::unique(out.begin() + static_cast<std::ptrdiff_t>(base), out.end(),
+        [](const auto& lhs, const auto& rhs) { return lhs.first == rhs.first; }), out.end());
+    return out.size() - base;
+}
+}
+
 std::vector<std::pair<int64_t, double>> SimplexEnumerator::getSortedVREdges(const double maxeps)
 {
     //********************use openmp later************************//
@@ -101,32 +134,60 @@ std::size_t SimplexEnumerator::appendFirstWindowTriangleTail(
             chunk.emplace_back(triangle_bindex, edge_weight);
         }
     }
-    // Same sort and sequential inplace_merge as sortAndMergeSimplexChunks, but
-    // merged on the tail of `out` so the list is not copied a second time.
-    const auto sort_lambda = [](const auto& lhs, const auto& rhs)
-    { return (lhs.second < rhs.second) || ((lhs.second == rhs.second) && (lhs.first < rhs.first)); };
+    return appendSortedChunks(chunks, worker_count, out);
+}
+
+std::size_t SimplexEnumerator::appendFirstWindowTetrahedronTail(
+    const std::span<const SimplexRecord> new_edges, const double eps_lo, const double eps_hi,
+    const int threads, SimplexList& out)
+{
+    const int worker_count = threads > 0 ? threads : 1;
+    std::vector<SimplexList> chunks(static_cast<std::size_t>(worker_count));
+    std::vector<std::vector<std::size_t>> candidates(static_cast<std::size_t>(worker_count));
+    const std::size_t n = distance_matrix_.vertexCount();
 #pragma omp parallel for schedule(dynamic) num_threads(worker_count)
-    for (std::size_t c = 0; c < chunks.size(); ++c)
-        std::sort(chunks[c].begin(), chunks[c].end(), sort_lambda);
-    std::size_t total = 0;
-    for (const auto& chunk : chunks)
-        total += chunk.size();
-    const std::size_t base = out.size();
-    out.reserve(base + total);
-    for (auto& chunk : chunks)
+    for (std::size_t i = 0; i < new_edges.size(); ++i)
     {
-        if (chunk.empty())
+        const auto thread_id = static_cast<std::size_t>(omp_get_thread_num());
+        auto& chunk = chunks[thread_id];
+        auto& below = candidates[thread_id];
+        const auto& [edge_bindex, edge_weight] = new_edges[i];
+        if (!(edge_weight > 0.0 && edge_weight >= eps_lo && edge_weight < eps_hi))
             continue;
-        const std::size_t range_begin = out.size();
-        out.insert(out.end(), chunk.begin(), chunk.end());
-        SimplexList().swap(chunk);
-        std::inplace_merge(out.begin() + static_cast<std::ptrdiff_t>(base),
-                           out.begin() + static_cast<std::ptrdiff_t>(range_begin),
-                           out.end(), sort_lambda);
+        const auto endpoints = SimplexUtility::getSimplexVertices(binomial_table_, edge_bindex, n, 1);
+        // As in the triangle tail, every admitted tetrahedron is owned by its
+        // maximum edge under the (weight, bindex) order.
+        const auto precedes = [&](const std::size_t a, const std::size_t b)
+        {
+            const double weight = distance_matrix_.distance(a, b);
+            return weight < edge_weight ||
+                   (weight == edge_weight && SimplexUtility::getEdgeBinomialIndex(binomial_table_, a, b) < edge_bindex);
+        };
+        below.clear();
+        for (std::size_t w = 0; w < n; ++w)
+        {
+            if (w != endpoints[0] && w != endpoints[1] && precedes(endpoints[0], w) && precedes(endpoints[1], w))
+                below.push_back(w);
+        }
+        for (std::size_t p = 0; p < below.size(); ++p)
+        {
+            for (std::size_t q = p + 1; q < below.size(); ++q)
+            {
+                if (!precedes(below[p], below[q]))
+                    continue;
+                std::array<std::size_t, 4> labels{endpoints[0], endpoints[1], below[p], below[q]};
+                std::sort(labels.begin(), labels.end(), std::greater<std::size_t>{});
+                // Direct tetrahedra are cofacets of the triangle on their three
+                // largest labels, which is owned by the edge on its two largest.
+                if (!(distance_matrix_.distance(labels[0], labels[1]) > 0.0))
+                    continue;
+                const auto tetrahedron_bindex = binomial_table_[labels[0]][4] + binomial_table_[labels[1]][3] +
+                    binomial_table_[labels[2]][2] + labels[3];
+                chunk.emplace_back(tetrahedron_bindex, edge_weight);
+            }
+        }
     }
-    out.erase(std::unique(out.begin() + static_cast<std::ptrdiff_t>(base), out.end(),
-        [](const auto& lhs, const auto& rhs) { return lhs.first == rhs.first; }), out.end());
-    return out.size() - base;
+    return appendSortedChunks(chunks, worker_count, out);
 }
 
 SimplexList SimplexEnumerator::getFirstWindowTriangleTail(

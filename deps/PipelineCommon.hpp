@@ -58,6 +58,10 @@ struct PipelineConfig
     bool birth_repair = false;
     // Veto every quotient while any class of any dimension is alive (implies birth_repair's checks).
     bool live_guard = false;
+    // With live_guard: retain the first window across vetoed cuts and extend it.
+    bool live_guard_extend = false;
+    // Gate only: extend through every cut and compare with a direct window at each.
+    bool extend_gate = false;
 
     void validate() const;
 

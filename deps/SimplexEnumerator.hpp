@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <span>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -32,6 +33,10 @@ public:
     // Same tail, merged in filtration order directly onto the end of `out`.
     std::size_t appendFirstWindowTriangleTail(
         const SimplexList& new_edges, double eps_lo, double eps_hi, int threads,
+        SimplexList& out);
+    // Tetrahedra whose maximum edge is one of `new_edges`, merged the same way.
+    std::size_t appendFirstWindowTetrahedronTail(
+        std::span<const SimplexRecord> new_edges, double eps_lo, double eps_hi, int threads,
         SimplexList& out);
 
     std::vector<std::pair<int64_t, double>> getSortedVRCofacets(const std::vector<std::pair<int64_t, double>>& sorted_simplex, const size_t dim, const double maxeps, const int threadnum);

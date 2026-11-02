@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <memory>
 #include <optional>
 #include <unordered_map>
 #include <unordered_set>
@@ -31,12 +32,18 @@ public:
     DimensionFrame(DimensionFrame&&) = delete;
     DimensionFrame& operator=(DimensionFrame&&) = delete;
 
+    // EXTEND at max dimension 3: the retained triangle->tetrahedron frame over a
+    // matched retained edge->triangle frame. Extend `lower` first, then this frame.
+    [[nodiscard]]
+    static std::unique_ptr<DimensionFrame> retainedUpperFrame(const DimensionFrame& lower);
+
     // Match once per dimension, consume the results, then call advance().
     // Continue matching only if advance() returns true.
     void matchPersistence(bool collect_dependency_support);
-    // First-window H1 only. Retain the matching workspace across larger cuts.
+    // First PwPH window only. Retain the matching workspace across larger cuts.
     void matchPersistenceForExtension(bool collect_dependency_support = true);
     void extendTo(double eps_hi);
+    void extendWith(const DimensionFrame& lower);
     [[nodiscard]] DependencySupportBatch snapshotDependencySupportBatch() const;
     void traceComplex() const;
     void matchApparentPairsOnly();
@@ -72,6 +79,19 @@ public:
     std::size_t cofacetCount() const noexcept
     {
         return cofacet_list_.size();
+    }
+
+    // Gate-only views of the filtration-ordered lists.
+    [[nodiscard]]
+    const SimplexList& facetList() const noexcept
+    {
+        return facet_list_;
+    }
+
+    [[nodiscard]]
+    const SimplexList& cofacetList() const noexcept
+    {
+        return cofacet_list_;
     }
 
     [[nodiscard]]
@@ -213,6 +233,10 @@ private:
     bool retain_for_extension_ = false;
     bool extension_matched_ = false;
     double extension_hi_ = 0.0;
+    // Capacity reserved for later tails, as a multiple of the first window.
+    std::size_t extension_reserve_factor_ = 1;
+    // First facet appended by the latest extendTo(); the edge tail for tetrahedra.
+    std::size_t extension_facet_tail_ = 0;
 
     SimplexEnumerator simplex_enumerator_;
 
@@ -238,6 +262,12 @@ private:
     std::optional<FfiRealizationState> ffi_realizations_;
     std::optional<InterfaceWorkspace> interface_workspace_;
 
+    struct UpperFrameTag
+    {
+    };
+    DimensionFrame(UpperFrameTag, const DimensionFrame& lower);
+
+    void resumeExtension(std::size_t old_cofacet_count, double eps_hi);
     void buildInitialActiveFacetIndex();
     void enumerateInitialCofacets();
     SimplexList enumerateNextCofacets(

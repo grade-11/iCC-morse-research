@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstddef>
+#include <optional>
+
 #include "DependencySupportPostProcessor.hpp"
 #include "PipelineCommon.hpp"
 #include "WindowState.hpp"
@@ -28,6 +31,7 @@ public:
 
 private:
     void runGuardExtendLadder();
+    std::optional<std::size_t> runLiveGuardExtendPrefix();
 
     PipelineRuntime runtime_;
     WindowState window_state_;
