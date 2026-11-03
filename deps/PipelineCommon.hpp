@@ -80,6 +80,10 @@ struct PipelineConfig
     // --shrink-risky: a support flagged by a risk filter loses only the part that carries the risk
     // (absorbed PVs whole) and is checked again, instead of being dropped.
     bool shrink_risky = false;
+    // With shrink_risky: before the fixed rule, try removing a single unit of the offered part.
+    bool shrink_search = false;
+    // With shrink_risky: choose the drops for both filters together, weighted by support size.
+    bool joint_drops = false;
 
     void validate() const;
 

@@ -643,7 +643,9 @@ int runTool(const std::string& tool,
             const bool extend_cost_rule = false,
             const bool fiber_risk = false,
             const bool absorb_pv = false,
-            const bool shrink_risky = false)
+            const bool shrink_risky = false,
+            const bool shrink_search = false,
+            const bool joint_drops = false)
 {
     const std::string normalized_tool = normalizeTool(tool);
     if(ac_policy=="guard-extend-ladder" || extend_direct_probe || extend_force_chain || !extend_dump.empty())
@@ -667,6 +669,8 @@ int runTool(const std::string& tool,
         throw std::invalid_argument("--extend-min-gain requires --extend, no --extend-commit-once, and a value in (0, 1)");
     if(fiber_risk && (!live_guard || maxdim!=3))
         throw std::invalid_argument("--fiber-risk requires --live-guard and --max-dim 3");
+    if((shrink_search || joint_drops) && !shrink_risky)
+        throw std::invalid_argument("--shrink-search and --joint-drops require --shrink-risky");
     if(shrink_risky && h1_risk!="selective-fast")
         throw std::invalid_argument("--shrink-risky requires --h1-risk selective-fast");
     if(absorb_pv && (!live_guard || pv_min_separation>0))
@@ -798,7 +802,8 @@ int runTool(const std::string& tool,
         .live_guard_extend = live_guard_extend, .extend_gate = extend_gate,
         .extend_commit_once = extend_commit_once, .extend_min_gain = extend_min_gain,
         .extend_cost_rule = extend_cost_rule, .fiber_risk = fiber_risk, .absorb_pv = absorb_pv,
-        .shrink_risky = shrink_risky};
+        .shrink_risky = shrink_risky, .shrink_search = shrink_search,
+        .joint_drops = joint_drops};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -928,6 +933,10 @@ int runCommandLine(int argc, char** argv)
     app.add_flag("--absorb-pv",absorb_pv,"With --live-guard: a support may absorb existing PVs; its flattened vertex set forms one new PV");
     bool shrink_risky=false;
     app.add_flag("--shrink-risky",shrink_risky,"With --h1-risk selective-fast: shrink a flagged support to its safe part instead of dropping it");
+    bool shrink_search=false;
+    app.add_flag("--shrink-search",shrink_search,"With --shrink-risky: first try removing a single unit of the offered part");
+    bool joint_drops=false;
+    app.add_flag("--joint-drops",joint_drops,"With --shrink-risky: choose drops for both filters together, weighted by support size");
     bool extend_cost_rule=false;
     app.add_flag("--extend-cost-rule",extend_cost_rule,"With --extend: keep cutting only while the next cut is predicted to save more work than its extra window costs");
     app.add_flag("--birth-repair",birth_repair,"Keep the pre-quotient birth of a class alive across a quotient; veto a quotient two classes of one dimension would survive");
@@ -1001,7 +1010,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard,live_guard_extend,extend_gate,extend_commit_once,extend_min_gain,extend_cost_rule,fiber_risk,absorb_pv,shrink_risky);
+                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard,live_guard_extend,extend_gate,extend_commit_once,extend_min_gain,extend_cost_rule,fiber_risk,absorb_pv,shrink_risky,shrink_search,joint_drops);
     }
     catch (const CLI::ParseError& err)
     {

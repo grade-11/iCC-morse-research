@@ -27,21 +27,26 @@ std::unordered_set<std::size_t> absorbedLabels(const WindowState& window,const s
     return out;
 }
 
-// --shrink-risky. First the usual greedy drops (pair filter, then fiber filter), which leave a
-// clean set: a dropped support's vertices become singletons, which neither filter flags. Then
-// each dropped support is offered back, in drop order, as large a part as stays clean. Every
-// new warning involves the offered part, so only its pairs and triples are inspected. Pair
-// warning: the part keeps its crossing-graph component with the most of its vertices. Fiber
-// warning: the part loses its core vertices. Absorbed PVs go whole; a part with fewer than two
-// units is given up. Supports kept by plain dropping stay, so there are never more labels.
+// --shrink-risky. First drops that leave a clean set: the usual greedy drops (pair filter, then
+// fiber filter), or with `joint` (--joint-drops) one greedy pass over the warnings of both
+// filters, cheapest (size-1)/warnings first, then putting back any drop no warning needs. A
+// dropped support's vertices become singletons, which neither filter flags, but the old PVs it
+// absorbed become blocks again, so the set is inspected again until clean. Then each dropped
+// support is offered back, in drop order, as large a part as stays clean. Every new warning
+// involves the offered part, so only its pairs and triples are inspected. Pair warning: the
+// part keeps its crossing-graph component with the most of its vertices. Fiber warning: the
+// part loses its core vertices. With `search` (--shrink-search), each step first tries
+// removing a single unit, smallest first, and keeps the first part that passes. Absorbed PVs
+// go whole; a part with fewer than two units is given up. A last full inspection confirms the
+// result.
 struct ShrinkStats
 {
-    size_t pair_warnings=0,fiber_warnings=0,offered=0,restored=0,restored_vertices=0,checks=0;
+    size_t pair_warnings=0,fiber_warnings=0,late_drops=0,offered=0,offered_vertices=0,restored=0,restored_vertices=0,checks=0;
     double seconds=0;H1EdgeRisk::Result first_pair;std::vector<std::vector<size_t>> dropped;
 };
 
 ShrinkStats shrinkRisky(const DistanceMatrix& d,const WindowState& window,std::vector<SelectedPV>& selected,
-                        double q,double endpoint,bool fiber)
+                        double q,double endpoint,bool fiber,bool search,bool joint)
 {
     const auto start=std::chrono::steady_clock::now();ShrinkStats s;
     const size_t n=window.originalVertexCount();
@@ -58,57 +63,133 @@ ShrinkStats shrinkRisky(const DistanceMatrix& d,const WindowState& window,std::v
         for(size_t id=0;id<selected.size();++id)(gone[id]?dropped:kept).push_back(std::move(selected[id]));
         selected=std::move(kept);
     };
+    // Proposed supports (indices into `selected`) of every warning of both filters.
+    const auto warnings=[&](const H1EdgeRisk::Result& pr,const FiberRisk::Result& fr){
+        std::vector<std::vector<size_t>> sets;
+        for(const auto& w:pr.warnings){
+            sets.emplace_back();
+            for(size_t b:{w.lhs,w.rhs})if(pr.blocks[b].proposed)sets.back().push_back(pr.blocks[b].label-window.totalLabelCount());
+        }
+        for(const auto& w:fr.warnings){
+            sets.emplace_back();
+            for(size_t b:{w.a,w.b,w.c})if(fr.blocks[b].proposed)sets.back().push_back(fr.blocks[b].proposed_id);
+        }
+        return sets;
+    };
+    const auto jointDrops=[&](const std::vector<std::vector<size_t>>& sets){
+        std::vector<size_t> w(selected.size());
+        for(size_t p=0;p<selected.size();++p)w[p]=selected[p].representatives.size()-1;
+        std::vector<char> gone(selected.size(),0),live(sets.size(),1);size_t left=sets.size();
+        while(left){
+            std::vector<size_t> inc(selected.size(),0);
+            for(size_t k=0;k<sets.size();++k)if(live[k])for(size_t p:sets[k])++inc[p];
+            size_t best=selected.size();
+            for(size_t p=0;p<selected.size();++p)
+                if(inc[p] && (best==selected.size() || w[p]*inc[best]<w[best]*inc[p]))best=p;
+            if(best==selected.size())throw std::logic_error("Warning without a proposed support");
+            gone[best]=1;
+            for(size_t k=0;k<sets.size();++k)if(live[k] && std::count(sets[k].begin(),sets[k].end(),best)){live[k]=0;--left;}
+        }
+        std::vector<size_t> ids;for(size_t p=0;p<selected.size();++p)if(gone[p])ids.push_back(p);
+        std::stable_sort(ids.begin(),ids.end(),[&](size_t x,size_t y){return w[x]>w[y];});
+        for(size_t p:ids){
+            gone[p]=0;
+            for(const auto& set:sets)
+                if(std::count(set.begin(),set.end(),p) && std::none_of(set.begin(),set.end(),[&](size_t x){return gone[x];})){gone[p]=1;break;}
+        }
+        ids.clear();for(size_t p=0;p<selected.size();++p)if(gone[p])ids.push_back(p);
+        return ids;
+    };
+    const auto settle=[&]{
+        for(;;){
+            const auto pr=H1EdgeRisk::inspect(d,window,selected,q,endpoint);
+            const auto fr=fiber?FiberRisk::inspect(d,window,selected,q,endpoint):FiberRisk::Result{};
+            const auto sets=warnings(pr,fr);
+            if(sets.empty())return;
+            const auto ids=jointDrops(sets);s.late_drops+=ids.size();drop(ids);
+        }
+    };
     s.first_pair=H1EdgeRisk::inspect(d,window,selected,q,endpoint);
     s.pair_warnings=s.first_pair.warnings.size();
-    if(!s.first_pair.warnings.empty())drop(H1EdgeRisk::greedyDrops(s.first_pair,selected,window.totalLabelCount()));
-    if(fiber && !selected.empty()){
-        const auto f=FiberRisk::inspect(d,window,selected,q,endpoint);
-        s.fiber_warnings=f.warnings.size();
-        if(!f.warnings.empty())drop(FiberRisk::greedyDrops(f,selected.size()));
+    if(joint){
+        const auto fr=fiber?FiberRisk::inspect(d,window,selected,q,endpoint):FiberRisk::Result{};
+        s.fiber_warnings=fr.warnings.size();
+        drop(jointDrops(warnings(s.first_pair,fr)));
+    }else{
+        if(!s.first_pair.warnings.empty())drop(H1EdgeRisk::greedyDrops(s.first_pair,selected,window.totalLabelCount()));
+        if(fiber && !selected.empty()){
+            const auto f=FiberRisk::inspect(d,window,selected,q,endpoint);
+            s.fiber_warnings=f.warnings.size();
+            if(!f.warnings.empty())drop(FiberRisk::greedyDrops(f,selected.size()));
+        }
     }
+    settle();
     const auto units=[&](const std::vector<size_t>& vs){
         std::vector<size_t> u;for(auto v:vs)u.push_back(unit[v]);
         std::sort(u.begin(),u.end());return static_cast<size_t>(std::unique(u.begin(),u.end())-u.begin());
     };
-    for(auto& pv:dropped){
-        ++s.offered;
+    const auto without=[&](const std::vector<size_t>& part,const std::vector<size_t>& out){
+        std::vector<size_t> gone;for(auto v:out)gone.push_back(unit[v]);
+        std::sort(gone.begin(),gone.end());
+        std::vector<size_t> next;
+        for(auto v:part)if(!std::binary_search(gone.begin(),gone.end(),unit[v]))next.push_back(v);
+        return next;
+    };
+    // The vertices the rule removes from `part`; empty when the part passes both filters.
+    const auto risky=[&](const std::vector<size_t>& part){
+        selected.push_back({part,0.0});
+        const size_t focus=selected.size()-1;
+        std::vector<size_t> out;
+        ++s.checks;
+        const auto pair=H1EdgeRisk::inspect(d,window,selected,q,endpoint,focus);
+        if(!pair.warnings.empty()){
+            const auto& w=pair.warnings.front();
+            const bool lhs=pair.blocks[w.lhs].proposed && pair.blocks[w.lhs].label==window.totalLabelCount()+focus;
+            const auto& comp=lhs?w.lhs_component:w.rhs_component;
+            std::vector<size_t> count;
+            for(size_t c:comp)if(c!=H1EdgeRisk::NONE){if(c>=count.size())count.resize(c+1,0);++count[c];}
+            const size_t keep=std::max_element(count.begin(),count.end())-count.begin();
+            for(size_t v=0;v<comp.size();++v)if(comp[v]!=H1EdgeRisk::NONE && comp[v]!=keep)out.push_back(part[v]);
+        }else if(fiber){
+            const auto f=FiberRisk::inspect(d,window,selected,q,endpoint,focus);
+            if(!f.warnings.empty()){
+                for(auto v:f.warnings.front().core)if(std::binary_search(part.begin(),part.end(),v))out.push_back(v);
+                if(out.empty())out=part;
+            }
+        }
+        selected.pop_back();
+        return out;
+    };
+    const auto offered=std::move(dropped);dropped.clear();
+    for(const auto& pv:offered){
+        ++s.offered;s.offered_vertices+=pv.representatives.size();
         std::vector<size_t> part=pv.representatives;bool restored=false;
         while(!restored && units(part)>=2){
-            selected.push_back({part,0.0});
-            const size_t focus=selected.size()-1;
-            std::vector<size_t> out;
-            ++s.checks;
-            const auto pair=H1EdgeRisk::inspect(d,window,selected,q,endpoint,focus);
-            if(!pair.warnings.empty()){
-                const auto& w=pair.warnings.front();
-                const bool lhs=pair.blocks[w.lhs].proposed && pair.blocks[w.lhs].label==window.totalLabelCount()+focus;
-                const auto& comp=lhs?w.lhs_component:w.rhs_component;
-                std::vector<size_t> count;
-                for(size_t c:comp)if(c!=H1EdgeRisk::NONE){if(c>=count.size())count.resize(c+1,0);++count[c];}
-                const size_t keep=std::max_element(count.begin(),count.end())-count.begin();
-                for(size_t v=0;v<comp.size();++v)if(comp[v]!=H1EdgeRisk::NONE && comp[v]!=keep)out.push_back(part[v]);
-            }else if(fiber){
-                const auto f=FiberRisk::inspect(d,window,selected,q,endpoint,focus);
-                if(!f.warnings.empty()){
-                    for(auto v:f.warnings.front().core)if(std::binary_search(part.begin(),part.end(),v))out.push_back(v);
-                    if(out.empty())out=part;
+            auto out=risky(part);
+            if(!out.empty() && search){
+                // Units of the part, smallest first (singletons before absorbed PVs), then by vertex.
+                std::vector<size_t> ids;for(auto v:part)ids.push_back(unit[v]);
+                std::sort(ids.begin(),ids.end());ids.erase(std::unique(ids.begin(),ids.end()),ids.end());
+                std::vector<std::pair<size_t,size_t>> order;
+                for(auto u:ids)order.push_back({static_cast<size_t>(std::count_if(part.begin(),part.end(),[&](size_t v){return unit[v]==u;})),u});
+                std::sort(order.begin(),order.end());
+                for(const auto& [size,u]:order){
+                    auto trial=without(part,{u});
+                    if(units(trial)>=2 && risky(trial).empty()){part=std::move(trial);out.clear();break;}
                 }
             }
-            selected.pop_back();
             if(out.empty()){
                 double diameter=0;
                 for(size_t i=0;i<part.size();++i)for(size_t j=i+1;j<part.size();++j)diameter=std::max(diameter,d.distance(part[i],part[j]));
                 ++s.restored;s.restored_vertices+=part.size();selected.push_back({part,diameter});
                 restored=true;continue;
             }
-            std::vector<size_t> gone;for(auto v:out)gone.push_back(unit[v]);
-            std::sort(gone.begin(),gone.end());
-            std::vector<size_t> next;
-            for(auto v:part)if(!std::binary_search(gone.begin(),gone.end(),unit[v]))next.push_back(v);
-            part=std::move(next);
+            part=without(part,out);
         }
         if(!restored)s.dropped.push_back(pv.representatives);
     }
+    const size_t before=dropped.size();settle();
+    for(size_t k=before;k<dropped.size();++k)s.dropped.push_back(dropped[k].representatives);
     s.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
     return s;
 }
@@ -331,13 +412,14 @@ std::size_t DependencySupportPostProcessor::processPwph(
     std::vector<std::vector<size_t>> removed_supports;
     if(cfg.shrink_risky && batch.protected_labels.empty() && !selected_pvs.empty())
     {
-        auto shrink=shrinkRisky(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon(),cfg.fiber_risk);
+        auto shrink=shrinkRisky(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon(),cfg.fiber_risk,cfg.shrink_search,cfg.joint_drops);
         risk=std::move(shrink.first_pair);risk.seconds=shrink.seconds;
         risk_scans=shrink.checks+1;remaining_warnings=0;removed_supports=std::move(shrink.dropped);
         new_absorbed_labels=absorbedLabels(window,selected_pvs);
         std::cout<<std::setprecision(17)<<"[shrink] epsilon="<<eps_hi<<" eligible="<<eligible_count
-            <<" pair_warnings="<<shrink.pair_warnings<<" fiber_warnings="<<shrink.fiber_warnings
-            <<" offered="<<shrink.offered<<" restored="<<shrink.restored<<" restored_vertices="<<shrink.restored_vertices
+            <<" pair_warnings="<<shrink.pair_warnings<<" fiber_warnings="<<shrink.fiber_warnings<<" late_drops="<<shrink.late_drops
+            <<" offered="<<shrink.offered<<" offered_vertices="<<shrink.offered_vertices<<" restored="<<shrink.restored
+            <<" restored_vertices="<<shrink.restored_vertices
             <<" checks="<<shrink.checks<<" kept="<<selected_pvs.size()<<" seconds="<<shrink.seconds<<'\n'<<std::setprecision(6);
     }
     else if(!risk_mode.empty())
