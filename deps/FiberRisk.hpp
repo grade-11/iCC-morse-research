@@ -18,7 +18,8 @@
 struct FiberRisk
 {
     struct Block {std::vector<size_t> vertices;bool proposed;size_t proposed_id;};
-    struct Warning {size_t a,b,c;double epsilon;};
+    // core: the vertices left after dropping dominated ones, which carry every void from `from` on.
+    struct Warning {size_t a,b,c;double epsilon;std::vector<size_t> core;};
     struct Result {size_t triples=0,vertices=0,undominated=0;double seconds=0;std::vector<Block> blocks;std::vector<Warning> warnings;};
 
     // Removes, one at a time, every vertex v dominated by another vertex u at all scales >= from: uv is
@@ -118,8 +119,9 @@ struct FiberRisk
         return first;
     }
 
+    // focus: only triples with that proposed support (index into `selected`), else every triple with one.
     static Result inspect(const DistanceMatrix& d,const WindowState& state,const std::vector<SelectedPV>& selected,
-                          double q,double endpoint)
+                          double q,double endpoint,size_t focus=std::numeric_limits<size_t>::max())
     {
         const auto start=std::chrono::steady_clock::now();Result result;
         const size_t n=state.originalVertexCount();
@@ -136,6 +138,8 @@ struct FiberRisk
         for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b)for(size_t c=b+1;c<B;++c){
             const auto& A=result.blocks[a];const auto& Bk=result.blocks[b];const auto& C=result.blocks[c];
             if(!A.proposed && !Bk.proposed && !C.proposed)continue;
+            const auto is_focus=[&](const Block& x){return x.proposed && x.proposed_id==focus;};
+            if(focus<selected.size() && !is_focus(A) && !is_focus(Bk) && !is_focus(C))continue;
             // Scale at which the triangle (A, B, C) exists in the image: best transversal triangle.
             double w_tau=std::numeric_limits<double>::infinity();
             for(auto i:A.vertices)for(auto j:Bk.vertices){
@@ -157,7 +161,7 @@ struct FiberRisk
             const double end=std::min(endpoint,std::nextafter(radius,std::numeric_limits<double>::infinity()));
             result.vertices+=vs.size();vs=undominated(d,vs,from,end);result.undominated+=vs.size();
             const double v=firstVoid(d,vs,from,end);
-            if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from)});
+            if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from),std::move(vs)});
         }
         result.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
         return result;

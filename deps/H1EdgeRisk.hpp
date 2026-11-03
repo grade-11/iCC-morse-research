@@ -19,15 +19,20 @@ struct H1EdgeRisk
         size_t lhs=0,rhs=0,components=0;
         double epsilon=0,first_weight=0,resolved_at=-1;
         std::vector<std::pair<size_t,size_t>> witness_edges;
+        // Component of each vertex of lhs and rhs at `epsilon` (NONE: no crossing edge yet).
+        std::vector<size_t> lhs_component,rhs_component;
     };
+    static constexpr size_t NONE=std::numeric_limits<size_t>::max();
     struct Result {
         size_t pairs=0,edges=0,event_batches=0;
         double seconds=0;
         std::vector<Block> blocks;
         std::vector<Warning> warnings;
     };
+    // focus: only pairs with that proposed support (index into `selected`), else every pair with one.
     static Result inspect(const DistanceMatrix& d,const WindowState& state,
-                          const std::vector<SelectedPV>& selected,double q,double endpoint)
+                          const std::vector<SelectedPV>& selected,double q,double endpoint,
+                          size_t focus=std::numeric_limits<size_t>::max())
     {
         const auto start=std::chrono::steady_clock::now();Result result;
         const size_t n=state.originalVertexCount();std::vector<bool> absorbed(n,false);
@@ -45,6 +50,7 @@ struct H1EdgeRisk
         for(size_t a=0;a<result.blocks.size();++a)for(size_t b=a+1;b<result.blocks.size();++b){
             const auto& A=result.blocks[a];const auto& B=result.blocks[b];
             if(!A.proposed && !B.proposed)continue;
+            if(focus<selected.size() && A.label!=state.totalLabelCount()+focus && B.label!=state.totalLabelCount()+focus)continue;
             ++result.pairs;std::vector<Event> events;
             for(size_t i=0;i<A.vertices.size();++i)for(size_t j=0;j<B.vertices.size();++j){
                 const double w=d.distance(A.vertices[i],B.vertices[j]);
@@ -72,6 +78,14 @@ struct H1EdgeRisk
                         if(std::find(roots.begin(),roots.end(),root)!=roots.end())continue;
                         roots.push_back(root);warning.witness_edges.push_back({A.vertices[events[e].a],B.vertices[events[e].b-A.vertices.size()]});
                     }
+                    std::vector<size_t> ids;
+                    const auto component=[&](size_t v){
+                        if(!active[v])return NONE;
+                        const size_t r=find(v);const size_t k=std::find(ids.begin(),ids.end(),r)-ids.begin();
+                        if(k==ids.size())ids.push_back(r);return k;
+                    };
+                    for(size_t v=0;v<A.vertices.size();++v)warning.lhs_component.push_back(component(v));
+                    for(size_t v=0;v<B.vertices.size();++v)warning.rhs_component.push_back(component(A.vertices.size()+v));
                 }else if(warned && components==1 && warning.resolved_at<0)warning.resolved_at=epsilon;
             };
             observe(q,pos);

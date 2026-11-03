@@ -77,6 +77,9 @@ struct PipelineConfig
     // With live_guard: a support may contain existing PV labels; its flattened vertex set (diameter
     // <= alpha*eps, under the PV cardinality cap) forms one new PV and the absorbed PVs go inactive.
     bool absorb_pv = false;
+    // --shrink-risky: a support flagged by a risk filter loses only the part that carries the risk
+    // (absorbed PVs whole) and is checked again, instead of being dropped.
+    bool shrink_risky = false;
 
     void validate() const;
 

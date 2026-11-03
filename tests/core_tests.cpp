@@ -925,6 +925,50 @@ void testFiberDominationKeepsLateVoids()
     CHECK(pruned>=100);
 }
 
+void testPwphShrinkRestoresSafePart()
+{
+    // Support {0,1,2} meets {3,4,5} and {6,7,8} each in two separate places, so the pair filter
+    // drops it whole (the cheapest drop); --shrink-risky gives back {0,1}, which passes.
+    const std::vector<std::vector<double>> points{
+        {1.0, 1.39}, {1.38, 1.08}, {1.27, 0.8},
+        {0.5, 1.18}, {0.05, 0.8}, {0.62, 0.68},
+        {0.02, 0.65}, {0.32, 0.84}, {0.51, 0.39}};
+    for (const bool shrink : {false, true})
+    {
+        auto config = makeConfig({0.8, 3.0});
+        config.h1_risk = "selective-fast";
+        config.shrink_risky = shrink;
+        PipelineRuntime runtime(
+            DistanceMatrix(points), config, PipelineMode::PwPH);
+        WindowState window(points.size());
+        DependencySupportPostProcessor processor;
+        static_cast<void>(window.prepareWindow(
+            runtime,
+            boundsFor(runtime.config(), 0)));
+        DependencySupportBatch batch;
+        batch.supports.push_back(support({0, 1, 2}));
+        batch.supports.push_back(support({3, 4, 5}));
+        batch.supports.push_back(support({6, 7, 8}));
+        processCompletedPwphWindow(
+            processor, runtime, window, std::move(batch));
+        std::vector<std::vector<std::size_t>> pvs;
+        for (const auto& pv : window.pseudoVertices())
+            pvs.push_back(pv.representatives);
+        std::sort(pvs.begin(), pvs.end());
+        const std::vector<std::vector<std::size_t>> expected = shrink
+            ? std::vector<std::vector<std::size_t>>{{0, 1}, {3, 4, 5}, {6, 7, 8}}
+            : std::vector<std::vector<std::size_t>>{{3, 4, 5}, {6, 7, 8}};
+        if (pvs != expected)
+            for (const auto& pv : pvs)
+            {
+                std::cout << "pv:";
+                for (auto v : pv) std::cout << ' ' << v;
+                std::cout << '\n';
+            }
+        CHECK(pvs == expected);
+    }
+}
+
 void runTest(const char* name, void (*test)())
 {
     const int failures_before = failure_count;
@@ -965,6 +1009,7 @@ int main()
     runTest("PwPH frozen PVs and append-only labels", testPwphFrozenPvsAndAppendOnlyLabels);
     runTest("PwPH absorbs PVs with --absorb-pv", testPwphAbsorbsPvsWhenEnabled);
     runTest("Fiber domination keeps late voids", testFiberDominationKeepsLateVoids);
+    runTest("PwPH --shrink-risky restores the safe part", testPwphShrinkRestoresSafePart);
 
     if (failure_count != 0)
     {
