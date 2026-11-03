@@ -13,6 +13,21 @@
 #include <utility>
 #include <chrono>
 
+namespace
+{
+// Labels that committing `selected` absorbs: their original vertices and every
+// active PV whose vertices they contain (only with --absorb-pv).
+std::unordered_set<std::size_t> absorbedLabels(const WindowState& window,const std::vector<SelectedPV>& selected)
+{
+    const std::size_t n=window.originalVertexCount();
+    std::unordered_set<std::size_t> out;std::vector<char> taken(n,0);
+    for(const auto& pv:selected)for(auto v:pv.representatives){out.insert(v);taken[v]=1;}
+    for(std::size_t label:window.activeLabels())
+        if(label>=n && taken[window.pseudoVertices()[label-n].representatives.front()])out.insert(label);
+    return out;
+}
+}
+
 std::size_t DependencySupportPostProcessor::processPwph(
     const PipelineRuntime& runtime,
     WindowState& window,
@@ -111,8 +126,9 @@ std::size_t DependencySupportPostProcessor::processPwph(
 
         // Preserve the frozen-PV policy and its ordering. This test precedes
         // protection, so the additional protected PV labels retained by the
-        // generic frame cannot affect current PwPH selection.
-        if (contains_pv)
+        // generic frame cannot affect current PwPH selection. With --absorb-pv
+        // a support may contain PV labels and is flattened below.
+        if (contains_pv && !runtime.config().absorb_pv)
         {
             ++rejected_pv_count;
             continue;
@@ -148,20 +164,40 @@ std::size_t DependencySupportPostProcessor::processPwph(
             continue;
         }
 
-        if (labels.empty() || labels.size() >= MAX_PV_CARDINALITY)
+        // The flattened set of original vertices: the labels themselves unless
+        // the support absorbs existing PVs. The caps apply to this set.
+        std::vector<std::size_t> flattened;
+        if (contains_pv)
+        {
+            for (const std::size_t label : labels)
+            {
+                if (label < original_vertex_count)
+                    flattened.push_back(label);
+                else
+                {
+                    const auto& representatives =
+                        window.pseudoVertices()[label - original_vertex_count].representatives;
+                    flattened.insert(flattened.end(), representatives.begin(), representatives.end());
+                }
+            }
+            std::sort(flattened.begin(), flattened.end());
+        }
+        const auto& vertices = contains_pv ? flattened : labels;
+
+        if (vertices.empty() || vertices.size() >= MAX_PV_CARDINALITY)
         {
             ++rejected_cardinality_count;
             continue;
         }
 
         const double diameter = maxPairwiseDistance(
-            distance_matrix, labels);
+            distance_matrix, vertices);
         if (diameter > diameter_limit)
         {
             ++rejected_diameter_count;
             continue;
         }
-        if (!is_separated(labels))
+        if (!is_separated(vertices))
         {
             ++rejected_separation_count;
             continue;
@@ -169,7 +205,7 @@ std::size_t DependencySupportPostProcessor::processPwph(
 
         new_absorbed_labels.insert(labels.begin(), labels.end());
         selected_pvs.push_back(
-            SelectedPV{std::move(labels), diameter});
+            SelectedPV{contains_pv ? std::move(flattened) : std::move(labels), diameter});
     }
     
     const auto selection_end = Clock::now();
@@ -250,8 +286,7 @@ std::size_t DependencySupportPostProcessor::processPwph(
                 }
                 remaining_warnings=current.warnings.size();
             }
-            new_absorbed_labels.clear();
-            for(const auto& pv:selected_pvs)new_absorbed_labels.insert(pv.representatives.begin(),pv.representatives.end());
+            new_absorbed_labels=absorbedLabels(window,selected_pvs);
         }
     }
     // Three-block fiber check for H2, after the pair filter above.
@@ -263,8 +298,7 @@ std::size_t DependencySupportPostProcessor::processPwph(
         std::vector<SelectedPV> remaining;
         for(size_t id=0;id<selected_pvs.size();++id)if(kept[id])remaining.push_back(std::move(selected_pvs[id]));
         selected_pvs=std::move(remaining);
-        new_absorbed_labels.clear();
-        for(const auto& pv:selected_pvs)new_absorbed_labels.insert(pv.representatives.begin(),pv.representatives.end());
+        new_absorbed_labels=absorbedLabels(window,selected_pvs);
         std::cout<<std::setprecision(17)<<"[fiber-risk] epsilon="<<eps_hi<<" blocks="<<fiber.blocks.size()
             <<" triples="<<fiber.triples<<" warnings="<<fiber.warnings.size()<<" removed="<<drops.size()
             <<" kept="<<selected_pvs.size()<<" seconds="<<fiber.seconds;
@@ -335,6 +369,12 @@ std::size_t DependencySupportPostProcessor::processPwph(
     }
     if(auto* cost=PolicyCost::active)cost->mark("MUTATION_BEGIN");
     const auto commit_start=Clock::now();
+    if(cfg.absorb_pv && committed_count){
+        size_t absorbed_pvs=0;for(auto label:new_absorbed_labels)absorbed_pvs+=label>=original_vertex_count;
+        size_t largest=0;for(const auto& pv:selected_pvs)largest=std::max(largest,pv.representatives.size());
+        std::cout<<std::setprecision(17)<<"[absorb] epsilon="<<eps_hi<<" absorbed_pvs="<<absorbed_pvs
+            <<" committed="<<committed_count<<" largest="<<largest<<'\n'<<std::setprecision(6);
+    }
     if(committed_count)window.commitSelectedPVs(std::move(selected_pvs),new_absorbed_labels);
     const auto commit_end=Clock::now();
     if(auto* cost=PolicyCost::active)cost->mark("MUTATION_END");

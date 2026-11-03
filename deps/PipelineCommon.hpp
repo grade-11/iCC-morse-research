@@ -74,6 +74,9 @@ struct PipelineConfig
     bool extend_cost_rule = false;
     // With live_guard at max-dim 3: drop proposed supports whose three-block fiber carries a void.
     bool fiber_risk = false;
+    // With live_guard: a support may contain existing PV labels; its flattened vertex set (diameter
+    // <= alpha*eps, under the PV cardinality cap) forms one new PV and the absorbed PVs go inactive.
+    bool absorb_pv = false;
 
     void validate() const;
 

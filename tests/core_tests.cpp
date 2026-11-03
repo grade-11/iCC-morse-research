@@ -844,6 +844,48 @@ void testGCostDecision()
     CHECK(!g.decide(100,1e5,0,0,0,1.2,1.7,5000,1e6,.05).quotient);
 }
 
+void testPwphAbsorbsPvsWhenEnabled()
+{
+    const std::vector<std::vector<double>> points{
+        {0.0, 0.0},
+        {0.1, 0.0},
+        {2.0, 0.0},
+        {2.1, 0.0},
+        {5.0, 0.0}};
+    auto config = makeConfig({1.0, 3.0});
+    config.absorb_pv = true;
+    PipelineRuntime runtime(
+        DistanceMatrix(points), config, PipelineMode::PwPH);
+    WindowState window(points.size());
+    DependencySupportPostProcessor processor;
+
+    static_cast<void>(window.prepareWindow(
+        runtime,
+        boundsFor(runtime.config(), 0)));
+    DependencySupportBatch first_batch;
+    first_batch.supports.push_back(support({0, 1}));
+    processCompletedPwphWindow(
+        processor, runtime, window, std::move(first_batch));
+    CHECK((window.activeLabels() == std::vector<std::size_t>{2, 3, 4, 5}));
+
+    runtime.ensureBinomialCapacity(window.totalLabelCount());
+    static_cast<void>(window.prepareWindow(
+        runtime,
+        boundsFor(runtime.config(), 1)));
+    // The support {2, PV 5} flattens to {0, 1, 2} (diameter 2.0 <= 3.0): PV 5 goes inactive,
+    // its record stays, and the new PV gets the next label.
+    DependencySupportBatch second_batch;
+    second_batch.supports.push_back(support({2, 5}));
+    processCompletedPwphWindow(
+        processor, runtime, window, std::move(second_batch));
+    CHECK(window.pseudoVertices().size() == 2);
+    CHECK((window.pseudoVertices()[0].representatives ==
+           std::vector<std::size_t>{0, 1}));
+    CHECK((window.pseudoVertices()[1].representatives ==
+           std::vector<std::size_t>{0, 1, 2}));
+    CHECK((window.activeLabels() == std::vector<std::size_t>{3, 4, 6}));
+}
+
 void runTest(const char* name, void (*test)())
 {
     const int failures_before = failure_count;
@@ -882,6 +924,7 @@ int main()
     runTest("PwPH overlap order and separation", testPwphOverlapOrderAndSeparation);
     runTest("Sequential filter diagnostics", testSequentialFilterDiagnostics);
     runTest("PwPH frozen PVs and append-only labels", testPwphFrozenPvsAndAppendOnlyLabels);
+    runTest("PwPH absorbs PVs with --absorb-pv", testPwphAbsorbsPvsWhenEnabled);
 
     if (failure_count != 0)
     {

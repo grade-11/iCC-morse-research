@@ -95,9 +95,12 @@ struct FiberRisk
     {
         const auto start=std::chrono::steady_clock::now();Result result;
         const size_t n=state.originalVertexCount();
+        std::vector<char> absorbed(n,0);
+        for(const auto& pv:selected)for(auto v:pv.representatives)absorbed[v]=1;
         for(size_t label:state.activeLabels())if(label>=n){
+            // Existing PVs absorbed by a proposed support (--absorb-pv) belong to that block.
             const auto& reps=state.pseudoVertices().at(label-n).representatives;
-            if(reps.size()>1)result.blocks.push_back({reps,false,0});
+            if(reps.size()>1 && !absorbed[reps.front()])result.blocks.push_back({reps,false,0});
         }
         for(size_t p=0;p<selected.size();++p)if(selected[p].representatives.size()>1)
             result.blocks.push_back({selected[p].representatives,true,p});

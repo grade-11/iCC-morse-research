@@ -34,7 +34,11 @@ struct H1EdgeRisk
         for(const auto& pv:selected)for(auto v:pv.representatives)absorbed.at(v)=true;
         for(size_t label:state.activeLabels()){
             if(label<n){if(!absorbed[label])result.blocks.push_back({{label},label,false});}
-            else result.blocks.push_back({state.pseudoVertices().at(label-n).representatives,label,false});
+            else{
+                // An existing PV absorbed by a proposed support (--absorb-pv) is part of that block.
+                const auto& reps=state.pseudoVertices().at(label-n).representatives;
+                if(!absorbed[reps.front()])result.blocks.push_back({reps,label,false});
+            }
         }
         for(size_t p=0;p<selected.size();++p)
             result.blocks.push_back({selected[p].representatives,state.totalLabelCount()+p,true});

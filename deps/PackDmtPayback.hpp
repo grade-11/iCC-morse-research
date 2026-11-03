@@ -59,11 +59,7 @@ struct PackDmtPayback {
     }
     static double actualH(const DistanceMatrix& d,const WindowState& state,
                           const std::vector<SelectedPV>& selected,double x,bool full) {
-        if(full){
-            size_t blocks=state.activeLabels().size();
-            for(const auto& p:selected)blocks-=p.representatives.size()-1;
-            return completeH(blocks);
-        }
+        if(full){std::vector<size_t> owner;return completeH(partition(state,selected,owner));}
         std::vector<size_t> owner;const size_t count=partition(state,selected,owner);
         return full?completeH(count):graphH(d,owner,count,x);
     }
@@ -73,7 +69,11 @@ struct PackDmtPayback {
         for(const auto& p:selected)for(auto v:p.representatives)absorbed.at(v)=1;
         for(auto label:state.activeLabels()){
             if(label<n){if(!absorbed[label])owner[label]=count++;}
-            else {for(auto v:state.pseudoVertices().at(label-n).representatives)owner.at(v)=count;++count;}
+            else {
+                const auto& reps=state.pseudoVertices().at(label-n).representatives;
+                if(absorbed[reps.front()])continue;  // absorbed by a selected support (--absorb-pv)
+                for(auto v:reps)owner.at(v)=count;++count;
+            }
         }
         for(const auto& p:selected){for(auto v:p.representatives)owner.at(v)=count;++count;}
         if(std::find(owner.begin(),owner.end(),n)!=owner.end())throw std::logic_error("Incomplete partition");
