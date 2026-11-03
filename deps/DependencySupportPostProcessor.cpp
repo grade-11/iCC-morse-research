@@ -30,10 +30,10 @@ std::unordered_set<std::size_t> absorbedLabels(const WindowState& window,const s
 // --shrink-risky. First drops that leave a clean set: the usual greedy drops (pair filter, then
 // fiber filter), or with `joint` (--joint-drops) one greedy pass over the warnings of both
 // filters, cheapest (size-1)/warnings first, then putting back any drop no warning needs. A
-// dropped support's vertices become singletons, which neither filter flags, but the old PVs it
-// absorbed become blocks again, so the set is inspected again until clean. Then each dropped
+// dropped support's vertices become singletons (which only --fiber-full can flag) and the old PVs
+// it absorbed become blocks again, so the set is inspected again until clean. Then each dropped
 // support is offered back, in drop order, as large a part as stays clean. Every new warning
-// involves the offered part, so only its pairs and triples are inspected. Pair warning: the
+// involves the offered part, so only its fibers are inspected. Pair warning: the
 // part keeps its crossing-graph component with the most of its vertices. Fiber warning: the
 // part loses its core vertices. With `search` (--shrink-search), each step first tries
 // removing a single unit, smallest first, and keeps the first part that passes. Absorbed PVs
@@ -46,7 +46,7 @@ struct ShrinkStats
 };
 
 ShrinkStats shrinkRisky(const DistanceMatrix& d,const WindowState& window,std::vector<SelectedPV>& selected,
-                        double q,double endpoint,bool fiber,bool search,bool joint)
+                        double q,double endpoint,bool fiber,bool search,bool joint,bool full,bool h2)
 {
     const auto start=std::chrono::steady_clock::now();ShrinkStats s;
     const size_t n=window.originalVertexCount();
@@ -72,7 +72,7 @@ ShrinkStats shrinkRisky(const DistanceMatrix& d,const WindowState& window,std::v
         }
         for(const auto& w:fr.warnings){
             sets.emplace_back();
-            for(size_t b:{w.a,w.b,w.c})if(fr.blocks[b].proposed)sets.back().push_back(fr.blocks[b].proposed_id);
+            for(size_t b:{w.a,w.b,w.c})if(b!=FiberRisk::NONE && fr.blocks[b].proposed)sets.back().push_back(fr.blocks[b].proposed_id);
         }
         return sets;
     };
@@ -103,7 +103,7 @@ ShrinkStats shrinkRisky(const DistanceMatrix& d,const WindowState& window,std::v
     const auto settle=[&]{
         for(;;){
             const auto pr=H1EdgeRisk::inspect(d,window,selected,q,endpoint);
-            const auto fr=fiber?FiberRisk::inspect(d,window,selected,q,endpoint):FiberRisk::Result{};
+            const auto fr=fiber?FiberRisk::inspect(d,window,selected,q,endpoint,FiberRisk::NONE,full,h2):FiberRisk::Result{};
             const auto sets=warnings(pr,fr);
             if(sets.empty())return;
             const auto ids=jointDrops(sets);s.late_drops+=ids.size();drop(ids);
@@ -112,13 +112,13 @@ ShrinkStats shrinkRisky(const DistanceMatrix& d,const WindowState& window,std::v
     s.first_pair=H1EdgeRisk::inspect(d,window,selected,q,endpoint);
     s.pair_warnings=s.first_pair.warnings.size();
     if(joint){
-        const auto fr=fiber?FiberRisk::inspect(d,window,selected,q,endpoint):FiberRisk::Result{};
+        const auto fr=fiber?FiberRisk::inspect(d,window,selected,q,endpoint,FiberRisk::NONE,full,h2):FiberRisk::Result{};
         s.fiber_warnings=fr.warnings.size();
         drop(jointDrops(warnings(s.first_pair,fr)));
     }else{
         if(!s.first_pair.warnings.empty())drop(H1EdgeRisk::greedyDrops(s.first_pair,selected,window.totalLabelCount()));
         if(fiber && !selected.empty()){
-            const auto f=FiberRisk::inspect(d,window,selected,q,endpoint);
+            const auto f=FiberRisk::inspect(d,window,selected,q,endpoint,FiberRisk::NONE,full,h2);
             s.fiber_warnings=f.warnings.size();
             if(!f.warnings.empty())drop(FiberRisk::greedyDrops(f,selected.size()));
         }
@@ -151,7 +151,7 @@ ShrinkStats shrinkRisky(const DistanceMatrix& d,const WindowState& window,std::v
             const size_t keep=std::max_element(count.begin(),count.end())-count.begin();
             for(size_t v=0;v<comp.size();++v)if(comp[v]!=H1EdgeRisk::NONE && comp[v]!=keep)out.push_back(part[v]);
         }else if(fiber){
-            const auto f=FiberRisk::inspect(d,window,selected,q,endpoint,focus);
+            const auto f=FiberRisk::inspect(d,window,selected,q,endpoint,focus,full,h2);
             if(!f.warnings.empty()){
                 for(auto v:f.warnings.front().core)if(std::binary_search(part.begin(),part.end(),v))out.push_back(v);
                 if(out.empty())out=part;
@@ -412,7 +412,7 @@ std::size_t DependencySupportPostProcessor::processPwph(
     std::vector<std::vector<size_t>> removed_supports;
     if(cfg.shrink_risky && batch.protected_labels.empty() && !selected_pvs.empty())
     {
-        auto shrink=shrinkRisky(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon(),cfg.fiber_risk,cfg.shrink_search,cfg.joint_drops);
+        auto shrink=shrinkRisky(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon(),cfg.fiber_risk,cfg.shrink_search,cfg.joint_drops,cfg.fiber_full,cfg.maxdim>=3);
         risk=std::move(shrink.first_pair);risk.seconds=shrink.seconds;
         risk_scans=shrink.checks+1;remaining_warnings=0;removed_supports=std::move(shrink.dropped);
         new_absorbed_labels=absorbedLabels(window,selected_pvs);
@@ -468,10 +468,10 @@ std::size_t DependencySupportPostProcessor::processPwph(
             new_absorbed_labels=absorbedLabels(window,selected_pvs);
         }
     }
-    // Three-block fiber check for H2, after the pair filter above.
+    // Fiber check (three blocks; with --fiber-full also pairs and pairs with a vertex), after the pair filter above.
     if(cfg.fiber_risk && !cfg.shrink_risky && !selected_pvs.empty() && batch.protected_labels.empty())
     {
-        const auto fiber=FiberRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon());
+        const auto fiber=FiberRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon(),FiberRisk::NONE,cfg.fiber_full,cfg.maxdim>=3);
         const auto drops=FiberRisk::greedyDrops(fiber,selected_pvs.size());
         std::vector<bool> kept(selected_pvs.size(),true);for(size_t id:drops)kept[id]=false;
         std::vector<SelectedPV> remaining;
@@ -479,7 +479,9 @@ std::size_t DependencySupportPostProcessor::processPwph(
         selected_pvs=std::move(remaining);
         new_absorbed_labels=absorbedLabels(window,selected_pvs);
         std::cout<<std::setprecision(17)<<"[fiber-risk] epsilon="<<eps_hi<<" blocks="<<fiber.blocks.size()
-            <<" triples="<<fiber.triples<<" warnings="<<fiber.warnings.size()<<" removed="<<drops.size()
+            <<" triples="<<fiber.triples;
+        if(cfg.fiber_full)std::cout<<" pairs="<<fiber.pairs<<" pair_vertex="<<fiber.pair_vertex;
+        std::cout<<" warnings="<<fiber.warnings.size()<<" removed="<<drops.size()
             <<" kept="<<selected_pvs.size()<<" vertices="<<fiber.vertices<<" undominated="<<fiber.undominated
             <<" seconds="<<fiber.seconds;
         for(const auto& w:fiber.warnings)std::cout<<" void@"<<w.epsilon;

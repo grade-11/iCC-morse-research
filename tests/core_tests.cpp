@@ -894,7 +894,7 @@ void testFiberDominationKeepsLateVoids()
     uint64_t state=20261103;
     const auto uniform=[&state]{state=state*6364136223846793005ULL+1442695040888963407ULL;
                                  return static_cast<double>(state>>11)*0x1.0p-53;};
-    size_t voids=0,pruned=0;
+    size_t voids=0,loops=0,pruned=0;
     for(int trial=0;trial<300;++trial)
     {
         const size_t m=6+static_cast<size_t>(uniform()*18);
@@ -919,10 +919,31 @@ void testFiberDominationKeepsLateVoids()
         const double full=FiberRisk::firstVoid(d,vs,from,end),fast=FiberRisk::firstVoid(d,kept,from,end);
         CHECK((full<0)==(fast<0));
         if(full>=0)CHECK(std::max(full,from)==std::max(fast,from));
-        voids+=full>=0;pruned+=kept.size()<m;
+        // The collapse keeps H1 as well.
+        const double loop=FiberRisk::firstBar(d,vs,from,end,true,false),loop_fast=FiberRisk::firstBar(d,kept,from,end,true,false);
+        CHECK((loop<0)==(loop_fast<0));
+        if(loop>=0)CHECK(std::max(loop,from)==std::max(loop_fast,from));
+        voids+=full>=0;loops+=loop>=0;pruned+=kept.size()<m;
     }
     CHECK(voids>=20);
+    CHECK(loops>=20);
     CHECK(pruned>=100);
+}
+
+void testFiberBarsOfSquareAndOctahedron()
+{
+    // A square carries the loop [1, sqrt 2); the octahedron carries the void [sqrt 2, 2) and no loop.
+    const DistanceMatrix square(std::vector<std::vector<double>>{{0,0},{1,0},{1,1},{0,1}});
+    const std::vector<size_t> four{0,1,2,3};
+    CHECK(FiberRisk::firstBar(square,four,0.0,3.0,true,false)==1.0);
+    CHECK(FiberRisk::firstBar(square,four,0.0,3.0,false,true)<0);
+    CHECK(FiberRisk::firstBar(square,four,1.5,3.0,true,true)<0);
+    const DistanceMatrix octahedron(std::vector<std::vector<double>>{{1,0,0},{-1,0,0},{0,1,0},{0,-1,0},{0,0,1},{0,0,-1}});
+    const std::vector<size_t> six{0,1,2,3,4,5};
+    CHECK(FiberRisk::firstBar(octahedron,six,0.0,3.0,true,false)<0);
+    CHECK(FiberRisk::firstBar(octahedron,six,0.0,3.0,false,true)==std::sqrt(2.0));
+    CHECK(FiberRisk::firstBar(octahedron,six,1.9,3.0,true,true)==std::sqrt(2.0));
+    CHECK(FiberRisk::firstBar(octahedron,six,2.0,3.0,true,true)<0);
 }
 
 void testPwphShrinkRestoresSafePart()
@@ -1009,6 +1030,7 @@ int main()
     runTest("PwPH frozen PVs and append-only labels", testPwphFrozenPvsAndAppendOnlyLabels);
     runTest("PwPH absorbs PVs with --absorb-pv", testPwphAbsorbsPvsWhenEnabled);
     runTest("Fiber domination keeps late voids", testFiberDominationKeepsLateVoids);
+    runTest("Fiber bars of a square and an octahedron", testFiberBarsOfSquareAndOctahedron);
     runTest("PwPH --shrink-risky restores the safe part", testPwphShrinkRestoresSafePart);
 
     if (failure_count != 0)

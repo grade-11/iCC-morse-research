@@ -9,18 +9,23 @@
 #include <stdexcept>
 #include <vector>
 
-// Three-block fiber check for H2. The quotient maps the original VR complex onto its image on the
-// labels; by the fiber lemma it keeps homology when every fiber is acyclic. Fibers with one pseudo
-// vertex are cones, and H1EdgeRisk covers pairs. This checks the fiber over each triangle spanned by
-// three multi-vertex blocks (at least one proposed): the original VR complex on their union must
-// carry no H2 at any scale >= q where that triangle exists. Development diagnostic, NOT a certificate
-// for fibers with singletons or over tetrahedra.
+// Fiber check. The quotient maps the original VR complex onto its image on the labels; by the fiber
+// lemma it keeps homology up to degree k when every fiber is acyclic up to degree k. A fiber with one
+// pseudo vertex is a cone (its realizing vertex in the PV is adjacent to all of it), and H1EdgeRisk
+// covers H1 over pairs. The default check covers the fiber over each triangle spanned by three
+// multi-vertex blocks (at least one proposed): the original VR complex on their union must carry no
+// H2 at any scale >= q where that triangle exists. With `full` it also checks the fibers over pairs of
+// multi-vertex blocks and, for H2, over a pair with one singleton, and it reports H1 as well as H2
+// bars (H1 only without `h2`). Development diagnostic, NOT a certificate: fibers over tetrahedra
+// (four labels) are not checked.
 struct FiberRisk
 {
     struct Block {std::vector<size_t> vertices;bool proposed;size_t proposed_id;};
-    // core: the vertices left after dropping dominated ones, which carry every void from `from` on.
+    static constexpr size_t NONE=std::numeric_limits<size_t>::max();
+    // core: the vertices left after dropping dominated ones, which carry every bar from `from` on.
+    // c is NONE for a pair fiber; a singleton is a block with one vertex.
     struct Warning {size_t a,b,c;double epsilon;std::vector<size_t> core;};
-    struct Result {size_t triples=0,vertices=0,undominated=0;double seconds=0;std::vector<Block> blocks;std::vector<Warning> warnings;};
+    struct Result {size_t triples=0,pairs=0,pair_vertex=0,vertices=0,undominated=0;double seconds=0;std::vector<Block> blocks;std::vector<Warning> warnings;};
 
     // Removes, one at a time, every vertex v dominated by another vertex u at all scales >= from: uv is
     // an edge by `from`, and every edge vx of the complex (weight below `endpoint`) has ux by
@@ -53,16 +58,23 @@ struct FiberRisk
     // Birth of the first H2 bar of the flag filtration on `vs` alive at some scale >= from, else -1.
     static double firstVoid(const DistanceMatrix& d,const std::vector<size_t>& vs,double from,double endpoint)
     {
+        return firstBar(d,vs,from,endpoint,false,true);
+    }
+
+    // Birth of the first H1 (with h1) or H2 (with h2) bar of the flag filtration on `vs` alive at some
+    // scale >= from, else -1.
+    static double firstBar(const DistanceMatrix& d,const std::vector<size_t>& vs,double from,double endpoint,bool h1,bool h2)
+    {
         const size_t m=vs.size();
         struct S {double w;int dim;std::vector<int> faces;};
         std::vector<S> simplices;
         const auto dist=[&](size_t i,size_t j){return d.distance(vs[i],vs[j]);};
-        // Index simplices by vertex tuple through small lookup tables.
+        // Index simplices by vertex tuple through small lookup tables. An edge's faces are its vertices.
         std::vector<int> edge_id(m*m,-1),tri_id;
         std::vector<std::array<size_t,3>> tris;
         for(size_t i=0;i<m;++i)for(size_t j=i+1;j<m;++j){
             const double w=dist(i,j);if(!(w>0 && w<endpoint))continue;
-            edge_id[i*m+j]=static_cast<int>(simplices.size());simplices.push_back({w,1,{}});
+            edge_id[i*m+j]=static_cast<int>(simplices.size());simplices.push_back({w,1,{static_cast<int>(i),static_cast<int>(j)}});
         }
         const auto edge=[&](size_t i,size_t j){return edge_id[std::min(i,j)*m+std::max(i,j)];};
         tri_id.assign(m*m*m,-1);
@@ -72,7 +84,7 @@ struct FiberRisk
             tri_id[(i*m+j)*m+k]=static_cast<int>(simplices.size());simplices.push_back({w,2,{a,b,c}});
         }
         const auto tri=[&](size_t i,size_t j,size_t k){return tri_id[(i*m+j)*m+k];};
-        for(size_t i=0;i<m;++i)for(size_t j=i+1;j<m;++j)for(size_t k=j+1;k<m;++k)for(size_t l=k+1;l<m;++l){
+        if(h2)for(size_t i=0;i<m;++i)for(size_t j=i+1;j<m;++j)for(size_t k=j+1;k<m;++k)for(size_t l=k+1;l<m;++l){
             const int a=tri(i,j,k),b=tri(i,j,l),c=tri(i,k,l),e=tri(j,k,l);if(a<0||b<0||c<0||e<0)continue;
             const double w=std::max({simplices[a].w,simplices[b].w,simplices[c].w,simplices[e].w});
             simplices.push_back({w,3,{a,b,c,e}});
@@ -89,6 +101,8 @@ struct FiberRisk
         std::vector<std::vector<int>> by_pivot(order.size());
         std::vector<char> is_pivot(order.size(),0),negative(order.size(),0);
         std::vector<std::vector<int>> low2(order.size());std::vector<char> pivot1(order.size(),0);
+        double first=-1;
+        const auto bar=[&](double birth,double death){if(death>birth && death>from && (first<0 || birth<first))first=birth;};
         for(int r:order){
             const auto& s=simplices[r];if(s.dim!=2)continue;
             std::vector<int> col;for(int f:s.faces)col.push_back(pos[f]);std::sort(col.begin(),col.end());
@@ -96,9 +110,23 @@ struct FiberRisk
                 const int p=col.back();if(!pivot1[p])break;
                 std::vector<int> out;std::set_symmetric_difference(col.begin(),col.end(),low2[p].begin(),low2[p].end(),std::back_inserter(out));col.swap(out);
             }
-            if(!col.empty()){pivot1[col.back()]=1;low2[col.back()]=col;negative[pos[r]]=1;}
+            if(!col.empty()){
+                pivot1[col.back()]=1;low2[col.back()]=col;negative[pos[r]]=1;
+                if(h1)bar(simplices[order[col.back()]].w,s.w);
+            }
         }
-        double first=-1;
+        if(h1){
+            // An edge that closes a cycle and is no triangle's pivot is an H1 class alive at the endpoint.
+            std::vector<size_t> parent(m);for(size_t i=0;i<m;++i)parent[i]=i;
+            const auto find=[&](size_t v){while(parent[v]!=v){parent[v]=parent[parent[v]];v=parent[v];}return v;};
+            for(size_t r=0;r<order.size();++r){
+                const auto& s=simplices[order[r]];if(s.dim!=1)continue;
+                const size_t x=find(s.faces[0]),y=find(s.faces[1]);
+                if(x!=y)parent[x]=y;
+                else if(!pivot1[r] && (first<0 || s.w<first))first=s.w;
+            }
+        }
+        if(!h2)return first;
         for(int r:order){
             const auto& s=simplices[r];if(s.dim!=3)continue;
             std::vector<int> col;for(int f:s.faces)col.push_back(pos[f]);std::sort(col.begin(),col.end());
@@ -108,8 +136,7 @@ struct FiberRisk
             }
             if(col.empty())continue;
             const int p=col.back();is_pivot[p]=1;by_pivot[p]=col;
-            const double birth=simplices[order[p]].w,death=s.w;
-            if(death>birth && death>from && (first<0 || birth<first))first=birth;
+            bar(simplices[order[p]].w,s.w);
         }
         // A void still alive at the endpoint also counts.
         for(size_t r=0;r<order.size();++r){
@@ -119,49 +146,90 @@ struct FiberRisk
         return first;
     }
 
-    // focus: only triples with that proposed support (index into `selected`), else every triple with one.
+    // focus: only fibers with that proposed support (index into `selected`), else every fiber with one.
+    // full, h2: see the header comment.
     static Result inspect(const DistanceMatrix& d,const WindowState& state,const std::vector<SelectedPV>& selected,
-                          double q,double endpoint,size_t focus=std::numeric_limits<size_t>::max())
+                          double q,double endpoint,size_t focus=std::numeric_limits<size_t>::max(),
+                          bool full=false,bool h2=true)
     {
         const auto start=std::chrono::steady_clock::now();Result result;
         const size_t n=state.originalVertexCount();
         std::vector<char> absorbed(n,0);
         for(const auto& pv:selected)for(auto v:pv.representatives)absorbed[v]=1;
-        for(size_t label:state.activeLabels())if(label>=n){
+        std::vector<size_t> singles;
+        for(size_t label:state.activeLabels()){
+            if(label<n){if(!absorbed[label])singles.push_back(label);continue;}
             // Existing PVs absorbed by a proposed support (--absorb-pv) belong to that block.
             const auto& reps=state.pseudoVertices().at(label-n).representatives;
-            if(reps.size()>1 && !absorbed[reps.front()])result.blocks.push_back({reps,false,0});
+            if(absorbed[reps.front()])continue;
+            if(reps.size()>1)result.blocks.push_back({reps,false,0});else singles.push_back(reps.front());
         }
         for(size_t p=0;p<selected.size();++p)if(selected[p].representatives.size()>1)
             result.blocks.push_back({selected[p].representatives,true,p});
         const size_t B=result.blocks.size();
+        const auto is_focus=[&](const Block& x){return x.proposed && x.proposed_id==focus;};
+        const auto wanted=[&](std::initializer_list<size_t> ids){
+            bool proposed=false,focused=false;
+            for(size_t id:ids){proposed|=result.blocks[id].proposed;focused|=is_focus(result.blocks[id]);}
+            return proposed && (focus>=selected.size() || focused);
+        };
+        // The fiber over the image simplex on `ids` exists from w_tau; check it from max(q, w_tau) on.
+        const auto check=[&](size_t a,size_t b,size_t c,double w_tau,size_t& count){
+            if(!(w_tau<endpoint))return;
+            std::vector<size_t> vs;
+            for(size_t id:{a,b,c})if(id!=NONE)vs.insert(vs.end(),result.blocks[id].vertices.begin(),result.blocks[id].vertices.end());
+            const double from=std::max(q,w_tau);
+            // Once one vertex is adjacent to all others the fiber is a cone and stays one: only
+            // scales below that radius can carry a bar.
+            double radius=std::numeric_limits<double>::infinity();
+            for(size_t i=0;i<vs.size();++i){
+                double far=0;for(size_t j=0;j<vs.size() && far<radius;++j)if(j!=i)far=std::max(far,d.distance(vs[i],vs[j]));
+                radius=std::min(radius,far);
+            }
+            if(radius<=from)return;
+            ++count;
+            const double end=std::min(endpoint,std::nextafter(radius,std::numeric_limits<double>::infinity()));
+            result.vertices+=vs.size();vs=undominated(d,vs,from,end);result.undominated+=vs.size();
+            const double v=full?firstBar(d,vs,from,end,true,h2):firstVoid(d,vs,from,end);
+            if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from),std::move(vs)});
+        };
         for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b)for(size_t c=b+1;c<B;++c){
+            if(!wanted({a,b,c}))continue;
             const auto& A=result.blocks[a];const auto& Bk=result.blocks[b];const auto& C=result.blocks[c];
-            if(!A.proposed && !Bk.proposed && !C.proposed)continue;
-            const auto is_focus=[&](const Block& x){return x.proposed && x.proposed_id==focus;};
-            if(focus<selected.size() && !is_focus(A) && !is_focus(Bk) && !is_focus(C))continue;
             // Scale at which the triangle (A, B, C) exists in the image: best transversal triangle.
             double w_tau=std::numeric_limits<double>::infinity();
             for(auto i:A.vertices)for(auto j:Bk.vertices){
                 const double ij=d.distance(i,j);if(ij>=w_tau)continue;
                 for(auto k:C.vertices)w_tau=std::min(w_tau,std::max({ij,d.distance(i,k),d.distance(j,k)}));
             }
-            if(!(w_tau<endpoint))continue;
-            ++result.triples;
-            std::vector<size_t> vs=A.vertices;vs.insert(vs.end(),Bk.vertices.begin(),Bk.vertices.end());vs.insert(vs.end(),C.vertices.begin(),C.vertices.end());
-            const double from=std::max(q,w_tau);
-            // Once one vertex is adjacent to all others the fiber is a cone and stays one: only
-            // scales below that radius can carry a void.
-            double radius=std::numeric_limits<double>::infinity();
-            for(size_t i=0;i<vs.size();++i){
-                double far=0;for(size_t j=0;j<vs.size();++j)if(j!=i)far=std::max(far,d.distance(vs[i],vs[j]));
-                radius=std::min(radius,far);
+            check(a,b,c,w_tau,result.triples);
+        }
+        if(!full){
+            result.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
+            return result;
+        }
+        // Singletons become blocks after the multi-vertex ones; triples above never see them.
+        if(h2)for(size_t v:singles)result.blocks.push_back({{v},false,0});
+        for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b){
+            if(!wanted({a,b}))continue;
+            const auto& A=result.blocks[a];const auto& Bk=result.blocks[b];
+            double w_ab=std::numeric_limits<double>::infinity();
+            for(auto i:A.vertices)for(auto j:Bk.vertices)w_ab=std::min(w_ab,d.distance(i,j));
+            check(a,b,NONE,w_ab,result.pairs);
+            if(!(w_ab<endpoint))continue;
+            for(size_t s=B;s<result.blocks.size();++s){
+                const size_t x=result.blocks[s].vertices.front();
+                double near_a=std::numeric_limits<double>::infinity(),near_b=near_a;
+                for(auto i:A.vertices)near_a=std::min(near_a,d.distance(i,x));
+                for(auto j:Bk.vertices)near_b=std::min(near_b,d.distance(j,x));
+                if(!(std::max({w_ab,near_a,near_b})<endpoint))continue;
+                double w_tau=std::numeric_limits<double>::infinity();
+                for(auto i:A.vertices){
+                    const double ix=d.distance(i,x);if(ix>=w_tau)continue;
+                    for(auto j:Bk.vertices)w_tau=std::min(w_tau,std::max({ix,d.distance(i,j),d.distance(j,x)}));
+                }
+                check(a,b,s,w_tau,result.pair_vertex);
             }
-            if(radius<=from){--result.triples;continue;}
-            const double end=std::min(endpoint,std::nextafter(radius,std::numeric_limits<double>::infinity()));
-            result.vertices+=vs.size();vs=undominated(d,vs,from,end);result.undominated+=vs.size();
-            const double v=firstVoid(d,vs,from,end);
-            if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from),std::move(vs)});
         }
         result.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
         return result;
@@ -176,7 +244,7 @@ struct FiberRisk
             for(size_t w=0;w<r.warnings.size();++w)if(live[w]){
                 any=true;
                 for(size_t blk:{r.warnings[w].a,r.warnings[w].b,r.warnings[w].c})
-                    if(r.blocks[blk].proposed)++incident[r.blocks[blk].proposed_id];
+                    if(blk!=NONE && r.blocks[blk].proposed)++incident[r.blocks[blk].proposed_id];
             }
             if(!any)return out;
             const size_t drop=static_cast<size_t>(std::max_element(incident.begin(),incident.end())-incident.begin());
@@ -184,7 +252,7 @@ struct FiberRisk
             dropped[drop]=1;out.push_back(drop);
             for(size_t w=0;w<r.warnings.size();++w)if(live[w])
                 for(size_t blk:{r.warnings[w].a,r.warnings[w].b,r.warnings[w].c})
-                    if(r.blocks[blk].proposed && r.blocks[blk].proposed_id==drop)live[w]=0;
+                    if(blk!=NONE && r.blocks[blk].proposed && r.blocks[blk].proposed_id==drop)live[w]=0;
         }
     }
 };
