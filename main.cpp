@@ -941,7 +941,7 @@ int runCommandLine(int argc, char** argv)
     bool joint_drops=false;
     app.add_flag("--joint-drops",joint_drops,"With --shrink-risky: choose drops for both filters together, weighted by support size");
     bool fiber_full=false;
-    app.add_flag("--fiber-full",fiber_full,"With --live-guard --max-dim 2 or 3: the fiber check also covers pairs and (H2) pairs with one vertex, for H1 and H2 bars; implies --fiber-risk");
+    app.add_flag("--fiber-full",fiber_full,"With --live-guard --max-dim 2 or 3: the fiber check (H2 only; the pair filter already decides H1) also covers pairs and pairs with one vertex; implies --fiber-risk, and does nothing at max-dim 2");
     bool extend_cost_rule=false;
     app.add_flag("--extend-cost-rule",extend_cost_rule,"With --extend: keep cutting only while the next cut is predicted to save more work than its extra window costs");
     app.add_flag("--birth-repair",birth_repair,"Keep the pre-quotient birth of a class alive across a quotient; veto a quotient two classes of one dimension would survive");

@@ -84,8 +84,8 @@ struct PipelineConfig
     bool shrink_search = false;
     // With shrink_risky: choose the drops for both filters together, weighted by support size.
     bool joint_drops = false;
-    // With fiber_risk: also check pair fibers and, at max-dim 3, pair-plus-vertex fibers, for H1 and H2
-    // bars (H1 only at max-dim 2, where the check is then allowed).
+    // With fiber_risk: also check pair fibers and pair-plus-vertex fibers for H2. Allowed at max-dim 2,
+    // where it does nothing (the pair filter already decides H1 of every fiber).
     bool fiber_full = false;
 
     void validate() const;

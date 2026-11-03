@@ -11,13 +11,16 @@
 
 // Fiber check. The quotient maps the original VR complex onto its image on the labels; by the fiber
 // lemma it keeps homology up to degree k when every fiber is acyclic up to degree k. A fiber with one
-// pseudo vertex is a cone (its realizing vertex in the PV is adjacent to all of it), and H1EdgeRisk
-// covers H1 over pairs. The default check covers the fiber over each triangle spanned by three
-// multi-vertex blocks (at least one proposed): the original VR complex on their union must carry no
-// H2 at any scale >= q where that triangle exists. With `full` it also checks the fibers over pairs of
-// multi-vertex blocks and, for H2, over a pair with one singleton, and it reports H1 as well as H2
-// bars (H1 only without `h2`). Development diagnostic, NOT a certificate: fibers over tetrahedra
-// (four labels) are not checked.
+// pseudo vertex is a cone (its realizing vertex in the PV is adjacent to all of it). H1 needs no more
+// than H1EdgeRisk: by the nerve theorem the fiber over a pair of cliques A, B is the suspension of the
+// complex on A whose faces have a common neighbour in B, so it carries H1 exactly when the crossing
+// graph is disconnected, and once every pair fiber is connected and simply connected, the fiber over a
+// triangle (three blocks, or two and a vertex) is too. So this checks H2 only. By default it covers the
+// fiber over each triangle spanned by three multi-vertex blocks (at least one proposed): the original
+// VR complex on their union must carry no H2 at any scale >= q where that triangle exists. With `full`
+// it also checks the fibers over pairs of multi-vertex blocks and over a pair with one singleton.
+// Without `h2` (max-dim 2) there is nothing to check. Development diagnostic, NOT a certificate:
+// fibers over tetrahedra (four labels) are not checked.
 struct FiberRisk
 {
     struct Block {std::vector<size_t> vertices;bool proposed;size_t proposed_id;};
@@ -153,6 +156,7 @@ struct FiberRisk
                           bool full=false,bool h2=true)
     {
         const auto start=std::chrono::steady_clock::now();Result result;
+        if(!h2)return result;
         const size_t n=state.originalVertexCount();
         std::vector<char> absorbed(n,0);
         for(const auto& pv:selected)for(auto v:pv.representatives)absorbed[v]=1;
@@ -212,7 +216,7 @@ struct FiberRisk
             ++count;
             const double end=std::min(endpoint,std::nextafter(radius,inf));
             result.vertices+=vs.size();vs=undominated(d,vs,from,end);result.undominated+=vs.size();
-            const double v=full?firstBar(d,vs,from,end,true,h2):firstVoid(d,vs,from,end);
+            const double v=firstVoid(d,vs,from,end);
             if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from),std::move(vs)});
         };
         for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b)for(size_t c=b+1;c<B;++c){
@@ -233,7 +237,7 @@ struct FiberRisk
             return result;
         }
         // Singletons become blocks after the multi-vertex ones; triples above never see them.
-        if(h2)for(size_t v:singles){result.blocks.push_back({{v},false,0});fill(v);}
+        for(size_t v:singles){result.blocks.push_back({{v},false,0});fill(v);}
         for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b){
             if(!wanted({a,b}))continue;
             const auto& A=result.blocks[a];const auto& Bk=result.blocks[b];
