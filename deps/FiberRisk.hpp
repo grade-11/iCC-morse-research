@@ -19,7 +19,35 @@ struct FiberRisk
 {
     struct Block {std::vector<size_t> vertices;bool proposed;size_t proposed_id;};
     struct Warning {size_t a,b,c;double epsilon;};
-    struct Result {size_t triples=0;double seconds=0;std::vector<Block> blocks;std::vector<Warning> warnings;};
+    struct Result {size_t triples=0,vertices=0,undominated=0;double seconds=0;std::vector<Block> blocks;std::vector<Warning> warnings;};
+
+    // Removes, one at a time, every vertex v dominated by another vertex u at all scales >= from: uv is
+    // an edge by `from`, and every edge vx of the complex (weight below `endpoint`) has ux by
+    // max(d(v,x), from). Then N[v] lies in N[u] at each such scale, so removing v is a strong collapse
+    // that commutes with the inclusions: the module on [from, inf) is unchanged, and each H2 bar keeps
+    // its death and max(birth, from).
+    static std::vector<size_t> undominated(const DistanceMatrix& d,const std::vector<size_t>& vs,double from,double endpoint)
+    {
+        const size_t m=vs.size();
+        std::vector<double> dm(m*m);
+        for(size_t i=0;i<m;++i)for(size_t j=0;j<m;++j)dm[i*m+j]=d.distance(vs[i],vs[j]);
+        const auto edge=[&](double w){return w>0 && w<endpoint;};
+        std::vector<char> alive(m,1);
+        for(bool changed=true;changed;){
+            changed=false;
+            for(size_t v=0;v<m;++v)if(alive[v])for(size_t u=0;u<m;++u){
+                const double uv=dm[u*m+v];if(u==v || !alive[u] || !edge(uv) || uv>from)continue;
+                bool dominated=true;
+                for(size_t x=0;x<m && dominated;++x){
+                    if(x==u || x==v || !alive[x] || !edge(dm[v*m+x]))continue;
+                    const double ux=dm[u*m+x];dominated=edge(ux) && ux<=std::max(dm[v*m+x],from);
+                }
+                if(dominated){alive[v]=0;changed=true;break;}
+            }
+        }
+        std::vector<size_t> out;for(size_t i=0;i<m;++i)if(alive[i])out.push_back(vs[i]);
+        return out;
+    }
 
     // Birth of the first H2 bar of the flag filtration on `vs` alive at some scale >= from, else -1.
     static double firstVoid(const DistanceMatrix& d,const std::vector<size_t>& vs,double from,double endpoint)
@@ -126,7 +154,9 @@ struct FiberRisk
                 radius=std::min(radius,far);
             }
             if(radius<=from){--result.triples;continue;}
-            const double v=firstVoid(d,vs,from,std::min(endpoint,std::nextafter(radius,std::numeric_limits<double>::infinity())));
+            const double end=std::min(endpoint,std::nextafter(radius,std::numeric_limits<double>::infinity()));
+            result.vertices+=vs.size();vs=undominated(d,vs,from,end);result.undominated+=vs.size();
+            const double v=firstVoid(d,vs,from,end);
             if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from)});
         }
         result.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();

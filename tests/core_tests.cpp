@@ -6,6 +6,7 @@
 #include "WindowState.hpp"
 #include "AdaptiveSchedule.hpp"
 #include "GCostController.hpp"
+#include "FiberRisk.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -886,6 +887,44 @@ void testPwphAbsorbsPvsWhenEnabled()
     CHECK((window.activeLabels() == std::vector<std::size_t>{3, 4, 6}));
 }
 
+void testFiberDominationKeepsLateVoids()
+{
+    // Random clouds near a sphere (voids) and in three clusters: removing dominated vertices must
+    // keep, at every scale >= from, whether a void is alive and the first scale where one is.
+    uint64_t state=20261103;
+    const auto uniform=[&state]{state=state*6364136223846793005ULL+1442695040888963407ULL;
+                                 return static_cast<double>(state>>11)*0x1.0p-53;};
+    size_t voids=0,pruned=0;
+    for(int trial=0;trial<300;++trial)
+    {
+        const size_t m=6+static_cast<size_t>(uniform()*18);
+        std::vector<std::vector<double>> points;
+        for(size_t i=0;i<m;++i)
+        {
+            if(trial%2==0)
+            {
+                const double z=2*uniform()-1,t=6.283185307179586*uniform(),r=std::sqrt(1-z*z)*(0.9+0.2*uniform());
+                points.push_back({r*std::cos(t),r*std::sin(t),z});
+            }
+            else
+            {
+                const double c=static_cast<double>(i%3);
+                points.push_back({c+0.6*uniform(),0.5*c*c+0.6*uniform(),0.6*uniform()});
+            }
+        }
+        const DistanceMatrix d(points);
+        std::vector<size_t> vs(m);for(size_t i=0;i<m;++i)vs[i]=i;
+        const double from=0.2+1.2*uniform(),end=from+0.05+2*uniform();
+        const auto kept=FiberRisk::undominated(d,vs,from,end);
+        const double full=FiberRisk::firstVoid(d,vs,from,end),fast=FiberRisk::firstVoid(d,kept,from,end);
+        CHECK((full<0)==(fast<0));
+        if(full>=0)CHECK(std::max(full,from)==std::max(fast,from));
+        voids+=full>=0;pruned+=kept.size()<m;
+    }
+    CHECK(voids>=20);
+    CHECK(pruned>=100);
+}
+
 void runTest(const char* name, void (*test)())
 {
     const int failures_before = failure_count;
@@ -925,6 +964,7 @@ int main()
     runTest("Sequential filter diagnostics", testSequentialFilterDiagnostics);
     runTest("PwPH frozen PVs and append-only labels", testPwphFrozenPvsAndAppendOnlyLabels);
     runTest("PwPH absorbs PVs with --absorb-pv", testPwphAbsorbsPvsWhenEnabled);
+    runTest("Fiber domination keeps late voids", testFiberDominationKeepsLateVoids);
 
     if (failure_count != 0)
     {

@@ -301,7 +301,8 @@ std::size_t DependencySupportPostProcessor::processPwph(
         new_absorbed_labels=absorbedLabels(window,selected_pvs);
         std::cout<<std::setprecision(17)<<"[fiber-risk] epsilon="<<eps_hi<<" blocks="<<fiber.blocks.size()
             <<" triples="<<fiber.triples<<" warnings="<<fiber.warnings.size()<<" removed="<<drops.size()
-            <<" kept="<<selected_pvs.size()<<" seconds="<<fiber.seconds;
+            <<" kept="<<selected_pvs.size()<<" vertices="<<fiber.vertices<<" undominated="<<fiber.undominated
+            <<" seconds="<<fiber.seconds;
         for(const auto& w:fiber.warnings)std::cout<<" void@"<<w.epsilon;
         std::cout<<'\n'<<std::setprecision(6);
     }
