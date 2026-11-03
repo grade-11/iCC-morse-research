@@ -173,62 +173,87 @@ struct FiberRisk
             for(size_t id:ids){proposed|=result.blocks[id].proposed;focused|=is_focus(result.blocks[id]);}
             return proposed && (focus>=selected.size() || focused);
         };
+        // far[v][b]: the largest distance from vertex v to block b; near[a][b]: the smallest distance
+        // between blocks a and b. A fiber is a cone at every scale >= its radius, the least over its
+        // vertices of the largest distance to the others, so only scales below the radius can carry a
+        // bar. The radius comes from `far` in one pass, and a fiber whose radius is at most a lower
+        // bound of its first scale (q or a crossing distance) is skipped before its triangle scale is
+        // computed. This prunes exactly the fibers the radius test below prunes.
+        const double inf=std::numeric_limits<double>::infinity();
+        std::vector<std::vector<double>> far(n);
+        const auto fill=[&](size_t v){
+            if(!far[v].empty())return;
+            far[v].assign(B,0.0);
+            for(size_t b=0;b<B;++b)for(auto u:result.blocks[b].vertices)far[v][b]=std::max(far[v][b],d.distance(v,u));
+        };
+        for(size_t b=0;b<B;++b)for(auto v:result.blocks[b].vertices)fill(v);
+        std::vector<double> near(B*B,inf);
+        for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b){
+            double w=inf;
+            for(auto i:result.blocks[a].vertices)for(auto j:result.blocks[b].vertices)w=std::min(w,d.distance(i,j));
+            near[a*B+b]=near[b*B+a]=w;
+        }
+        const auto radiusOf=[&](std::initializer_list<size_t> ids,size_t x){
+            double radius=inf;
+            for(size_t id:ids)for(auto v:result.blocks[id].vertices){
+                double r=x==NONE?0.0:d.distance(v,x);for(size_t k:ids)r=std::max(r,far[v][k]);
+                radius=std::min(radius,r);
+            }
+            if(x!=NONE){double r=0;for(size_t k:ids)r=std::max(r,far[x][k]);radius=std::min(radius,r);}
+            return radius;
+        };
         // The fiber over the image simplex on `ids` exists from w_tau; check it from max(q, w_tau) on.
-        const auto check=[&](size_t a,size_t b,size_t c,double w_tau,size_t& count){
+        const auto check=[&](size_t a,size_t b,size_t c,double w_tau,double radius,size_t& count){
             if(!(w_tau<endpoint))return;
+            const double from=std::max(q,w_tau);
+            if(radius<=from)return;
             std::vector<size_t> vs;
             for(size_t id:{a,b,c})if(id!=NONE)vs.insert(vs.end(),result.blocks[id].vertices.begin(),result.blocks[id].vertices.end());
-            const double from=std::max(q,w_tau);
-            // Once one vertex is adjacent to all others the fiber is a cone and stays one: only
-            // scales below that radius can carry a bar.
-            double radius=std::numeric_limits<double>::infinity();
-            for(size_t i=0;i<vs.size();++i){
-                double far=0;for(size_t j=0;j<vs.size() && far<radius;++j)if(j!=i)far=std::max(far,d.distance(vs[i],vs[j]));
-                radius=std::min(radius,far);
-            }
-            if(radius<=from)return;
             ++count;
-            const double end=std::min(endpoint,std::nextafter(radius,std::numeric_limits<double>::infinity()));
+            const double end=std::min(endpoint,std::nextafter(radius,inf));
             result.vertices+=vs.size();vs=undominated(d,vs,from,end);result.undominated+=vs.size();
             const double v=full?firstBar(d,vs,from,end,true,h2):firstVoid(d,vs,from,end);
             if(v>=0)result.warnings.push_back({a,b,c,std::max(v,from),std::move(vs)});
         };
         for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b)for(size_t c=b+1;c<B;++c){
             if(!wanted({a,b,c}))continue;
+            const double radius=radiusOf({a,b,c},NONE);
+            if(radius<=std::max({q,near[a*B+b],near[a*B+c],near[b*B+c]}))continue;
             const auto& A=result.blocks[a];const auto& Bk=result.blocks[b];const auto& C=result.blocks[c];
             // Scale at which the triangle (A, B, C) exists in the image: best transversal triangle.
-            double w_tau=std::numeric_limits<double>::infinity();
+            double w_tau=inf;
             for(auto i:A.vertices)for(auto j:Bk.vertices){
                 const double ij=d.distance(i,j);if(ij>=w_tau)continue;
                 for(auto k:C.vertices)w_tau=std::min(w_tau,std::max({ij,d.distance(i,k),d.distance(j,k)}));
             }
-            check(a,b,c,w_tau,result.triples);
+            check(a,b,c,w_tau,radius,result.triples);
         }
         if(!full){
             result.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
             return result;
         }
         // Singletons become blocks after the multi-vertex ones; triples above never see them.
-        if(h2)for(size_t v:singles)result.blocks.push_back({{v},false,0});
+        if(h2)for(size_t v:singles){result.blocks.push_back({{v},false,0});fill(v);}
         for(size_t a=0;a<B;++a)for(size_t b=a+1;b<B;++b){
             if(!wanted({a,b}))continue;
             const auto& A=result.blocks[a];const auto& Bk=result.blocks[b];
-            double w_ab=std::numeric_limits<double>::infinity();
-            for(auto i:A.vertices)for(auto j:Bk.vertices)w_ab=std::min(w_ab,d.distance(i,j));
-            check(a,b,NONE,w_ab,result.pairs);
+            const double w_ab=near[a*B+b];
+            check(a,b,NONE,w_ab,radiusOf({a,b},NONE),result.pairs);
             if(!(w_ab<endpoint))continue;
             for(size_t s=B;s<result.blocks.size();++s){
                 const size_t x=result.blocks[s].vertices.front();
-                double near_a=std::numeric_limits<double>::infinity(),near_b=near_a;
+                double near_a=inf,near_b=inf;
                 for(auto i:A.vertices)near_a=std::min(near_a,d.distance(i,x));
                 for(auto j:Bk.vertices)near_b=std::min(near_b,d.distance(j,x));
                 if(!(std::max({w_ab,near_a,near_b})<endpoint))continue;
-                double w_tau=std::numeric_limits<double>::infinity();
+                const double radius=radiusOf({a,b},x);
+                if(radius<=std::max({q,w_ab,near_a,near_b}))continue;
+                double w_tau=inf;
                 for(auto i:A.vertices){
                     const double ix=d.distance(i,x);if(ix>=w_tau)continue;
                     for(auto j:Bk.vertices)w_tau=std::min(w_tau,std::max({ix,d.distance(i,j),d.distance(j,x)}));
                 }
-                check(a,b,s,w_tau,result.pair_vertex);
+                check(a,b,s,w_tau,radius,result.pair_vertex);
             }
         }
         result.seconds=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
