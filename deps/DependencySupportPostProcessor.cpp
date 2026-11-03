@@ -472,18 +472,29 @@ std::size_t DependencySupportPostProcessor::processPwph(
     if(cfg.fiber_risk && !cfg.shrink_risky && !selected_pvs.empty() && batch.protected_labels.empty())
     {
         const auto fiber=FiberRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon(),FiberRisk::NONE,cfg.fiber_full,cfg.maxdim>=3);
-        const auto drops=FiberRisk::greedyDrops(fiber,selected_pvs.size());
-        std::vector<bool> kept(selected_pvs.size(),true);for(size_t id:drops)kept[id]=false;
-        std::vector<SelectedPV> remaining;
-        for(size_t id=0;id<selected_pvs.size();++id)if(kept[id])remaining.push_back(std::move(selected_pvs[id]));
-        selected_pvs=std::move(remaining);
+        auto drops=FiberRisk::greedyDrops(fiber,selected_pvs.size());
+        const auto remove=[&](const std::vector<size_t>& ids){
+            std::vector<bool> kept(selected_pvs.size(),true);for(size_t id:ids)kept[id]=false;
+            std::vector<SelectedPV> remaining;
+            for(size_t id=0;id<selected_pvs.size();++id)if(kept[id])remaining.push_back(std::move(selected_pvs[id]));
+            selected_pvs=std::move(remaining);
+        };
+        remove(drops);
+        // With --fiber-full a dropped support's vertices become singletons, which can complete a new
+        // pair-plus-vertex fiber: inspect again until clean.
+        size_t removed=drops.size(),rounds=1;double seconds=fiber.seconds;
+        while(cfg.fiber_full && !drops.empty() && !selected_pvs.empty()){
+            const auto again=FiberRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon(),FiberRisk::NONE,true,cfg.maxdim>=3);
+            drops=FiberRisk::greedyDrops(again,selected_pvs.size());
+            remove(drops);removed+=drops.size();++rounds;seconds+=again.seconds;
+        }
         new_absorbed_labels=absorbedLabels(window,selected_pvs);
         std::cout<<std::setprecision(17)<<"[fiber-risk] epsilon="<<eps_hi<<" blocks="<<fiber.blocks.size()
             <<" triples="<<fiber.triples;
-        if(cfg.fiber_full)std::cout<<" pairs="<<fiber.pairs<<" pair_vertex="<<fiber.pair_vertex;
-        std::cout<<" warnings="<<fiber.warnings.size()<<" removed="<<drops.size()
+        if(cfg.fiber_full)std::cout<<" pairs="<<fiber.pairs<<" pair_vertex="<<fiber.pair_vertex<<" rounds="<<rounds;
+        std::cout<<" warnings="<<fiber.warnings.size()<<" removed="<<removed
             <<" kept="<<selected_pvs.size()<<" vertices="<<fiber.vertices<<" undominated="<<fiber.undominated
-            <<" seconds="<<fiber.seconds;
+            <<" seconds="<<seconds;
         for(const auto& w:fiber.warnings)std::cout<<" void@"<<w.epsilon;
         std::cout<<'\n'<<std::setprecision(6);
     }
