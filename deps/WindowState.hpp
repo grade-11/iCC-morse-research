@@ -70,6 +70,14 @@ public:
     // No quotient has occurred: widening changes no label geometry or caches.
     void extendFirstWindowTo(double eps_hi);
 
+    // EXTEND of any prepared PwPH window, with or without pseudo vertices: prepareWindow caches the
+    // distance of every active pair involving a PV, so widening changes no label geometry.
+    void extendPreparedWindowTo(double eps_hi, bool is_final);
+
+    // Quotient edges of the prepared window weighing in [eps_lo, eps_hi), in prepareWindow's order.
+    [[nodiscard]]
+    SimplexList quotientEdgeTail(const PipelineRuntime& runtime, double eps_lo, double eps_hi) const;
+
     // End the prepared-window geometry lifetime after its DimensionFrame dies.
     // Persistent active-label and pseudo-vertex state remains available for
     // support postprocessing and the next window.

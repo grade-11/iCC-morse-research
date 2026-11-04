@@ -151,11 +151,14 @@ bool samePairs(const std::vector<PersistentPairInfo>& lhs,const std::vector<Pers
 // Gate only: the retained frames at this cut must equal a fresh direct window
 // [0, epsilon) on its own WindowState, built by the ordinary non-retained path
 // with the geometric enumerators for both triangles and tetrahedra.
-void checkAgainstDirect(const PipelineRuntime& runtime,const double epsilon,const bool final,
+void checkAgainstDirect(const PipelineRuntime& runtime,const WindowState& state,const double eps_lo,
+                        const double epsilon,const bool final,
                         const DimensionFrame& lower,const DimensionFrame* upper)
 {
-    WindowState direct_state(runtime.distanceMatrix().vertexCount());
-    auto edges=direct_state.prepareWindow(runtime,{.eps_lo=0.0,.eps_hi=epsilon,.is_final=final});
+    // A copy of the current quotient (no PVs before the first commit), prepared from scratch.
+    WindowState direct_state=state;
+    direct_state.invalidateCurrentWindow();
+    auto edges=direct_state.prepareWindow(runtime,{.eps_lo=eps_lo,.eps_hi=epsilon,.is_final=final});
     std::string failure;
     const auto check=[&](const bool same,const char* what){if(!same && failure.empty())failure=what;};
     std::size_t direct_lower_pairs=0;
@@ -401,7 +404,8 @@ std::optional<std::size_t> PwphPipeline::runLiveGuardExtendPrefix()
             worth_window("extend",config.eps_breaks[cut-1],epsilon,extend_start);
         }
         if(config.extend_gate)
-            checkAgainstDirect(runtime_,epsilon,final,*lower,upper.get());
+            checkAgainstDirect(runtime_,WindowState(runtime_.distanceMatrix().vertexCount()),0.0,
+                               epsilon,final,*lower,upper.get());
         if(final)
         {
             emitWindow(*lower,0.0,endpoint,upper.get());
@@ -448,4 +452,140 @@ std::optional<std::size_t> PwphPipeline::runLiveGuardExtendPrefix()
         return cut;
     }
     throw std::logic_error("Live-guard EXTEND ended without its final endpoint");
+}
+
+// --extend-all: every window, not only the first, is retained and extended through the cuts where it
+// does not commit. A segment builds the window [eps_lo, cut) on the current quotient from scale zero and
+// extends it cut by cut, exactly as the first window is extended before the first commit. At an admitted
+// cut with supports left after the filters, --extend-rule may extend instead of committing.
+// Returns the cut of the next commit, or nothing when the window reached the endpoint.
+std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t first_cut,const double eps_lo)
+{
+    const auto& config=runtime_.config();
+    const double endpoint=config.finalEpsilon();
+    const double first=config.eps_breaks.at(first_cut);
+    using Clock=std::chrono::steady_clock;
+    const bool log=config.extend_worth_log;
+    const auto work=[&](const double x)
+    {return PackDmtPayback::topWork(runtime_.distanceMatrix(),window_state_,{},x,config.maxdim);};
+    // Window times and predicted work, for the log and the rule's calibration.
+    const auto note=[&](const char* mode,const double lo,const double hi,const Clock::time_point start)
+    {
+        const double seconds=std::chrono::duration<double>(Clock::now()-start).count();
+        if(!log && !config.extend_rule)return;
+        const double w_lo=std::string(mode)=="extend"?work(lo):0.0,w_hi=work(hi);
+        rule_calibration_.add(std::string(mode)=="extend",seconds,w_hi-w_lo);
+        if(log)
+            std::cout<<std::setprecision(17)<<"[worth-window] mode="<<mode<<" lo="<<lo<<" hi="<<hi<<" core_s="<<seconds
+                <<" W_lo="<<w_lo<<" W_hi="<<w_hi<<" active="<<window_state_.activeLabels().size()<<'\n'<<std::setprecision(6);
+    };
+    const auto build_start=Clock::now();
+    auto edges=window_state_.prepareWindow(runtime_,{.eps_lo=eps_lo,.eps_hi=first,.is_final=first==endpoint});
+    auto lower=std::make_unique<DimensionFrame>(runtime_,window_state_,std::move(edges),true);
+    lower->matchPersistenceForExtension(true);
+    std::unique_ptr<DimensionFrame> upper;
+    if(config.maxdim==3)
+    {
+        upper=DimensionFrame::retainedUpperFrame(*lower);
+        upper->matchPersistenceForExtension(true);
+    }
+    note(window_state_.pseudoVertices().empty()?"build":"rebuild",eps_lo,first,build_start);
+    for(std::size_t cut=first_cut;cut<config.eps_breaks.size();++cut)
+    {
+        const double epsilon=config.eps_breaks[cut];
+        const bool final=epsilon==endpoint;
+        if(cut>first_cut)
+        {
+            const auto extend_start=Clock::now();
+            window_state_.extendPreparedWindowTo(epsilon,final);
+            lower->extendTo(epsilon);
+            if(upper)
+                upper->extendWith(*lower);
+            note("extend",config.eps_breaks[cut-1],epsilon,extend_start);
+        }
+        if(config.extend_gate)
+            checkAgainstDirect(runtime_,window_state_,eps_lo,epsilon,final,*lower,upper.get());
+        if(final)
+        {
+            emitWindow(*lower,eps_lo,endpoint,upper.get());
+            upper.reset();
+            lower.reset();
+            window_state_.invalidateCurrentWindow();
+            return std::nullopt;
+        }
+        const std::size_t live_h1=liveClassCount(*lower);
+        const std::size_t live_h2=upper?liveClassCount(*upper):0;
+        const auto report=[&](const char* action)
+        {
+            std::cout<<"[birth-repair] epsilon="<<std::setprecision(17)<<epsilon<<std::setprecision(6)
+                     <<" live="<<live_h1;
+            if(upper)
+                std::cout<<','<<live_h2;
+            std::cout<<" action="<<action<<'\n';
+        };
+        if(live_h1+live_h2>0)
+        {
+            report("VETO");
+            continue;
+        }
+        const auto batch=(upper?*upper:*lower).snapshotDependencySupportBatch();
+        auto preview=previewSelection(runtime_,window_state_,support_processor_,epsilon,batch);
+        if(preview.committed_count==0)
+        {
+            report("ALLOW");
+            std::cout<<preview.output;
+            continue;
+        }
+        if(config.extend_rule && !ruleCommits(epsilon,cut))
+        {
+            report("ALLOW");
+            continue;
+        }
+        emitWindow(*lower,eps_lo,epsilon,upper.get());
+        report("ALLOW");
+        upper.reset();
+        lower.reset();
+        window_state_.invalidateCurrentWindow();
+        window_state_=std::move(preview.selected_window);
+        std::cout<<preview.output;
+        runtime_.ensureBinomialCapacity(window_state_.totalLabelCount());
+        return cut;
+    }
+    throw std::logic_error("EXTEND segment ended without its final endpoint");
+}
+
+void PwphPipeline::runExtendAll()
+{
+    std::size_t first_cut=0;
+    double eps_lo=0.0;
+    for(;;)
+    {
+        const auto committed=runExtendSegment(first_cut,eps_lo);
+        if(!committed)
+            return;
+        eps_lo=runtime_.config().eps_breaks[*committed];
+        first_cut=*committed+1;
+    }
+}
+
+bool PwphPipeline::ruleCommits(const double epsilon,const std::size_t cut)
+{
+    // Rollout of "never commit again": commit now and then build one window to the endpoint (a new window
+    // to the next cut, extended from there), against extending the current window to the endpoint. A
+    // window built from scale zero costs tb per unit of predicted top-dimension work, an extension te per
+    // unit it adds; both are measured on the windows of this run so far. The selection and filter time is
+    // already spent when the rule decides, and does not enter.
+    const auto& w=support_processor_.lastWorth();
+    if(w.epsilon!=epsilon)
+        throw std::logic_error("--extend-rule: no predicted work for this cut");
+    const auto& c=rule_calibration_;
+    const double tb=c.build_w>0?c.build_s/c.build_w:0.0;
+    const double te=c.extend_w>0?c.extend_s/c.extend_w:tb;
+    const double commit_cost=w.C_s+tb*w.wsel_next+te*(w.wsel_end-w.wsel_next);
+    const double extend_cost=te*(w.w0_end-w.w0_r);
+    const bool commit=commit_cost<extend_cost;
+    std::cout<<std::setprecision(17)<<"[rule] epsilon="<<epsilon<<" cut="<<cut<<" tb="<<tb<<" te="<<te
+             <<" commit_cost="<<commit_cost<<" extend_cost="<<extend_cost
+             <<" action="<<(commit?"COMMIT":"EXTEND")<<'\n'<<std::setprecision(6);
+    return commit;
 }

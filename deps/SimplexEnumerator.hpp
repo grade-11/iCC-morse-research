@@ -48,7 +48,8 @@ public:
                                         const std::vector<size_t>& active_labels,
                                         const std::vector<SelectedPV>& pseudo_vertices,
                                         const robin_hood::unordered_map<uint64_t, double>& pv_label_distance_hash,
-                                        const size_t dim, const double maxeps, const int threadnum);
+                                        const size_t dim, const double maxeps, const int threadnum,
+                                        const double min_weight = -std::numeric_limits<double>::infinity());
 
     // Verbose diagnostics use a separate enumerator so the regular path does not allocate
     // realization storage, pack witnesses, or impose canonical edge tie-breaking.
@@ -134,5 +135,6 @@ private:
                                         const std::vector<SelectedPV>& pseudo_vertices,
                                         const robin_hood::unordered_map<uint64_t, double>& pv_label_distance_hash,
                                         const size_t dim, const double maxeps, const int threadnum,
-                                        robin_hood::unordered_map<int64_t, uint64_t>* pv_realization_out);
+                                        robin_hood::unordered_map<int64_t, uint64_t>* pv_realization_out,
+                                        const double min_weight = -std::numeric_limits<double>::infinity());
 };

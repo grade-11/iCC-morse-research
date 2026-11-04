@@ -469,6 +469,31 @@ void ImplicitMorseMatching::collectLiveReductionTail(
 
     for (const auto reducer : live.reducer_facets)
     {
+        if (frame.extension_geometric_)
+        {
+            // With pseudo vertices a cofacet weighs its witness clique, not its longest label edge.
+            // Cofacets are appended in filtration order, so the ones appended since this reduction
+            // emptied are exactly the ranks at or beyond its frontier.
+            const auto collect_appended_rank =
+                [&](const std::size_t, const std::int64_t candidate_bindex) -> bool
+            {
+                std::size_t cofacet_rank = 0;
+                if (frame.tryFindCofacetRank(candidate_bindex, cofacet_rank) &&
+                    cofacet_rank >= live.cofacet_frontier)
+                {
+                    workspace.cofacet_indices.push_back(cofacet_rank);
+                }
+                return false;
+            };
+            SimplexUtility::forEachImmediateCofacetInBindexOrder(
+                frame.binomial_table_,
+                workspace.vertex_workspace,
+                frame.facet_list_[reducer].first,
+                frame.window_.totalLabelCount(),
+                frame.dimension_ - 1,
+                collect_appended_rank);
+            continue;
+        }
         const auto& vertices = workspace.vertex_workspace;
         // In a first window without PVs a facet weighs its longest edge.
         const double facet_weight = frame.facet_list_[reducer].second;

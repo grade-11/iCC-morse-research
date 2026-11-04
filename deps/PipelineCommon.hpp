@@ -91,6 +91,12 @@ struct PipelineConfig
     // around every cut ([worth]) and the time and predicted work of every window ([worth-window]);
     // computations and cuts are unchanged.
     bool extend_worth_log = false;
+    // With live_guard_extend: retain and extend every window, not only the first; a window ends only at a
+    // commit (or the endpoint).
+    bool extend_all = false;
+    // With extend_all: at an admitted cut with supports, commit only if a commit followed by one window to
+    // the endpoint is predicted to cost less than extending the current window to the endpoint.
+    bool extend_rule = false;
 
     void validate() const;
 

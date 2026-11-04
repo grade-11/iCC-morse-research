@@ -563,7 +563,7 @@ std::size_t DependencySupportPostProcessor::processPwph(
     // --extend-worth-log (dry run): predicted top-dimension work at this cut, the next cut and the
     // endpoint, without and with the committed supports. Outside the F and C timers; changes nothing.
     double worth_x=0,worth_end=0,w0r=0,w0x=0,wsx=0,w0e=0,wse=0;size_t blocks0=0,blocks_after=0;
-    if(cfg.extend_worth_log)
+    if(cfg.extend_worth_log || cfg.extend_rule)
     {
         const auto next=std::upper_bound(cfg.eps_breaks.begin(),cfg.eps_breaks.end(),eps_hi);
         worth_end=cfg.finalEpsilon();worth_x=next==cfg.eps_breaks.end()?worth_end:*next;
@@ -590,6 +590,9 @@ std::size_t DependencySupportPostProcessor::processPwph(
     if(auto* cost=PolicyCost::active)cost->mark("MUTATION_END");
     const double F=std::chrono::duration<double>(f_end-selection_start).count();
     const double C=std::chrono::duration<double>(commit_end-commit_start).count();
+    if(cfg.extend_worth_log || cfg.extend_rule)
+        last_worth_=Worth{.epsilon=eps_hi,.next=worth_x,.end=worth_end,.w0_r=w0r,.w0_next=w0x,.wsel_next=wsx,
+                          .w0_end=w0e,.wsel_end=wse,.F_s=F,.C_s=C,.committed=committed_count};
     if(cfg.extend_worth_log)
         std::cout<<std::setprecision(17)<<"[worth] epsilon="<<eps_hi<<" next="<<worth_x<<" end="<<worth_end
             <<" k="<<cfg.maxdim<<" live="<<batch.protected_labels.size()<<" eligible="<<eligible_count

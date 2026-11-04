@@ -286,6 +286,11 @@ void PwphPipeline::run()
         return;
     }
     const auto& config = runtime_.config();
+    if(config.live_guard_extend && config.extend_all)
+    {
+        runExtendAll();
+        return;
+    }
     auto policy_cost = PolicyCost::Logger::create(runtime_.distanceMatrix(),config);
     if(policy_cost)policy_cost->mark("GEO_PREPASS_BEGIN");
     auto geometry_shadow = GeoShadow::Logger::create(runtime_.distanceMatrix(),config);

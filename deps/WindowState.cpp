@@ -224,6 +224,60 @@ void WindowState::extendFirstWindowTo(const double eps_hi)
     bounds_.eps_hi = eps_hi;
 }
 
+void WindowState::extendPreparedWindowTo(const double eps_hi, const bool is_final)
+{
+    if (active_label_mask_.size() != totalLabelCount())
+        throw std::logic_error("EXTEND requires a prepared window.");
+    if (!std::isfinite(eps_hi) || !(eps_hi > bounds_.eps_hi))
+        throw std::invalid_argument("EXTEND requires a strictly larger finite cut.");
+    bounds_.eps_hi = eps_hi;
+    bounds_.is_final = is_final;
+}
+
+SimplexList WindowState::quotientEdgeTail(
+    const PipelineRuntime& runtime,
+    const double eps_lo,
+    const double eps_hi) const
+{
+    if (active_label_mask_.size() != totalLabelCount())
+        throw std::logic_error("EXTEND edge tail requires a prepared window.");
+    const int worker_count = runtime.config().threads > 0 ? runtime.config().threads : 1;
+    const auto& distance_matrix = runtime.distanceMatrix();
+    std::vector<SimplexList> chunks(static_cast<size_t>(worker_count));
+    bool missing = false;  // no exception may leave the parallel region
+#pragma omp parallel for schedule(dynamic) num_threads(worker_count) reduction(||:missing)
+    for (size_t i = 0; i < active_label_list_.size(); ++i)
+    {
+        auto& chunk = chunks[static_cast<size_t>(omp_get_thread_num())];
+        for (size_t j = i + 1; j < active_label_list_.size(); ++j)
+        {
+            size_t lhs = active_label_list_[i];
+            size_t rhs = active_label_list_[j];
+            if (lhs > rhs)
+                std::swap(lhs, rhs);
+            double weight = 0.0;
+            if (rhs < original_vertex_count_)
+                weight = distance_matrix.distance(lhs, rhs);
+            else
+            {
+                const auto it = pv_label_distance_hash_.find(makeLabelPairKey(lhs, rhs));
+                if (it == pv_label_distance_hash_.end())
+                {
+                    missing = true;
+                    continue;
+                }
+                weight = it->second;
+            }
+            // Same edge semantics as buildQuotientEdges: zero-distance pairs are not edges.
+            if (weight > 0.0 && weight >= eps_lo && weight < eps_hi)
+                chunk.emplace_back(SimplexUtility::getEdgeBinomialIndex(runtime.binomialTable(), rhs, lhs), weight);
+        }
+    }
+    if (missing)
+        throw std::logic_error("EXTEND edge tail: an active PV pair has no cached distance.");
+    return SimplexUtility::sortAndMergeSimplexChunks(chunks, worker_count);
+}
+
 void WindowState::commitSelectedPVs(
     std::vector<SelectedPV>&& selected_pvs,
     const std::unordered_set<size_t>& new_absorbed_labels)

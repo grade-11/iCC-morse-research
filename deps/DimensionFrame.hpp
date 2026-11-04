@@ -255,6 +255,9 @@ private:
 
     std::size_t dimension_ = 2;
     bool retain_for_extension_ = false;
+    // EXTEND of a window with pseudo vertices: tails come from the geometric enumerator, and the
+    // tetrahedron lookup is not segmented by weight.
+    bool extension_geometric_ = false;
     bool extension_matched_ = false;
     double extension_hi_ = 0.0;
     // Capacity reserved for later tails, as a multiple of the first window.

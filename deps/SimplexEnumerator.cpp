@@ -600,8 +600,11 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
     const size_t dim,
     const double maxeps,
     const int threadnum,
-    robin_hood::unordered_map<int64_t, uint64_t>* pv_realization_out)
+    robin_hood::unordered_map<int64_t, uint64_t>* pv_realization_out,
+    const double min_weight)
 {
+    // min_weight > -inf (EXTEND of a window with pseudo vertices): emit only the cofacets weighing at
+    // least min_weight, i.e. the tail beyond the previous cut.
     const int worker_count = threadnum;
     std::vector<std::vector<std::pair<int64_t, double>>> thread_workspace(static_cast<size_t>(worker_count));
 
@@ -747,7 +750,7 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
                 }
             }
 
-            if (cofacetweight > 0.0 && cofacetweight < maxeps)
+            if (cofacetweight > 0.0 && cofacetweight < maxeps && cofacetweight >= min_weight)
             {
                 ws.cofacet_vertices.assign(simplex_vertices.begin(), simplex_vertices.end());
                 ws.cofacet_vertices.push_back(covt);
@@ -810,11 +813,12 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::getGeometricCofacetLi
     const robin_hood::unordered_map<uint64_t, double>& pv_label_distance_hash,
     const size_t dim,
     const double maxeps,
-    const int threadnum)
+    const int threadnum,
+    const double min_weight)
 {
     return enumerateGeometricCofacets<false>(sorted_quotient_simplex_list, active_labels,
                                              pseudo_vertices, pv_label_distance_hash,
-                                             dim, maxeps, threadnum, nullptr);
+                                             dim, maxeps, threadnum, nullptr, min_weight);
 }
 
 std::vector<std::pair<int64_t, double>> SimplexEnumerator::getGeometricCofacetListWithRealizations(
