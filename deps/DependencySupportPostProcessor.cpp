@@ -407,16 +407,23 @@ std::size_t DependencySupportPostProcessor::processPwph(
     const bool fast=risk_mode=="selective-fast" || risk_mode=="selective-graph";
     const size_t eligible_count=selected_pvs.size();
     // Predicted top-dimension work at this cut, the next cut and the endpoint, without and with a selection.
+    // The window does not change before the commit, so the work without a selection is computed once.
+    double pre_w0r=-1,pre_w0e=-1;
     const auto worth_of=[&](const std::vector<SelectedPV>& selection,const double F_s)
     {
         const auto next=std::upper_bound(cfg.eps_breaks.begin(),cfg.eps_breaks.end(),eps_hi);
         Worth w{.epsilon=eps_hi,.end=cfg.finalEpsilon()};
         w.next=next==cfg.eps_breaks.end()?w.end:*next;
         const size_t k=cfg.maxdim;
-        w.w0_r=PackDmtPayback::topWork(distance_matrix,window,{},eps_hi,k);
-        w.w0_next=PackDmtPayback::topWork(distance_matrix,window,{},w.next,k);
-        w.w0_end=PackDmtPayback::topWork(distance_matrix,window,{},w.end,k);
-        w.wsel_next=PackDmtPayback::topWork(distance_matrix,window,selection,w.next,k);
+        // The rule needs the work at this cut and at the endpoint, without and with the selection; the
+        // values at the next cut are for the log only. Each costs a pass over all vertex pairs.
+        w.w0_r=pre_w0r=PackDmtPayback::topWork(distance_matrix,window,{},eps_hi,k);
+        w.w0_end=pre_w0e=PackDmtPayback::topWork(distance_matrix,window,{},w.end,k);
+        if(cfg.extend_worth_log)
+        {
+            w.w0_next=PackDmtPayback::topWork(distance_matrix,window,{},w.next,k);
+            w.wsel_next=PackDmtPayback::topWork(distance_matrix,window,selection,w.next,k);
+        }
         w.wsel_end=PackDmtPayback::topWork(distance_matrix,window,selection,w.end,k);
         w.F_s=F_s;w.committed=selection.size();
         return w;
@@ -591,14 +598,17 @@ std::size_t DependencySupportPostProcessor::processPwph(
         const auto next=std::upper_bound(cfg.eps_breaks.begin(),cfg.eps_breaks.end(),eps_hi);
         worth_end=cfg.finalEpsilon();worth_x=next==cfg.eps_breaks.end()?worth_end:*next;
         const size_t k=cfg.maxdim;
-        w0r=PackDmtPayback::topWork(distance_matrix,window,{},eps_hi,k);
-        w0x=PackDmtPayback::topWork(distance_matrix,window,{},worth_x,k);
-        w0e=PackDmtPayback::topWork(distance_matrix,window,{},worth_end,k);
-        wsx=committed_count?PackDmtPayback::topWork(distance_matrix,window,selected_pvs,worth_x,k):w0x;
+        w0r=pre_w0r>=0?pre_w0r:PackDmtPayback::topWork(distance_matrix,window,{},eps_hi,k);
+        w0e=pre_w0e>=0?pre_w0e:PackDmtPayback::topWork(distance_matrix,window,{},worth_end,k);
         wse=committed_count?PackDmtPayback::topWork(distance_matrix,window,selected_pvs,worth_end,k):w0e;
-        std::vector<size_t> owner;
-        blocks0=PackDmtPayback::partition(window,{},owner);
-        blocks_after=committed_count?PackDmtPayback::partition(window,selected_pvs,owner):blocks0;
+        if(cfg.extend_worth_log)
+        {
+            w0x=PackDmtPayback::topWork(distance_matrix,window,{},worth_x,k);
+            wsx=committed_count?PackDmtPayback::topWork(distance_matrix,window,selected_pvs,worth_x,k):w0x;
+            std::vector<size_t> owner;
+            blocks0=PackDmtPayback::partition(window,{},owner);
+            blocks_after=committed_count?PackDmtPayback::partition(window,selected_pvs,owner):blocks0;
+        }
     }
     if(auto* cost=PolicyCost::active)cost->mark("MUTATION_BEGIN");
     const auto commit_start=Clock::now();

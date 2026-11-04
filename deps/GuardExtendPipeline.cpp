@@ -470,13 +470,23 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(std::size_t first_cut,
     const double first=config.eps_breaks.at(first_cut);
     using Clock=std::chrono::steady_clock;
     const bool log=config.extend_worth_log;
+    // The label set is fixed within a segment, so the work up to a scale is computed once.
+    std::vector<std::pair<double,double>> work_seen;
     const auto work=[&](const double x)
-    {return PackDmtPayback::topWork(runtime_.distanceMatrix(),window_state_,{},x,config.maxdim);};
+    {
+        for(const auto& [scale,value]:work_seen)
+            if(scale==x)
+                return value;
+        const double value=PackDmtPayback::topWork(runtime_.distanceMatrix(),window_state_,{},x,config.maxdim);
+        work_seen.emplace_back(x,value);
+        return value;
+    };
     // Window times and predicted work, for the log and the rule's calibration.
     const auto note=[&](const char* mode,const double lo,const double hi,const Clock::time_point start,const double prep_s)
     {
         const double seconds=std::chrono::duration<double>(Clock::now()-start).count();
-        if(!log && !config.extend_rule)return;
+        // Once no more commits can come, the rule needs no more calibration.
+        if(!log && (!config.extend_rule || no_more_commits_))return;
         const double w_lo=std::string(mode)=="extend"?work(lo):0.0,w_hi=work(hi);
         rule_calibration_.add(std::string(mode)=="extend",seconds,w_lo,w_hi);
         if(log)
@@ -643,12 +653,9 @@ bool PwphPipeline::ruleDecide(const DependencySupportPostProcessor::Worth& w,con
     // window built from scale zero costs tb per unit of predicted top-dimension work, an extension te per
     // unit it adds; both are measured on the windows of this run so far. The selection and filter time is
     // already spent when the rule decides, and does not enter.
-    // One time per unit of work t for both branches, over every window so far (builds and extensions,
-    // weighted by their work, so the large windows dominate); a new window also pays the fixed time of
-    // preparing its label distances and edges, measured on the latest build.
-    // Stopping cannot be undone, while a commit keeps the choice to commit again: extending to the
-    // endpoint must stay cheaper even at the rate the latest window actually ran at, when that was higher
-    // than predicted.
+    // A new window also pays the fixed time of preparing its label distances and edges, measured on the
+    // latest build. Stopping cannot be undone, while a commit keeps the choice to commit again: extending to
+    // the endpoint must stay cheaper even when the latest window ran slower than the model predicted it.
     // The time per unit of work is not constant: in H2 it grows with the size of the window, so a wide
     // window costs more than the same work in narrower ones. Both branches use the same growth, measured
     // on the first window's own extensions (beta = 1, a constant rate, when it does not grow).

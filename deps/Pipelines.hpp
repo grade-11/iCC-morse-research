@@ -43,7 +43,8 @@ private:
     struct RuleCalibration
     {
         double build_s = 0, build_w = 0, extend_s = 0, extend_w = 0, prep_s = 0;
-        // The latest window's time over its prediction from the rate before it (1 before any prediction).
+        // The latest window's time over its prediction from the growing-rate model before it (1 before any
+        // prediction).
         double last_ratio = 1.0;
         // Every window so far: predicted work at its lower and upper scale (lower 0 for a build), time, build?
         struct Window { double w_lo, w_hi, seconds; bool build; };
@@ -55,10 +56,15 @@ private:
         }
         void add(bool extend, double seconds, double w_lo, double w_hi)
         {
-            windows.push_back({extend ? w_lo : 0.0, w_hi, seconds, !extend});
-            const double work = w_hi - (extend ? w_lo : 0.0);
+            const double from = extend ? w_lo : 0.0;
+            const double work = w_hi - from;
+            if (work > 0 && !windows.empty())
+            {
+                const double predicted = cost(beta(), from, w_hi);
+                if (predicted > 0) last_ratio = seconds / predicted;
+            }
+            windows.push_back({from, w_hi, seconds, !extend});
             if (work <= 0) return;
-            if (rate() > 0) last_ratio = seconds / (rate() * work);
             (extend ? extend_s : build_s) += seconds;
             (extend ? extend_w : build_w) += work;
         }
