@@ -484,6 +484,38 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(std::size_t first_cut,
                 <<" prep_s="<<prep_s<<'\n'<<std::setprecision(6);
     };
     const auto build_start=Clock::now();
+    if(first==endpoint && !config.extend_gate)
+    {
+        // A window that goes straight to the endpoint is never extended: build it as an ordinary window
+        // (implicit cofacets, no retained lists or rank lookup), as the plain ladder builds its last window.
+        auto final_edges=window_state_.prepareWindow(runtime_,{.eps_lo=eps_lo,.eps_hi=endpoint,.is_final=true});
+        rule_calibration_.prep_s=std::chrono::duration<double>(Clock::now()-build_start).count();
+        {
+            // One dimension at a time, as the plain ladder does; same output as emitWindow.
+            std::ostringstream pairs;
+            pairs<<std::setprecision(17);
+            DimensionFrame final_frame(runtime_,window_state_,std::move(final_edges));
+            for(;;)
+            {
+                final_frame.matchPersistence(false);
+                for(const auto& pair:final_frame.persistentPairs())
+                {
+                    if(pair.cofacet_weight>=eps_lo || pair.cofacet_weight<0.0)
+                        pairs<<final_frame.dimension()<<", "<<pair.facet_weight<<", "<<pair.cofacet_weight<<'\n';
+                }
+                if(!final_frame.advance())
+                    break;
+            }
+            note(window_state_.pseudoVertices().empty()?"build":"rebuild",eps_lo,endpoint,build_start,
+                 rule_calibration_.prep_s);
+            const auto precision=std::cout.precision();
+            std::cout<<"window lower bound, window upper bound\n"<<std::setprecision(17)<<eps_lo<<", "<<endpoint
+                     <<"\ndimension, birth weight, death weight\n"<<pairs.str()<<'\n';
+            std::cout.precision(precision);
+        }
+        window_state_.invalidateCurrentWindow();
+        return std::nullopt;
+    }
     auto edges=window_state_.prepareWindow(runtime_,{.eps_lo=eps_lo,.eps_hi=first,.is_final=first==endpoint});
     // The fixed part of a new window: label distances and edges, before any simplex is enumerated.
     rule_calibration_.prep_s=std::chrono::duration<double>(Clock::now()-build_start).count();

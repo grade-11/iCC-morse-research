@@ -214,7 +214,7 @@ DimensionFrame::DimensionFrame(
         const auto cofacets_end = Clock::now();
 
         if (runtime_.mode() == PipelineMode::PwPH &&
-            runtime_.config().verbose)
+            (runtime_.config().verbose || runtime_.config().extend_worth_log))
         {
             const double cofacets_ms =
                 std::chrono::duration<double, std::milli>(
@@ -391,7 +391,7 @@ void DimensionFrame::matchPersistence(const bool collect_dependency_support)
     using Clock = std::chrono::steady_clock;
     const bool measure_interface =
         runtime_.mode() == PipelineMode::PwPH &&
-        runtime_.config().verbose;
+        (runtime_.config().verbose || runtime_.config().extend_worth_log);
 
     const auto log_interface_time =
         [&](const char* stage, Clock::time_point start, Clock::time_point end)
@@ -554,9 +554,11 @@ void DimensionFrame::extendTo(const double eps_hi)
         const auto& lookup = interface_workspace_->cofacet_lookup;
         const std::function<bool(int64_t)> existing = [&lookup](const int64_t bindex)
         { std::size_t rank = 0; return lookup.tryFindRank(bindex, rank); };
+        const auto enum_start = std::chrono::steady_clock::now();
         const auto tail = simplex_enumerator_.getGeometricCofacetList(
             all_edges, window_.activeLabels(), window_.pseudoVertices(), window_.pvLabelDistanceHash(),
             1, eps_hi, runtime_.config().threads, extension_hi_, &existing);
+        last_enum_ms_ = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - enum_start).count();
         cofacet_list_.insert(cofacet_list_.end(), tail.begin(), tail.end());
     }
     else
@@ -625,9 +627,11 @@ void DimensionFrame::extendWith(const DimensionFrame& lower)
         const auto& lookup = interface_workspace_->cofacet_lookup;
         const std::function<bool(int64_t)> existing = [&lookup](const int64_t bindex)
         { std::size_t rank = 0; return lookup.tryFindRank(bindex, rank); };
+        const auto enum_start = std::chrono::steady_clock::now();
         const auto tail = simplex_enumerator_.getGeometricCofacetList(
             facet_list_, window_.activeLabels(), window_.pseudoVertices(), window_.pvLabelDistanceHash(),
             2, eps_hi, runtime_.config().threads, extension_hi_, &existing);
+        last_enum_ms_ = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - enum_start).count();
         cofacet_list_.insert(cofacet_list_.end(), tail.begin(), tail.end());
     }
     else
@@ -676,9 +680,11 @@ void DimensionFrame::resumeExtension(
     const auto merge_start = Clock::now();
     mergeExtensionResults();
     extension_hi_ = eps_hi;
-    if (runtime_.config().verbose)
+    if (runtime_.config().verbose || runtime_.config().extend_worth_log)
     {
         std::cout << std::setprecision(17) << "[extend-timing] dim=" << dimension_ << " eps_hi=" << eps_hi
+                  << " geometric=" << extension_geometric_ << " old_cofacets=" << old_cofacet_count
+                  << " enum_ms=" << last_enum_ms_
                   << std::setprecision(6) << " facets=" << facet_list_.size()
                   << " cofacets=" << cofacet_list_.size() << " live_reductions=" << live_reductions_.size()
                   << " tail_ms=" << ms(tail_start, index_start) << " index_ms=" << ms(index_start, match_start)
@@ -980,7 +986,7 @@ bool DimensionFrame::advance()
     const auto cofacets_end = Clock::now();
 
     if (runtime_.mode() == PipelineMode::PwPH &&
-        runtime_.config().verbose)
+        (runtime_.config().verbose || runtime_.config().extend_worth_log))
     {
         const double cofacets_ms =
             std::chrono::duration<double, std::milli>(

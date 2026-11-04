@@ -260,6 +260,7 @@ private:
     bool extension_geometric_ = false;
     bool extension_matched_ = false;
     double extension_hi_ = 0.0;
+    double last_enum_ms_ = 0.0;  // enumeration part of the latest extension tail (timing log only)
     // Capacity reserved for later tails, as a multiple of the first window.
     std::size_t extension_reserve_factor_ = 1;
     // First facet appended by the latest extendTo(); the edge tail for tetrahedra.
