@@ -601,8 +601,11 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
     const double maxeps,
     const int threadnum,
     robin_hood::unordered_map<int64_t, uint64_t>* pv_realization_out,
-    const double min_weight)
+    const double min_weight,
+    const std::function<bool(int64_t)>* existing)
 {
+    // existing (with min_weight): the simplices already present below min_weight. A candidate found there is
+    // old and skipped before its witness search; one not found and absent before weighs at least min_weight.
     // min_weight > -inf (EXTEND of a window with pseudo vertices): emit only the cofacets weighing at
     // least min_weight, i.e. the tail beyond the previous cut.
     const int worker_count = threadnum;
@@ -678,6 +681,14 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::enumerateGeometricCof
 
                 if (lower_bound >= maxeps)
                     continue;
+
+                if (existing != nullptr && lower_bound < min_weight)
+                {
+                    ws.cofacet_vertices.assign(simplex_vertices.begin(), simplex_vertices.end());
+                    ws.cofacet_vertices.push_back(covt);
+                    if ((*existing)(SimplexUtility::getBinomialIndex(binomial_table_, ws.cofacet_vertices, 0)))
+                        continue;
+                }
 
                 if (!witness_context_ready)
                 {
@@ -814,11 +825,12 @@ std::vector<std::pair<int64_t, double>> SimplexEnumerator::getGeometricCofacetLi
     const size_t dim,
     const double maxeps,
     const int threadnum,
-    const double min_weight)
+    const double min_weight,
+    const std::function<bool(int64_t)>* existing)
 {
     return enumerateGeometricCofacets<false>(sorted_quotient_simplex_list, active_labels,
                                              pseudo_vertices, pv_label_distance_hash,
-                                             dim, maxeps, threadnum, nullptr, min_weight);
+                                             dim, maxeps, threadnum, nullptr, min_weight, existing);
 }
 
 std::vector<std::pair<int64_t, double>> SimplexEnumerator::getGeometricCofacetListWithRealizations(

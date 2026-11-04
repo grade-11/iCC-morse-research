@@ -459,9 +459,12 @@ std::optional<std::size_t> PwphPipeline::runLiveGuardExtendPrefix()
 // extends it cut by cut, exactly as the first window is extended before the first commit. At an admitted
 // cut with supports left after the filters, --extend-rule may extend instead of committing.
 // Returns the cut of the next commit, or nothing when the window reached the endpoint.
-std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t first_cut,const double eps_lo)
+std::optional<std::size_t> PwphPipeline::runExtendSegment(std::size_t first_cut,const double eps_lo)
 {
     const auto& config=runtime_.config();
+    // Once no more commits can come, the window is built straight to the endpoint.
+    if(no_more_commits_)
+        first_cut=config.eps_breaks.size()-1;
     const double endpoint=config.finalEpsilon();
     const double first=config.eps_breaks.at(first_cut);
     using Clock=std::chrono::steady_clock;
@@ -493,8 +496,12 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
         upper->matchPersistenceForExtension(true);
     }
     note(window_state_.pseudoVertices().empty()?"build":"rebuild",eps_lo,first,build_start,rule_calibration_.prep_s);
+    double previous=first;
     for(std::size_t cut=first_cut;cut<config.eps_breaks.size();++cut)
     {
+        // Once no more commits can come, the window goes straight to the endpoint.
+        if(cut>first_cut && no_more_commits_)
+            cut=config.eps_breaks.size()-1;
         const double epsilon=config.eps_breaks[cut];
         const bool final=epsilon==endpoint;
         if(cut>first_cut)
@@ -504,7 +511,8 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
             lower->extendTo(epsilon);
             if(upper)
                 upper->extendWith(*lower);
-            note("extend",config.eps_breaks[cut-1],epsilon,extend_start,0.0);
+            note("extend",previous,epsilon,extend_start,0.0);
+            previous=epsilon;
         }
         if(config.extend_gate)
             checkAgainstDirect(runtime_,window_state_,eps_lo,epsilon,final,*lower,upper.get());

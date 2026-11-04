@@ -1,5 +1,7 @@
 #include "DimensionFrame.hpp"
 
+#include <functional>
+
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -548,9 +550,13 @@ void DimensionFrame::extendTo(const double eps_hi)
         all_edges.reserve(facet_list_.size() + new_edges.size());
         all_edges.insert(all_edges.end(), facet_list_.begin(), facet_list_.end());
         all_edges.insert(all_edges.end(), new_edges.begin(), new_edges.end());
+        // Old triangles are in this frame's lookup; skip them before their witness search.
+        const auto& lookup = interface_workspace_->cofacet_lookup;
+        const std::function<bool(int64_t)> existing = [&lookup](const int64_t bindex)
+        { std::size_t rank = 0; return lookup.tryFindRank(bindex, rank); };
         const auto tail = simplex_enumerator_.getGeometricCofacetList(
             all_edges, window_.activeLabels(), window_.pseudoVertices(), window_.pvLabelDistanceHash(),
-            1, eps_hi, runtime_.config().threads, extension_hi_);
+            1, eps_hi, runtime_.config().threads, extension_hi_, &existing);
         cofacet_list_.insert(cofacet_list_.end(), tail.begin(), tail.end());
     }
     else
@@ -616,9 +622,12 @@ void DimensionFrame::extendWith(const DimensionFrame& lower)
     if (extension_geometric_)
     {
         // A new tetrahedron need not contain a new triangle: enumerate the cofacets of every triangle.
+        const auto& lookup = interface_workspace_->cofacet_lookup;
+        const std::function<bool(int64_t)> existing = [&lookup](const int64_t bindex)
+        { std::size_t rank = 0; return lookup.tryFindRank(bindex, rank); };
         const auto tail = simplex_enumerator_.getGeometricCofacetList(
             facet_list_, window_.activeLabels(), window_.pseudoVertices(), window_.pvLabelDistanceHash(),
-            2, eps_hi, runtime_.config().threads, extension_hi_);
+            2, eps_hi, runtime_.config().threads, extension_hi_, &existing);
         cofacet_list_.insert(cofacet_list_.end(), tail.begin(), tail.end());
     }
     else

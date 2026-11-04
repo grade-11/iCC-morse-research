@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <limits>
 #include <span>
 #include <type_traits>
@@ -49,7 +50,8 @@ public:
                                         const std::vector<SelectedPV>& pseudo_vertices,
                                         const robin_hood::unordered_map<uint64_t, double>& pv_label_distance_hash,
                                         const size_t dim, const double maxeps, const int threadnum,
-                                        const double min_weight = -std::numeric_limits<double>::infinity());
+                                        const double min_weight = -std::numeric_limits<double>::infinity(),
+                                        const std::function<bool(int64_t)>* existing = nullptr);
 
     // Verbose diagnostics use a separate enumerator so the regular path does not allocate
     // realization storage, pack witnesses, or impose canonical edge tie-breaking.
@@ -136,5 +138,6 @@ private:
                                         const robin_hood::unordered_map<uint64_t, double>& pv_label_distance_hash,
                                         const size_t dim, const double maxeps, const int threadnum,
                                         robin_hood::unordered_map<int64_t, uint64_t>* pv_realization_out,
-                                        const double min_weight = -std::numeric_limits<double>::infinity());
+                                        const double min_weight = -std::numeric_limits<double>::infinity(),
+                                        const std::function<bool(int64_t)>* existing = nullptr);
 };
