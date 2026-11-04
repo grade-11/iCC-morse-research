@@ -646,7 +646,8 @@ int runTool(const std::string& tool,
             const bool shrink_risky = false,
             const bool shrink_search = false,
             const bool joint_drops = false,
-            const bool fiber_full = false)
+            const bool fiber_full = false,
+            const bool extend_worth_log = false)
 {
     const std::string normalized_tool = normalizeTool(tool);
     if(ac_policy=="guard-extend-ladder" || extend_direct_probe || extend_force_chain || !extend_dump.empty())
@@ -678,6 +679,8 @@ int runTool(const std::string& tool,
         throw std::invalid_argument("--shrink-risky requires --h1-risk selective-fast");
     if(absorb_pv && (!live_guard || pv_min_separation>0))
         throw std::invalid_argument("--absorb-pv requires --live-guard and --pv-min-separation 0");
+    if(extend_worth_log && !live_guard_extend)
+        throw std::invalid_argument("--extend-worth-log requires --extend");
     if(extend_cost_rule && (!live_guard_extend || extend_commit_once || extend_min_gain!=0.0))
         throw std::invalid_argument("--extend-cost-rule requires --extend and excludes --extend-commit-once and --extend-min-gain");
     if(h1_realizations && normalized_tool!=PIECEWISE_PH_TOOL)
@@ -806,7 +809,7 @@ int runTool(const std::string& tool,
         .extend_commit_once = extend_commit_once, .extend_min_gain = extend_min_gain,
         .extend_cost_rule = extend_cost_rule, .fiber_risk = fiber_risk || fiber_full, .absorb_pv = absorb_pv,
         .shrink_risky = shrink_risky, .shrink_search = shrink_search,
-        .joint_drops = joint_drops, .fiber_full = fiber_full};
+        .joint_drops = joint_drops, .fiber_full = fiber_full, .extend_worth_log = extend_worth_log};
 
     const auto st0 = std::chrono::steady_clock::now();
     if (normalized_tool == PIECEWISE_PH_TOOL)
@@ -944,6 +947,8 @@ int runCommandLine(int argc, char** argv)
     app.add_flag("--fiber-full",fiber_full,"With --live-guard --max-dim 2 or 3: the fiber check (H2 only; the pair filter already decides H1) also covers pairs and pairs with one vertex; implies --fiber-risk, and does nothing at max-dim 2");
     bool extend_cost_rule=false;
     app.add_flag("--extend-cost-rule",extend_cost_rule,"With --extend: keep cutting only while the next cut is predicted to save more work than its extra window costs");
+    bool extend_worth_log=false;
+    app.add_flag("--extend-worth-log",extend_worth_log,"With --extend: log predicted work and window times for a commit-or-extend rule; computations and cuts are unchanged");
     app.add_flag("--birth-repair",birth_repair,"Keep the pre-quotient birth of a class alive across a quotient; veto a quotient two classes of one dimension would survive");
     double ac_auto_cutoff=0;
     size_t geometry_cuts=0;
@@ -1015,7 +1020,7 @@ int runCommandLine(int argc, char** argv)
         app.parse(argc, argv);
         return runTool(tool, filename, maxdim, threadnumber, eps_breaks, eps_interval_count,
                        eps_interval_scale, maxeps, pv_cap_scale, pv_min_separation, true, verbose,
-                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard,live_guard_extend,extend_gate,extend_commit_once,extend_min_gain,extend_cost_rule,fiber_risk,absorb_pv,shrink_risky,shrink_search,joint_drops,fiber_full);
+                       adaptive, adaptive_target, trace_pwph,g_model,g_margin,g_memory_mib,cost_telemetry,quotient_mask,stop_after_window,ac_policy,ac_model,ac_auto_cutoff,geometry_cuts,h1_risk,h1_realizations,pack_mode,pack_model,payback_action,calibration_targets,extend_dump,extend_force_chain,extend_direct_probe,birth_repair,live_guard,live_guard_extend,extend_gate,extend_commit_once,extend_min_gain,extend_cost_rule,fiber_risk,absorb_pv,shrink_risky,shrink_search,joint_drops,fiber_full,extend_worth_log);
     }
     catch (const CLI::ParseError& err)
     {

@@ -1,5 +1,6 @@
 #include "Pipelines.hpp"
 #include "DimensionFrame.hpp"
+#include "PackDmtPayback.hpp"
 
 #include <algorithm>
 #include <bit>
@@ -363,6 +364,18 @@ std::optional<std::size_t> PwphPipeline::runLiveGuardExtendPrefix()
     const auto& config=runtime_.config();
     const double endpoint=config.finalEpsilon();
     const double first=config.eps_breaks.front();
+    // --extend-worth-log (dry run): time and predicted top-dimension work of the build and of each extension.
+    const auto worth_window=[&](const char* mode,double lo,double hi,std::chrono::steady_clock::time_point start)
+    {
+        if(!config.extend_worth_log)return;
+        const double core_s=std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count();
+        const auto& d=runtime_.distanceMatrix();
+        std::cout<<std::setprecision(17)<<"[worth-window] mode="<<mode<<" lo="<<lo<<" hi="<<hi<<" core_s="<<core_s
+            <<" W_lo="<<(lo>0?PackDmtPayback::topWork(d,window_state_,{},lo,config.maxdim):0.0)
+            <<" W_hi="<<PackDmtPayback::topWork(d,window_state_,{},hi,config.maxdim)
+            <<" active="<<window_state_.activeLabels().size()<<'\n'<<std::setprecision(6);
+    };
+    const auto build_start=std::chrono::steady_clock::now();
     auto first_edges=window_state_.prepareWindow(
         runtime_,{.eps_lo=0.0,.eps_hi=first,.is_final=first==endpoint});
     auto lower=std::make_unique<DimensionFrame>(runtime_,window_state_,std::move(first_edges),true);
@@ -373,16 +386,19 @@ std::optional<std::size_t> PwphPipeline::runLiveGuardExtendPrefix()
         upper=DimensionFrame::retainedUpperFrame(*lower);
         upper->matchPersistenceForExtension(true);
     }
+    worth_window("build",0.0,first,build_start);
     for(std::size_t cut=0;cut<config.eps_breaks.size();++cut)
     {
         const double epsilon=config.eps_breaks[cut];
         const bool final=epsilon==endpoint;
         if(cut)
         {
+            const auto extend_start=std::chrono::steady_clock::now();
             window_state_.extendFirstWindowTo(epsilon);
             lower->extendTo(epsilon);
             if(upper)
                 upper->extendWith(*lower);
+            worth_window("extend",config.eps_breaks[cut-1],epsilon,extend_start);
         }
         if(config.extend_gate)
             checkAgainstDirect(runtime_,epsilon,final,*lower,upper.get());

@@ -560,6 +560,23 @@ std::size_t DependencySupportPostProcessor::processPwph(
             <<" predicted_saving="<<last_gain_*after_end<<" rule="<<(cfg.extend_cost_rule?"cost":"threshold")
             <<" threshold="<<cfg.extend_min_gain<<" action="<<(last_keep_cutting_?"KEEP-CUTTING":"CLOSE")<<'\n'<<std::setprecision(6);
     }
+    // --extend-worth-log (dry run): predicted top-dimension work at this cut, the next cut and the
+    // endpoint, without and with the committed supports. Outside the F and C timers; changes nothing.
+    double worth_x=0,worth_end=0,w0r=0,w0x=0,wsx=0,w0e=0,wse=0;size_t blocks0=0,blocks_after=0;
+    if(cfg.extend_worth_log)
+    {
+        const auto next=std::upper_bound(cfg.eps_breaks.begin(),cfg.eps_breaks.end(),eps_hi);
+        worth_end=cfg.finalEpsilon();worth_x=next==cfg.eps_breaks.end()?worth_end:*next;
+        const size_t k=cfg.maxdim;
+        w0r=PackDmtPayback::topWork(distance_matrix,window,{},eps_hi,k);
+        w0x=PackDmtPayback::topWork(distance_matrix,window,{},worth_x,k);
+        w0e=PackDmtPayback::topWork(distance_matrix,window,{},worth_end,k);
+        wsx=committed_count?PackDmtPayback::topWork(distance_matrix,window,selected_pvs,worth_x,k):w0x;
+        wse=committed_count?PackDmtPayback::topWork(distance_matrix,window,selected_pvs,worth_end,k):w0e;
+        std::vector<size_t> owner;
+        blocks0=PackDmtPayback::partition(window,{},owner);
+        blocks_after=committed_count?PackDmtPayback::partition(window,selected_pvs,owner):blocks0;
+    }
     if(auto* cost=PolicyCost::active)cost->mark("MUTATION_BEGIN");
     const auto commit_start=Clock::now();
     if(cfg.absorb_pv && committed_count){
@@ -573,6 +590,12 @@ std::size_t DependencySupportPostProcessor::processPwph(
     if(auto* cost=PolicyCost::active)cost->mark("MUTATION_END");
     const double F=std::chrono::duration<double>(f_end-selection_start).count();
     const double C=std::chrono::duration<double>(commit_end-commit_start).count();
+    if(cfg.extend_worth_log)
+        std::cout<<std::setprecision(17)<<"[worth] epsilon="<<eps_hi<<" next="<<worth_x<<" end="<<worth_end
+            <<" k="<<cfg.maxdim<<" live="<<batch.protected_labels.size()<<" eligible="<<eligible_count
+            <<" committed="<<committed_count<<" blocks="<<blocks0<<" blocks_after="<<blocks_after
+            <<" W0_r="<<w0r<<" W0_next="<<w0x<<" Wsel_next="<<wsx<<" W0_end="<<w0e<<" Wsel_end="<<wse
+            <<" F_s="<<F<<" C_s="<<C<<'\n'<<std::setprecision(6);
     if(!risk_mode.empty()){
         if(skipped_live)std::cout<<std::setprecision(17)<<"[h1-risk] epsilon="<<eps_hi<<" horizon="<<cfg.finalEpsilon()
             <<" mode="<<risk_mode<<" eligible="<<eligible_count<<" committed="<<committed_count

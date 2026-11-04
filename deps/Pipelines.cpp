@@ -520,6 +520,15 @@ void PwphPipeline::run()
             }
         }
 
+        if(config.extend_worth_log)
+        {
+            // Dry run: this window was built from scale zero; its time and predicted top-dimension work.
+            const double core_s=std::chrono::duration<double>(Clock::now()-edges_start).count();
+            std::cout<<std::setprecision(17)<<"[worth-window] mode=rebuild lo="<<bounds.eps_lo<<" hi="<<bounds.eps_hi
+                <<" core_s="<<core_s<<" W_lo=0 W_hi="
+                <<PackDmtPayback::topWork(runtime_.distanceMatrix(),window_state_,{},bounds.eps_hi,config.maxdim)
+                <<" active="<<window_state_.activeLabels().size()<<'\n'<<std::setprecision(6);
+        }
         observation.protected_count=support_batch.protected_labels.size();
         if(config.birth_repair)
             for(std::size_t d=0;d<=config.maxdim;++d)

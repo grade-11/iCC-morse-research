@@ -87,6 +87,10 @@ struct PipelineConfig
     // With fiber_risk: also check pair fibers and pair-plus-vertex fibers for H2. Allowed at max-dim 2,
     // where it does nothing (the pair filter already decides H1 of every fiber).
     bool fiber_full = false;
+    // With live_guard_extend: dry run of a commit-or-extend rule. Logs the predicted top-dimension work
+    // around every cut ([worth]) and the time and predicted work of every window ([worth-window]);
+    // computations and cuts are unchanged.
+    bool extend_worth_log = false;
 
     void validate() const;
 
