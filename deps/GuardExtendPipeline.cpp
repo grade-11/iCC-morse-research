@@ -3,6 +3,7 @@
 #include "PackDmtPayback.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <bit>
 #include <cstdint>
 #include <fstream>
@@ -477,7 +478,7 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(std::size_t first_cut,
         const double seconds=std::chrono::duration<double>(Clock::now()-start).count();
         if(!log && !config.extend_rule)return;
         const double w_lo=std::string(mode)=="extend"?work(lo):0.0,w_hi=work(hi);
-        rule_calibration_.add(std::string(mode)=="extend",seconds,w_hi-w_lo);
+        rule_calibration_.add(std::string(mode)=="extend",seconds,w_lo,w_hi);
         if(log)
             std::cout<<std::setprecision(17)<<"[worth-window] mode="<<mode<<" lo="<<lo<<" hi="<<hi<<" core_s="<<seconds
                 <<" W_lo="<<w_lo<<" W_hi="<<w_hi<<" active="<<window_state_.activeLabels().size()
@@ -648,14 +649,52 @@ bool PwphPipeline::ruleDecide(const DependencySupportPostProcessor::Worth& w,con
     // Stopping cannot be undone, while a commit keeps the choice to commit again: extending to the
     // endpoint must stay cheaper even at the rate the latest window actually ran at, when that was higher
     // than predicted.
+    // The time per unit of work is not constant: in H2 it grows with the size of the window, so a wide
+    // window costs more than the same work in narrower ones. Both branches use the same growth, measured
+    // on the first window's own extensions (beta = 1, a constant rate, when it does not grow).
     const auto& c=rule_calibration_;
-    const double t=c.rate();
+    const double beta=c.beta();
     const double margin=std::max(1.0,c.last_ratio);
-    const double commit_cost=w.C_s+c.prep_s+t*w.wsel_end;
-    const double extend_cost=margin*t*(w.w0_end-w.w0_r);
+    const double commit_cost=w.C_s+c.prep_s+c.cost(beta,0.0,w.wsel_end);
+    const double extend_cost=margin*c.cost(beta,w.w0_r,w.w0_end);
     const bool commit=commit_cost<extend_cost;
-    std::cout<<std::setprecision(17)<<"[rule] epsilon="<<w.epsilon<<" stage="<<stage<<" t="<<t<<" margin="<<margin
+    std::cout<<std::setprecision(17)<<"[rule] epsilon="<<w.epsilon<<" stage="<<stage<<" t="<<c.rate()<<" beta="<<beta
+             <<" margin="<<margin
              <<" prep_s="<<c.prep_s<<" commit_cost="<<commit_cost<<" extend_cost="<<extend_cost
              <<" action="<<(commit?"COMMIT":"EXTEND")<<'\n'<<std::setprecision(6);
     return commit;
+}
+
+double PwphPipeline::RuleCalibration::beta() const
+{
+    std::vector<std::pair<double,double>> points;
+    for(std::size_t i=0;i<windows.size();++i)
+    {
+        const auto& x=windows[i];
+        if(i>0 && x.build)
+            break;
+        if(x.w_hi>x.w_lo && x.seconds>0)
+            points.emplace_back(std::log((x.w_lo+x.w_hi)/2),std::log(x.seconds/(x.w_hi-x.w_lo)));
+    }
+    if(points.size()<3)
+        return 1.0;
+    double mx=0,my=0;
+    for(const auto& [x,y]:points){mx+=x;my+=y;}
+    mx/=points.size();my/=points.size();
+    double sxx=0,sxy=0;
+    for(const auto& [x,y]:points){sxx+=(x-mx)*(x-mx);sxy+=(x-mx)*(y-my);}
+    const double slope=sxx>0?sxy/sxx:0.0;
+    return std::min(3.0,std::max(1.0,1.0+slope));
+}
+
+double PwphPipeline::RuleCalibration::cost(const double b,const double w_from,const double w_to) const
+{
+    const Window* last=nullptr;
+    for(auto it=windows.rbegin();it!=windows.rend();++it)
+        if(it->w_hi>it->w_lo){last=&*it;break;}
+    if(!last)
+        return rate()*(w_to-w_from);
+    const double lo=last->w_lo,hi=last->w_hi;
+    const double r_hi=last->build||lo==0?b*last->seconds/hi:last->seconds/(hi-lo)*std::pow(hi/((lo+hi)/2),b-1);
+    return r_hi*hi/b*(std::pow(w_to/hi,b)-std::pow(w_from/hi,b));
 }
