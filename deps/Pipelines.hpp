@@ -48,6 +48,7 @@ private:
         }
     };
     RuleCalibration rule_calibration_;
+    std::size_t commits_done_ = 0;
 
     PipelineRuntime runtime_;
     WindowState window_state_;

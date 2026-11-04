@@ -536,11 +536,19 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
             std::cout<<preview.output;
             continue;
         }
+        if(config.extend_commit_limit>=0 && commits_done_>=static_cast<std::size_t>(config.extend_commit_limit))
+        {
+            report("ALLOW");
+            std::cout<<std::setprecision(17)<<"[rule] epsilon="<<epsilon<<" cut="<<cut
+                     <<" action=EXTEND reason=commit-limit\n"<<std::setprecision(6);
+            continue;
+        }
         if(config.extend_rule && !ruleCommits(epsilon,cut))
         {
             report("ALLOW");
             continue;
         }
+        ++commits_done_;
         emitWindow(*lower,eps_lo,epsilon,upper.get());
         report("ALLOW");
         upper.reset();

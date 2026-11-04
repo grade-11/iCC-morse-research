@@ -97,6 +97,9 @@ struct PipelineConfig
     // With extend_all: at an admitted cut with supports, commit only if a commit followed by one window to
     // the endpoint is predicted to cost less than extending the current window to the endpoint.
     bool extend_rule = false;
+    // Development only, with extend_all: commit at most this many times, then extend to the endpoint
+    // (-1: no limit). Measures the policies "commit k times, then never again".
+    long extend_commit_limit = -1;
 
     void validate() const;
 
