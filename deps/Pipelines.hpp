@@ -38,12 +38,21 @@ private:
     // is predicted to cost less than extending the current window to the endpoint; otherwise stop
     // committing for the rest of the run.
     bool ruleCommits(double epsilon, std::size_t cut);
+    bool ruleDecide(const DependencySupportPostProcessor::Worth& w, const char* stage);
     struct RuleCalibration
     {
         double build_s = 0, build_w = 0, extend_s = 0, extend_w = 0, prep_s = 0;
+        // The latest window's time over its prediction from the rate before it (1 before any prediction).
+        double last_ratio = 1.0;
+        double rate() const
+        {
+            const double work = build_w + extend_w;
+            return work > 0 ? (build_s + extend_s) / work : 0.0;
+        }
         void add(bool extend, double seconds, double work)
         {
             if (work <= 0) return;
+            if (rate() > 0) last_ratio = seconds / (rate() * work);
             (extend ? extend_s : build_s) += seconds;
             (extend ? extend_w : build_w) += work;
         }

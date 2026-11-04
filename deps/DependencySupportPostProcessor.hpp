@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <vector>
 
 #include "DependencySupport.hpp"
@@ -33,9 +34,17 @@ public:
         std::size_t committed = 0;
     };
     [[nodiscard]] const Worth& lastWorth() const noexcept { return last_worth_; }
+    // --extend-rule: a decision taken on the eligible supports, before the risk filters run. The filters
+    // only drop or shrink supports, so these supports overstate what a commit removes; if even they do not
+    // pay, the processor commits nothing and skips the filters. Returns true to go on (commit if it pays).
+    void setPreFilterRule(std::function<bool(const Worth&)> rule) { pre_filter_rule_ = std::move(rule); }
+    // Whether the latest processPwph stopped at the pre-filter decision.
+    [[nodiscard]] bool lastStoppedBeforeFilters() const noexcept { return last_stopped_before_filters_; }
 
 private:
     mutable Worth last_worth_;
+    std::function<bool(const Worth&)> pre_filter_rule_;
+    mutable bool last_stopped_before_filters_ = false;
     mutable double last_gain_ = 0.0;
     mutable double last_gain_epsilon_ = -1.0;
     mutable bool last_keep_cutting_ = true;

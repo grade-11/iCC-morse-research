@@ -548,6 +548,8 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(std::size_t first_cut,
         {
             report("ALLOW");
             std::cout<<preview.output;
+            if(support_processor_.lastStoppedBeforeFilters())
+                no_more_commits_=true;
             continue;
         }
         if(config.extend_rule && !ruleCommits(epsilon,cut))
@@ -577,6 +579,9 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(std::size_t first_cut,
 void PwphPipeline::runExtendAll()
 {
     no_more_commits_=runtime_.config().extend_commit_limit==0;
+    if(runtime_.config().extend_rule)
+        support_processor_.setPreFilterRule(
+            [this](const DependencySupportPostProcessor::Worth& w){return ruleDecide(w,"before-filters");});
     std::size_t first_cut=0;
     double eps_lo=0.0;
     for(;;)
@@ -591,25 +596,34 @@ void PwphPipeline::runExtendAll()
 
 bool PwphPipeline::ruleCommits(const double epsilon,const std::size_t cut)
 {
+    const auto& w=support_processor_.lastWorth();
+    if(w.epsilon!=epsilon)
+        throw std::logic_error("--extend-rule: no predicted work for this cut");
+    (void)cut;
+    return ruleDecide(w,"after-filters");
+}
+
+bool PwphPipeline::ruleDecide(const DependencySupportPostProcessor::Worth& w,const char* stage)
+{
     // Rollout of "never commit again": commit now and then build one window to the endpoint (a new window
     // to the next cut, extended from there), against extending the current window to the endpoint. A
     // window built from scale zero costs tb per unit of predicted top-dimension work, an extension te per
     // unit it adds; both are measured on the windows of this run so far. The selection and filter time is
     // already spent when the rule decides, and does not enter.
-    const auto& w=support_processor_.lastWorth();
-    if(w.epsilon!=epsilon)
-        throw std::logic_error("--extend-rule: no predicted work for this cut");
     // One time per unit of work t for both branches, over every window so far (builds and extensions,
     // weighted by their work, so the large windows dominate); a new window also pays the fixed time of
     // preparing its label distances and edges, measured on the latest build.
+    // Stopping cannot be undone, while a commit keeps the choice to commit again: extending to the
+    // endpoint must stay cheaper even at the rate the latest window actually ran at, when that was higher
+    // than predicted.
     const auto& c=rule_calibration_;
-    const double work=c.build_w+c.extend_w;
-    const double t=work>0?(c.build_s+c.extend_s)/work:0.0;
+    const double t=c.rate();
+    const double margin=std::max(1.0,c.last_ratio);
     const double commit_cost=w.C_s+c.prep_s+t*w.wsel_end;
-    const double extend_cost=t*(w.w0_end-w.w0_r);
+    const double extend_cost=margin*t*(w.w0_end-w.w0_r);
     const bool commit=commit_cost<extend_cost;
-    std::cout<<std::setprecision(17)<<"[rule] epsilon="<<epsilon<<" cut="<<cut<<" t="<<t<<" prep_s="<<c.prep_s
-             <<" commit_cost="<<commit_cost<<" extend_cost="<<extend_cost
+    std::cout<<std::setprecision(17)<<"[rule] epsilon="<<w.epsilon<<" stage="<<stage<<" t="<<t<<" margin="<<margin
+             <<" prep_s="<<c.prep_s<<" commit_cost="<<commit_cost<<" extend_cost="<<extend_cost
              <<" action="<<(commit?"COMMIT":"EXTEND")<<'\n'<<std::setprecision(6);
     return commit;
 }

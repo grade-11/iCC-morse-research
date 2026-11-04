@@ -406,6 +406,28 @@ std::size_t DependencySupportPostProcessor::processPwph(
     const bool selective=risk_mode=="selective" || risk_mode=="selective-fast" || risk_mode=="selective-graph";
     const bool fast=risk_mode=="selective-fast" || risk_mode=="selective-graph";
     const size_t eligible_count=selected_pvs.size();
+    // Predicted top-dimension work at this cut, the next cut and the endpoint, without and with a selection.
+    const auto worth_of=[&](const std::vector<SelectedPV>& selection,const double F_s)
+    {
+        const auto next=std::upper_bound(cfg.eps_breaks.begin(),cfg.eps_breaks.end(),eps_hi);
+        Worth w{.epsilon=eps_hi,.end=cfg.finalEpsilon()};
+        w.next=next==cfg.eps_breaks.end()?w.end:*next;
+        const size_t k=cfg.maxdim;
+        w.w0_r=PackDmtPayback::topWork(distance_matrix,window,{},eps_hi,k);
+        w.w0_next=PackDmtPayback::topWork(distance_matrix,window,{},w.next,k);
+        w.w0_end=PackDmtPayback::topWork(distance_matrix,window,{},w.end,k);
+        w.wsel_next=PackDmtPayback::topWork(distance_matrix,window,selection,w.next,k);
+        w.wsel_end=PackDmtPayback::topWork(distance_matrix,window,selection,w.end,k);
+        w.F_s=F_s;w.committed=selection.size();
+        return w;
+    };
+    last_stopped_before_filters_=false;
+    if(pre_filter_rule_ && !selected_pvs.empty() && batch.protected_labels.empty() &&
+       !pre_filter_rule_(worth_of(selected_pvs,std::chrono::duration<double>(Clock::now()-selection_start).count())))
+    {
+        selected_pvs.clear();new_absorbed_labels.clear();
+        last_stopped_before_filters_=true;
+    }
     H1EdgeRisk::Result risk;
     size_t risk_scans=0,remaining_warnings=0;
     bool skipped_live=risk_mode=="selective-fast" && !batch.protected_labels.empty();
@@ -422,7 +444,7 @@ std::size_t DependencySupportPostProcessor::processPwph(
             <<" restored_vertices="<<shrink.restored_vertices
             <<" checks="<<shrink.checks<<" kept="<<selected_pvs.size()<<" seconds="<<shrink.seconds<<'\n'<<std::setprecision(6);
     }
-    else if(!risk_mode.empty())
+    else if(!risk_mode.empty() && !last_stopped_before_filters_)
     {
         if(!skipped_live){
             risk=H1EdgeRisk::inspect(distance_matrix,window,selected_pvs,eps_hi,cfg.finalEpsilon());
@@ -522,7 +544,8 @@ std::size_t DependencySupportPostProcessor::processPwph(
     const double C_hat=cfg.payback_bC*double(original_vertex_count)*original_vertex_count;
     const bool gated=cfg.pack_mode=="plan" || cfg.pack_mode=="replay";
     const bool payback=cfg.payback_aL*deltaH>1.25*C_hat;
-    std::string reason=!batch.protected_labels.empty() && selective?"live-H1-history":eligible_count==0?"no-useful-support":retained_count==0?"selective-empty":"retained-supports";
+    std::string reason=!batch.protected_labels.empty() && selective?"live-H1-history":eligible_count==0?"no-useful-support":
+        last_stopped_before_filters_?"rule-stop-before-filters":retained_count==0?"selective-empty":"retained-supports";
     if(auto* cost=PolicyCost::active){cost->mark("VALUATION_END");cost->mark("DECISION_READY");}
     const bool force_defer=cfg.payback_action=="defer";
     if(retained_count && (force_defer || (gated && cfg.payback_action=="auto" && !payback))){
