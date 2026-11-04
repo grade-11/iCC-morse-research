@@ -469,7 +469,7 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
     const auto work=[&](const double x)
     {return PackDmtPayback::topWork(runtime_.distanceMatrix(),window_state_,{},x,config.maxdim);};
     // Window times and predicted work, for the log and the rule's calibration.
-    const auto note=[&](const char* mode,const double lo,const double hi,const Clock::time_point start)
+    const auto note=[&](const char* mode,const double lo,const double hi,const Clock::time_point start,const double prep_s)
     {
         const double seconds=std::chrono::duration<double>(Clock::now()-start).count();
         if(!log && !config.extend_rule)return;
@@ -477,10 +477,13 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
         rule_calibration_.add(std::string(mode)=="extend",seconds,w_hi-w_lo);
         if(log)
             std::cout<<std::setprecision(17)<<"[worth-window] mode="<<mode<<" lo="<<lo<<" hi="<<hi<<" core_s="<<seconds
-                <<" W_lo="<<w_lo<<" W_hi="<<w_hi<<" active="<<window_state_.activeLabels().size()<<'\n'<<std::setprecision(6);
+                <<" W_lo="<<w_lo<<" W_hi="<<w_hi<<" active="<<window_state_.activeLabels().size()
+                <<" prep_s="<<prep_s<<'\n'<<std::setprecision(6);
     };
     const auto build_start=Clock::now();
     auto edges=window_state_.prepareWindow(runtime_,{.eps_lo=eps_lo,.eps_hi=first,.is_final=first==endpoint});
+    // The fixed part of a new window: label distances and edges, before any simplex is enumerated.
+    rule_calibration_.prep_s=std::chrono::duration<double>(Clock::now()-build_start).count();
     auto lower=std::make_unique<DimensionFrame>(runtime_,window_state_,std::move(edges),true);
     lower->matchPersistenceForExtension(true);
     std::unique_ptr<DimensionFrame> upper;
@@ -489,7 +492,7 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
         upper=DimensionFrame::retainedUpperFrame(*lower);
         upper->matchPersistenceForExtension(true);
     }
-    note(window_state_.pseudoVertices().empty()?"build":"rebuild",eps_lo,first,build_start);
+    note(window_state_.pseudoVertices().empty()?"build":"rebuild",eps_lo,first,build_start,rule_calibration_.prep_s);
     for(std::size_t cut=first_cut;cut<config.eps_breaks.size();++cut)
     {
         const double epsilon=config.eps_breaks[cut];
@@ -501,7 +504,7 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
             lower->extendTo(epsilon);
             if(upper)
                 upper->extendWith(*lower);
-            note("extend",config.eps_breaks[cut-1],epsilon,extend_start);
+            note("extend",config.eps_breaks[cut-1],epsilon,extend_start,0.0);
         }
         if(config.extend_gate)
             checkAgainstDirect(runtime_,window_state_,eps_lo,epsilon,final,*lower,upper.get());
@@ -513,6 +516,9 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
             window_state_.invalidateCurrentWindow();
             return std::nullopt;
         }
+        // No more commits (the rule stopped, or the commit limit is reached): only extend, without selecting.
+        if(no_more_commits_)
+            continue;
         const std::size_t live_h1=liveClassCount(*lower);
         const std::size_t live_h2=upper?liveClassCount(*upper):0;
         const auto report=[&](const char* action)
@@ -536,19 +542,17 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
             std::cout<<preview.output;
             continue;
         }
-        if(config.extend_commit_limit>=0 && commits_done_>=static_cast<std::size_t>(config.extend_commit_limit))
-        {
-            report("ALLOW");
-            std::cout<<std::setprecision(17)<<"[rule] epsilon="<<epsilon<<" cut="<<cut
-                     <<" action=EXTEND reason=commit-limit\n"<<std::setprecision(6);
-            continue;
-        }
         if(config.extend_rule && !ruleCommits(epsilon,cut))
         {
+            // The rule compares committing now with never committing again; once it prefers the latter,
+            // the run only extends.
             report("ALLOW");
+            no_more_commits_=true;
             continue;
         }
         ++commits_done_;
+        if(config.extend_commit_limit>=0 && commits_done_>=static_cast<std::size_t>(config.extend_commit_limit))
+            no_more_commits_=true;
         emitWindow(*lower,eps_lo,epsilon,upper.get());
         report("ALLOW");
         upper.reset();
@@ -564,6 +568,7 @@ std::optional<std::size_t> PwphPipeline::runExtendSegment(const std::size_t firs
 
 void PwphPipeline::runExtendAll()
 {
+    no_more_commits_=runtime_.config().extend_commit_limit==0;
     std::size_t first_cut=0;
     double eps_lo=0.0;
     for(;;)
@@ -586,13 +591,16 @@ bool PwphPipeline::ruleCommits(const double epsilon,const std::size_t cut)
     const auto& w=support_processor_.lastWorth();
     if(w.epsilon!=epsilon)
         throw std::logic_error("--extend-rule: no predicted work for this cut");
+    // One time per unit of work t for both branches, over every window so far (builds and extensions,
+    // weighted by their work, so the large windows dominate); a new window also pays the fixed time of
+    // preparing its label distances and edges, measured on the latest build.
     const auto& c=rule_calibration_;
-    const double tb=c.build_w>0?c.build_s/c.build_w:0.0;
-    const double te=c.extend_w>0?c.extend_s/c.extend_w:tb;
-    const double commit_cost=w.C_s+tb*w.wsel_next+te*(w.wsel_end-w.wsel_next);
-    const double extend_cost=te*(w.w0_end-w.w0_r);
+    const double work=c.build_w+c.extend_w;
+    const double t=work>0?(c.build_s+c.extend_s)/work:0.0;
+    const double commit_cost=w.C_s+c.prep_s+t*w.wsel_end;
+    const double extend_cost=t*(w.w0_end-w.w0_r);
     const bool commit=commit_cost<extend_cost;
-    std::cout<<std::setprecision(17)<<"[rule] epsilon="<<epsilon<<" cut="<<cut<<" tb="<<tb<<" te="<<te
+    std::cout<<std::setprecision(17)<<"[rule] epsilon="<<epsilon<<" cut="<<cut<<" t="<<t<<" prep_s="<<c.prep_s
              <<" commit_cost="<<commit_cost<<" extend_cost="<<extend_cost
              <<" action="<<(commit?"COMMIT":"EXTEND")<<'\n'<<std::setprecision(6);
     return commit;

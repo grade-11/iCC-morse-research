@@ -35,11 +35,12 @@ private:
     std::optional<std::size_t> runExtendSegment(std::size_t first_cut, double eps_lo);
     void runExtendAll();
     // --extend-rule: commit at an admitted cut only if a commit followed by one window to the endpoint
-    // is predicted to cost less than extending the current window to the endpoint.
+    // is predicted to cost less than extending the current window to the endpoint; otherwise stop
+    // committing for the rest of the run.
     bool ruleCommits(double epsilon, std::size_t cut);
     struct RuleCalibration
     {
-        double build_s = 0, build_w = 0, extend_s = 0, extend_w = 0;
+        double build_s = 0, build_w = 0, extend_s = 0, extend_w = 0, prep_s = 0;
         void add(bool extend, double seconds, double work)
         {
             if (work <= 0) return;
@@ -49,6 +50,7 @@ private:
     };
     RuleCalibration rule_calibration_;
     std::size_t commits_done_ = 0;
+    bool no_more_commits_ = false;
 
     PipelineRuntime runtime_;
     WindowState window_state_;
