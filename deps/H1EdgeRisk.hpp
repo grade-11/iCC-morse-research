@@ -9,8 +9,14 @@
 #include <numeric>
 #include <vector>
 
-// Conservative two-block triangle-connectivity forecast, NOT a PH certificate.
-// Reads original distances and immutable candidate blocks. No trial WindowState.
+// Pair filter. For every pair of blocks with at least one proposed support, warns when the crossing graph (the
+// edges between the two blocks, on the vertices that have one) has more than one component at some scale in
+// [q, endpoint). By the nerve theorem the flag complex on two cliques is the suspension of a complex whose
+// components are those of the crossing graph, so the pair fiber carries H1 exactly when it is disconnected; once
+// every pair fiber is connected, the fibers over triangles carry no H1 either (paper, Proposition 3). Under the
+// live guard this decides the H1 fiber condition of the quotient: an argument in the paper, not a machine-checked
+// proof. It says nothing about H2 (see FiberRisk). Reads original distances and immutable candidate blocks.
+// No trial WindowState.
 struct H1EdgeRisk
 {
     struct Block {std::vector<size_t> vertices;size_t label;bool proposed;};
