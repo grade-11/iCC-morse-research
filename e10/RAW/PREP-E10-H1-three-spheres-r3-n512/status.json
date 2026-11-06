@@ -1,0 +1,22 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/native-metric-export",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H1-three-spheres-r3-n512.csv",
+  "--threads",
+  "4",
+  "--expect-n",
+  "512",
+  "--expect-dim",
+  "3",
+  "--output",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/prep/E10-H1-three-spheres-r3-n512-metric.jsonl"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 0.3546734470000956,
+ "cpu_seconds": 0.390813,
+ "maxrss_kib": 66304,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T12:38:23.206604+00:00"
+}

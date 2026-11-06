@@ -1,0 +1,23 @@
+dim  vs.      clouds  mem   cpu   (wall, ratio of medians; Table II uses the regression)
+H2   NoQ          24  0.086 0.315 (0.220)
+H2   authors       4  1.180 0.880 (0.879)
+H2   All          24  1.280 0.953 (0.979)
+H2   Ripser       24  1.086 2.540 (1.085)
+H2   Ripser at n=200: 12 clouds, cpu 1.962, wall (medians) 0.800
+H2   Ripser at n=300: 12 clouds, cpu 3.289, wall (medians) 1.473
+H1   NoQ          24  0.112 0.414 (0.303)
+H1   authors       4  0.584 0.443 (0.428)
+H1   All          24  1.043 0.971 (0.941)
+H1   Extend       24  0.213 0.567 (0.508)
+H1   Ripser       24  0.751 2.478 (1.054)
+H1   Ripser at n=512: 12 clouds, cpu 1.709, wall (medians) 0.691
+H1   Ripser at n=768: 12 clouds, cpu 3.594, wall (medians) 1.607
+capability runs (n=400, one run each):
+  E10-H2-author-s2-n400-cap            AUTHOR       108.1 s  cpu    160.9 s    5.3 GiB  PASS
+  E10-H2-author-s2-n400-cap            AUTHOR-F     333.5 s  cpu    513.3 s   15.0 GiB  PASS
+  E10-H2-author-s2-n400-cap            RIPSER        72.6 s  cpu     67.1 s    1.8 GiB  None
+  E10-H2-author-s2-n400-cap            UNI          219.9 s  cpu    379.1 s   12.3 GiB  PASS
+  E10-H2-author-s2-n400-cap            CTRL         204.6 s  cpu    368.6 s    5.8 GiB  PASS
+  E10-H2-corrugated-torus-n400-cap     RIPSER        17.8 s  cpu     16.6 s    0.9 GiB  None
+  E10-H2-corrugated-torus-n400-cap     CTRL         109.9 s  cpu    178.5 s   12.7 GiB  PASS
+  E10-H2-corrugated-torus-n400-cap     UNI          114.2 s  cpu    183.9 s   12.8 GiB  PASS

@@ -1,0 +1,17 @@
+{
+ "argv": [
+  "/home/alex_1709/.venvs/icc-ripser-0.6.15-VnIso6/bin/python",
+  "-I",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/ripser_run.py",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-klein-bottle-r4-n300.csv",
+  "6.0000262393838861",
+  "2"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 8.726936907998606,
+ "cpu_seconds": 8.220575,
+ "maxrss_kib": 493988,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T13:04:13.463297+00:00"
+}

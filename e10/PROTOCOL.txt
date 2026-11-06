@@ -1,0 +1,52 @@
+E10: BỘ ĐIỀU KHIỂN CHUNG TRÊN THANG ĐỀU q10…q90, XÁC NHẬN TRÊN DỮ LIỆU MỚI
+Viết và khóa (LOCK.json) trước khi sinh dữ liệu, ngày 05/11/2026. Người dùng yêu cầu ("Chạy E10 trước khi chốt").
+Người chạy: Claude, trên máy WSL của người dùng. Khung giống E9 (../pwph-e9-unified-confirm-20261105/PROTOCOL.txt);
+chỉ ghi chỗ khác.
+
+BỐI CẢNH (dữ liệu phát triển, đã lộ)
+ - E9 (thang P9 = q20 q25 q30 q40 … q90): bộ chung UNI so với bộ điều khiển theo từng chiều CTRL không đạt
+   (H2 0,999; H1 1,018). E9b: hai binary cho CTRL như nhau trong 3%.
+ - Chẩn đoán trên E9: ở H2 thiếu mốc q10 (CTRL commit ở q10 trên 5 đám); ở H1 chi phí của quy tắc sau q50.
+ - E9c (khám phá trên dữ liệu E9, ../pwph-e9c-even9-explore-20261105/): UNI trên thang đều EVEN9 = q10 q20 … q90
+   so với CTRL: H2 0,966 [0,939; 0,991], H1 0,953 [0,901; 1,007]; mọi lượt đúng.
+ - Người dùng chọn thang đều vì nó tự nhiên (chia các khoảng cách phân biệt thành 10 phần bằng nhau). Dữ liệu
+   E1–E9, E9b, E9c đều là dữ liệu phát triển; E10 là dữ liệu mới.
+
+PHƯƠNG PHÁP ĐƯỢC XÁC NHẬN (UNI): cờ của E9 (--live-guard --extend --absorb-pv --shrink-risky --h1-risk
+ selective-fast --fiber-full --extend-all --extend-rule), thang EVEN9 rồi E, cho cả H1 và H2. Không chỉnh gì khác.
+
+BINARY: MỌI arm PwPH chạy bin/B_X31 (commit f4733ef5e), một binary duy nhất. Ripser 0.6.15.
+
+DỮ LIỆU: như E9 (12 họ; H2 n = 200, 300; H1 n = 512, 768; tập khả năng H2 author-s2 và corrugated-torus n = 400),
+ mỗi cấu hình 1 lần rút, seed 20261107300000 + 100000·nhóm + 1000·họ + 10·(n/100). Kiểm không trùng seed và mã
+ băm với E9 và mọi thứ E9 đã loại (E3–E8, P1).
+
+MỐC: quy tắc P1 như E4–E9. Lịch tác giả như E8, E9.
+
+ARM (như E9, chỉ đổi thang của UNI và binary)
+ H2: UNI; CTRL (EVEN9, commit ở mọi mốc được phép); AUTHOR-F (chỉ mặt cầu: lịch tác giả, cùng bộ lọc); AUTHOR
+     (chỉ mặt cầu, không bộ lọc, chỉ mô tả); NOQ (chỉ khối 1); RIPSER.
+ H1: UNI; CTRL (thang q20 q25 q30 q40 q50); PAPER (Extend); AUTHOR (chỉ mặt cầu); NOQ (chỉ khối 1); RIPSER.
+ Bộ arm cho phép đọc như ablation: Extend (PAPER) → thêm gộp PV và bộ lọc, commit ở mọi mốc (CTRL) → một thang và
+ quy tắc dừng (UNI).
+
+NGUỒN ĐIỆN: phần đo chỉ bắt đầu khi máy cắm điện; trạng thái ghi mỗi 60 s vào power.log.
+LỊCH ĐO: như E9. Seed: 2026110691 (thứ tự đám), 2026110692 (khối), 2026110693 (tập khả năng).
+KIỂM ĐÚNG: như E9 (mọi lượt PwPH hoàn tất so với Ripser 0.6.15, chiếu float32, không dung sai; H0 không kiểm).
+
+PHÂN TÍCH KHÓA TRƯỚC (e10_analyze.py): như E9, tham chiếu UNI; bootstrap seed 2026110694, 5.000 lần.
+ Giả thuyết chính (so với các baseline ngoài):
+  H2-N, H1-N: GM(UNI/NOQ) trên 24 đám. CONFIRMED: cận trên 95% theo đám < 1 VÀ theo họ < 1 VÀ tối đa 1 họ có
+   GM > 1,05; còn lại NOT_CONFIRMED.
+  H2-S: GM(UNI/AUTHOR-F) trên 4 đám mặt cầu H2.   H1-S: GM(UNI/AUTHOR) trên 4 đám mặt cầu H1.
+   CONFIRMED: cận trên theo đám < 1 VÀ không họ mặt cầu nào có GM > 1,05; PARTIAL: chỉ cận trên < 1;
+   NOT_CONFIRMED: cận trên ≥ 1.
+ Giả thuyết phụ (so với các phiên bản của chính ta, ablation):
+  H2-C, H1-C: GM(UNI/CTRL); H1-E: GM(UNI/PAPER). Luật của E9: FASTER (hai cận trên < 1 và tối đa 1 họ > 1,05);
+   NONINFERIOR (hai cận trên < 1,05); NOT_CONFIRMED.
+  Không điều chỉnh đa so sánh. Báo kèm bản "không có đám lệch Ripser" cho H2-N và H1-N.
+ Mô tả: như E9 (theo cỡ n; RSS đỉnh; CPU; số lần cắt; tập khả năng; khớp Ripser theo arm; so với Ripser).
+ Bài báo chỉ nói UNI "nhanh hơn" một baseline nếu giả thuyết tương ứng đạt; nếu không đạt thì nói thẳng.
+
+KHÔNG ĐƯỢC: đổi binary, thang, arm, ngưỡng hay script sau khi sinh dữ liệu; loại đám hay họ; chạy lại vì kết quả
+ xấu. Sai lệch ghi vào DEVIATIONS.txt.

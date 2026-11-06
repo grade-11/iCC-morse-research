@@ -1,0 +1,17 @@
+{
+ "argv": [
+  "/home/alex_1709/.venvs/icc-ripser-0.6.15-VnIso6/bin/python",
+  "-I",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/ripser_run.py",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-corrugated-torus-n200.csv",
+  "3.2121465397170144",
+  "2"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 3.397426744999393,
+ "cpu_seconds": 3.209778,
+ "maxrss_kib": 218220,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T13:26:59.936672+00:00"
+}

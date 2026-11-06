@@ -1,0 +1,21 @@
+[birth-repair] epsilon=0.74409048704270353 live=2 action=VETO
+[birth-repair] epsilon=0.81315944700036902 live=1 action=VETO
+[birth-repair] epsilon=0.89491967674637551 live=1 action=VETO
+[birth-repair] epsilon=1.0274665731035699 live=0 action=ALLOW
+[h1-risk] epsilon=1.0274665731035699 horizon=2.7962239646879836 mode=selective-fast eligible=0 committed=0 live_protected=0 risky_pairs=0 pairs_checked=0 edges_checked=0 event_batches=0 seconds=5.3974000000000002e-05 precommit_realization=NA/not-implemented reason=no-useful-support
+[h1-risk-selection] epsilon=1.0274665731035699 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=5.3974000000000002e-05 committed=0
+[postcommit] epsilon=1.0274665731035699 eps_bits=4607306117248411790 eligible=0 retained=0 committed=0 retained_hash=1469598103934665603 Hbefore=8323456 Hafter=8323456 deltaH=0 marginal_M=0 C_hat=0 payback=0 F_s=6.6258000000000002e-05 C_s=8.6000000000000002e-08 C_observed=0 valuation_s=2.2730000000000001e-06 diagnostic=0 post_state_hash=1644222598795158915 active=256 reason=no-useful-support
+[birth-repair] epsilon=1.1861349171942341 live=0 action=ALLOW
+[rule] epsilon=1.1861349171942341 stage=before-filters t=3.6837671290314143e-08 beta=1 margin=1 prep_s=0.00092754999999999997 commit_cost=0.21691151154809934 extend_cost=0.16588524351194817 action=EXTEND
+[h1-risk] epsilon=1.1861349171942341 horizon=2.7962239646879836 mode=selective-fast eligible=1 committed=0 live_protected=0 risky_pairs=0 pairs_checked=0 edges_checked=0 event_batches=0 seconds=0 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.1861349171942341 scans=0 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0 committed=0
+[postcommit] epsilon=1.1861349171942341 eps_bits=4608020695943733999 eligible=1 retained=0 committed=0 retained_hash=1469598103934665603 Hbefore=8323456 Hafter=8323456 deltaH=0 marginal_M=0 C_hat=0 payback=0 F_s=0.00080624199999999998 C_s=3.2000000000000002e-08 C_observed=0 valuation_s=2.1009999999999999e-06 diagnostic=0 post_state_hash=1644222598795158915 active=256 reason=rule-stop-before-filters
+window lower bound, window upper bound
+0, 2.7962239646879836
+dimension, birth weight, death weight
+2, 1.0000079487323006, 1.0000954866210743
+2, 0.99982616422329951, 0.99983490398567221
+2, 0.35990631099367315, 1.0004077153504651
+2, 0.32814684279834438, 0.80664413081926667
+
+run time = 304

@@ -1,0 +1,26 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/B_X31",
+  "--tool",
+  "piecewise",
+  "--threads",
+  "4",
+  "--pv-cap-scale",
+  "0.85",
+  "--pv-min-separation",
+  "0",
+  "--max-dim",
+  "3",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-corrugated-torus-n300.csv",
+  "--eps-breaks",
+  "3.1643176211737365"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 70.36287702900154,
+ "cpu_seconds": 106.192925,
+ "maxrss_kib": 9528864,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T13:29:41.049130+00:00"
+}

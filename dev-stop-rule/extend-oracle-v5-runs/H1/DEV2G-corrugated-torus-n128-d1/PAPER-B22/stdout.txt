@@ -1,0 +1,62 @@
+[birth-repair] epsilon=0.56299691481561021 live=1 action=VETO
+window lower bound, window upper bound
+0, 0.61604044595657337
+dimension, birth weight, death weight
+2, 0.48493215328880995, 0.57458793367375216
+2, 0.45941676425946543, 0.46948626062891746
+2, 0.409815936263628, 0.41363165500358978
+2, 0.38467775221136685, 0.45503619696426728
+2, 0.3660374789628229, 0.37155871977284627
+2, 0.35902536363719728, 0.38810569107443854
+2, 0.33642707462457072, 0.3457485371808367
+2, 0.32754216204611003, 0.36074173316295638
+2, 0.31268025021886131, 0.35447805795797027
+2, 0.31149966555512265, 0.35974001947829914
+2, 0.28308084914537479, 0.37390477825678731
+2, 0.2475577072113217, 0.27340646212923386
+2, 0.24197695678904194, 0.40543633248361949
+2, 0.23747312116308483, 0.26007528124753287
+2, 0.23345850225937925, 0.30630317714692706
+2, 0.23218467731068324, 0.41638131769943171
+2, 0.197423733586156, 0.28597381118631487
+2, 0.18680317495780177, 0.23717862253614816
+2, 0.18382307388485475, 0.23367331116905246
+2, 0.18372911867323177, 0.21406872412432562
+2, 0.17023624246188859, 0.18775740875707311
+2, 0.16691185854735208, 0.1841925260051426
+2, 0.1313074559921639, 0.15524785301605654
+
+[birth-repair] epsilon=0.61604044595657337 live=0 action=ALLOW
+[shrink] epsilon=0.61604044595657337 eligible=8 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=8 seconds=0.0014308260000000001
+[absorb] epsilon=0.61604044595657337 absorbed_pvs=0 committed=8 largest=11
+[h1-risk] epsilon=0.61604044595657337 horizon=2.9775690187770221 mode=selective-fast eligible=8 committed=8 live_protected=0 risky_pairs=0 pairs_checked=724 edges_checked=4282 event_batches=3117 seconds=0.0014308260000000001 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=0.61604044595657337 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.0014308260000000001 committed=8
+[postcommit] epsilon=0.61604044595657337 eps_bits=4603724018590986772 eligible=8 retained=8 committed=8 retained_hash=8754016064736131141 Hbefore=1032384 Hafter=419805 deltaH=612579 marginal_M=0 C_hat=0 payback=0 F_s=0.001548996 C_s=7.4200000000000001e-06 C_observed=1 valuation_s=7.1040000000000001e-06 diagnostic=0 post_state_hash=16541604245679579294 active=95 reason=retained-supports
+window lower bound, window upper bound
+0.61604044595657337, 0.66875617422187716
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=0.66875617422187716 live=0 action=ALLOW
+[shrink] epsilon=0.66875617422187716 eligible=3 pair_warnings=1 fiber_warnings=0 late_drops=0 offered=1 offered_vertices=7 restored=1 restored_vertices=3 checks=2 kept=3 seconds=0.00072693499999999995
+[absorb] epsilon=0.66875617422187716 absorbed_pvs=2 committed=3 largest=14
+[h1-risk] epsilon=0.66875617422187716 horizon=2.9775690187770221 mode=selective-fast eligible=3 committed=3 live_protected=0 risky_pairs=1 pairs_checked=249 edges_checked=3137 event_batches=2159 seconds=0.00072693499999999995 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=0.66875617422187716 scans=3 removed=0 initial_warnings=1 remaining_warnings=0 total_scan_s=0.00072693499999999995 committed=3
+[postcommit] epsilon=0.66875617422187716 eps_bits=4604198839659331145 eligible=3 retained=3 committed=3 retained_hash=7362556963628374998 Hbefore=419805 Hafter=310761 deltaH=109044 marginal_M=0 C_hat=0 payback=0 F_s=0.00076773100000000001 C_s=6.691e-06 C_observed=1 valuation_s=3.6660000000000001e-06 diagnostic=0 post_state_hash=18052854159990353873 active=86 reason=retained-supports
+window lower bound, window upper bound
+0.66875617422187716, 0.82834417477789635
+dimension, birth weight, death weight
+2, 0.67252270113471868, -1
+
+[birth-repair] epsilon=0.82834417477789635 live=1 action=VETO
+window lower bound, window upper bound
+0.82834417477789635, 1.134008951118165
+dimension, birth weight, death weight
+2, 0.67252270113471868, -1
+
+[birth-repair] epsilon=1.134008951118165 live=1 action=VETO
+window lower bound, window upper bound
+1.134008951118165, 2.9775690187770221
+dimension, birth weight, death weight
+2, 0.67252270113471868, 1.465447263364267
+
+run time = 51

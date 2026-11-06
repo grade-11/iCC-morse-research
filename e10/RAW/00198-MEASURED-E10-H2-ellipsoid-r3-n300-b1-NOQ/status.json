@@ -1,0 +1,26 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/B_X31",
+  "--tool",
+  "piecewise",
+  "--threads",
+  "4",
+  "--pv-cap-scale",
+  "0.85",
+  "--pv-min-separation",
+  "0",
+  "--max-dim",
+  "3",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-ellipsoid-r3-n300.csv",
+  "--eps-breaks",
+  "2.9999719154061588"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 70.2079830799994,
+ "cpu_seconds": 108.22101500000001,
+ "maxrss_kib": 9756256,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T13:33:38.730242+00:00"
+}

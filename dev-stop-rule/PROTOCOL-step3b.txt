@@ -1,0 +1,36 @@
+STEP 3b OF THE UNIFIED RULE (draft written 2026-11-05 ~02:25, while the H2 part of step 3 was still running;
+the H1 part of step 3 had been read)
+
+WHY
+  In step 3 (B_X30, H1 read): on the same K series, the rule's decisions alone give 0.906 (EVEN9) and 0.941 (P9)
+  of the draft's H1 controller, but the real RULE runs give 0.996 and 1.021. The gap is the rule's own
+  bookkeeping: RULE / K(its own number of commits) = 1.10-1.13 for B_X30 against 1.04-1.05 for B_X27. B_X28
+  added a second set of five work predictions (before the filters), each a pass over all vertex pairs.
+  B_X31 computes only what the rule uses (work at the cut and at the endpoint, without and with the selection),
+  reuses the values without a selection after the filters, caches the work of a window by scale, and stops
+  calibrating once no more commits can come. Decisions and output must equal B_X30's on the same inputs.
+
+CHOICE OF THE SAFETY MARGIN (fixed here, before the H2 part of step 3 is read)
+  Candidates, all with the growing-rate estimate: local (no margin), localm (B_X30: latest window's time over
+  the pooled-rate prediction), localr (latest window's time over the growing-rate prediction).
+  From the step 3 LOG runs and K series (offline, extend_oracle_table.py v5), on the P9 ladder:
+    score = mean(GM over H1 of T(stop)/PAPER-B22, GM over H2 of T(stop)/B22 on EVEN9)
+  where T(stop) is the K run at the rule's stop. A stop at decision 1 on H2-author-s2-n400-d0 (no K0) counts as
+  a failure of that candidate. The candidate with the smallest score is B_X31's margin.
+
+DEVELOPMENT TIMING OF B_X31 (one session, after B_X31's equality check)
+  Arms per cloud: RULE on EVEN9 and on P9 (B_X31 --extend-all --extend-rule), E (H1 PAPER-B22, H2 B22 on EVEN9),
+  and on the sphere clouds A (H1 AUTHOR, H2 AUTHOR-F) and H2 AUTHOR (descriptive). All B_X22 except RULE.
+  H1: every arm three times per cloud (rounds in a fixed shuffled order), median time per arm, since most H1
+  development clouds run in well under a second. H2: once.
+  Decision rule: exactly that of PROTOCOL-step3.txt (ladder choice, criteria a-e), with the medians in H1.
+
+RECORDED BEFORE THE TIMING (2026-11-05 ~06:20)
+  Step 3 (B_X30) result, STEP3-RESULT.json: ladder P9; a. H1 U/E 1.021 (FAIL); b. H2 0.955; c. max 1.71 on
+  EXTFV-EXT_UNBALANCED_GAUSSIAN_PAIR-n128-d1 (FAIL); d. H1 U/A 0.662, H2 U/A 0.706; e. all exact. Not accepted.
+  Margin choice (variant_choice.py): local 0.936, localm 0.939, localr 0.935 -> localr; no candidate stops at
+  decision 1 on n400.
+  B_X31 = worktree commit f4733ef5e (bin/B_X31, sha256 9a0f76aa...): the bookkeeping cut above plus the localr
+  margin. Since the margin changed, B_X31's decisions are not B_X30's; instead checked: the program's estimates
+  equal extend_oracle_table.py's "localr" on 5 clouds (2 H2, 3 H1), and correctness stress v6: XRULE 396/396,
+  XRGATE 66/66 (gate 66/66 runs all cuts matched).

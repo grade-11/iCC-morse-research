@@ -1,0 +1,17 @@
+{
+ "argv": [
+  "/home/alex_1709/.venvs/icc-ripser-0.6.15-VnIso6/bin/python",
+  "-I",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/ripser_run.py",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-three-spheres-r3-n300.csv",
+  "4.1511690570204234",
+  "2"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 9.358682149002561,
+ "cpu_seconds": 8.782913,
+ "maxrss_kib": 528252,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T12:38:59.669628+00:00"
+}

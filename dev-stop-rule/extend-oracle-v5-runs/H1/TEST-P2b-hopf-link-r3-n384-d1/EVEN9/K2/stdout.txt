@@ -1,0 +1,40 @@
+[birth-repair] epsilon=0.62236496570004463 live=2 action=VETO
+window lower bound, window upper bound
+0, 1.0046867146377576
+dimension, birth weight, death weight
+2, 0.97764973951139433, 0.97829193747821164
+2, 0.97025837813068438, 0.97851695323421728
+2, 0.9679834969855573, 0.98118080281638254
+2, 0.96619067145217563, 0.98389646759133698
+2, 0.28473160975627565, 0.98435449708072331
+2, 0.13840120691686894, 0.98896328211109807
+2, 0.039643814367770272, 0.039739371837359601
+2, 0.027915599103996203, 0.028509375288596848
+2, 0.027574769871223981, 0.029397073689633523
+2, 0.026381613995525906, 0.028138292301317085
+
+[birth-repair] epsilon=1.0046867146377576 live=0 action=ALLOW
+[shrink] epsilon=1.0046867146377576 eligible=4 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=4 seconds=0.0027599550000000001
+[absorb] epsilon=1.0046867146377576 absorbed_pvs=0 committed=4 largest=4
+[h1-risk] epsilon=1.0046867146377576 horizon=3.0262210607549127 mode=selective-fast eligible=4 committed=4 live_protected=0 risky_pairs=0 pairs_checked=1478 edges_checked=5984 event_batches=4629 seconds=0.0027599550000000001 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.0046867146377576 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.0027599550000000001 committed=4
+[postcommit] epsilon=1.0046867146377576 eps_bits=4607203525886313605 eligible=4 retained=4 committed=4 retained_hash=17063727422380818085 Hbefore=28164672 Hafter=25601598 deltaH=2563074 marginal_M=0 C_hat=0 payback=0 F_s=0.0028471080000000001 C_s=3.2305999999999999e-05 C_observed=1 valuation_s=6.28e-06 diagnostic=0 post_state_hash=10973334803067728765 active=372 reason=retained-supports
+[birth-repair] epsilon=1.0854169043431792 live=0 action=ALLOW
+[h1-risk] epsilon=1.0854169043431792 horizon=3.0262210607549127 mode=selective-fast eligible=0 committed=0 live_protected=0 risky_pairs=0 pairs_checked=0 edges_checked=0 event_batches=0 seconds=0.000173838 precommit_realization=NA/not-implemented reason=no-useful-support
+[h1-risk-selection] epsilon=1.0854169043431792 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.000173838 committed=0
+[postcommit] epsilon=1.0854169043431792 eps_bits=4607567102338588491 eligible=0 retained=0 committed=0 retained_hash=1469598103934665603 Hbefore=25601598 Hafter=25601598 deltaH=0 marginal_M=0 C_hat=0 payback=0 F_s=0.00020294200000000001 C_s=1.5200000000000001e-07 C_observed=0 valuation_s=4.0169999999999998e-06 diagnostic=0 post_state_hash=10973334803067728765 active=372 reason=no-useful-support
+window lower bound, window upper bound
+1.0046867146377576, 1.2456355650396944
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.2456355650396944 live=0 action=ALLOW
+[shrink] epsilon=1.2456355650396944 eligible=1 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=1 seconds=0.00090473500000000004
+[absorb] epsilon=1.2456355650396944 absorbed_pvs=0 committed=1 largest=4
+[h1-risk] epsilon=1.2456355650396944 horizon=3.0262210607549127 mode=selective-fast eligible=1 committed=1 live_protected=0 risky_pairs=0 pairs_checked=368 edges_checked=1520 event_batches=580 seconds=0.00090473500000000004 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.2456355650396944 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.00090473500000000004 committed=1
+[postcommit] epsilon=1.2456355650396944 eps_bits=4608288663039199117 eligible=1 retained=1 committed=1 retained_hash=10477148002264261064 Hbefore=25601598 Hafter=24986097 deltaH=615501 marginal_M=0 C_hat=0 payback=0 F_s=0.00097401599999999997 C_s=5.8889999999999999e-06 C_observed=1 valuation_s=5.2360000000000004e-06 diagnostic=0 post_state_hash=4161045331666185291 active=369 reason=retained-supports
+window lower bound, window upper bound
+1.2456355650396944, 3.0262210607549127
+dimension, birth weight, death weight
+
+run time = 2305

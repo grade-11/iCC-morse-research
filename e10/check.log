@@ -1,0 +1,60 @@
+CHECKED E10-H2-author-s2-n200
+CHECKED E10-H2-author-s2-n300
+CHECKED E10-H2-author-s3-n200
+CHECKED E10-H2-author-s3-n300
+CHECKED E10-H2-corrugated-torus-n200
+CHECKED E10-H2-corrugated-torus-n300
+CHECKED E10-H2-concentric-spheres-n200
+CHECKED E10-H2-concentric-spheres-n300
+CHECKED E10-H2-linked-tori-n200
+CHECKED E10-H2-linked-tori-n300
+CHECKED E10-H2-klein-bottle-r4-n200
+CHECKED E10-H2-klein-bottle-r4-n300
+CHECKED E10-H2-cube-surface-n200
+CHECKED E10-H2-cube-surface-n300
+CHECKED E10-H2-clifford-torus-r4-n200
+CHECKED E10-H2-clifford-torus-r4-n300
+CHECKED E10-H2-ellipsoid-r3-n200
+CHECKED E10-H2-ellipsoid-r3-n300
+CHECKED E10-H2-three-spheres-r3-n200
+CHECKED E10-H2-three-spheres-r3-n300
+CHECKED E10-H2-genus2-r3-n200
+CHECKED E10-H2-genus2-r3-n300
+CHECKED E10-H2-thick-shell-r3-n200
+CHECKED E10-H2-thick-shell-r3-n300
+CHECKED E10-H1-author-s2-n512
+CHECKED E10-H1-author-s2-n768
+CHECKED E10-H1-author-s3-n512
+CHECKED E10-H1-author-s3-n768
+CHECKED E10-H1-corrugated-torus-n512
+CHECKED E10-H1-corrugated-torus-n768
+CHECKED E10-H1-concentric-spheres-n512
+CHECKED E10-H1-concentric-spheres-n768
+CHECKED E10-H1-linked-tori-n512
+CHECKED E10-H1-linked-tori-n768
+CHECKED E10-H1-klein-bottle-r4-n512
+CHECKED E10-H1-klein-bottle-r4-n768
+CHECKED E10-H1-cube-surface-n512
+CHECKED E10-H1-cube-surface-n768
+CHECKED E10-H1-clifford-torus-r4-n512
+CHECKED E10-H1-clifford-torus-r4-n768
+CHECKED E10-H1-ellipsoid-r3-n512
+CHECKED E10-H1-ellipsoid-r3-n768
+CHECKED E10-H1-three-spheres-r3-n512
+CHECKED E10-H1-three-spheres-r3-n768
+CHECKED E10-H1-genus2-r3-n512
+CHECKED E10-H1-genus2-r3-n768
+CHECKED E10-H1-thick-shell-r3-n512
+CHECKED E10-H1-thick-shell-r3-n768
+CHECKED E10-H2-author-s2-n400-cap
+CHECKED E10-H2-corrugated-torus-n400-cap
+E10 CHECK H1 AUTHOR PASS 12
+E10 CHECK H1 CTRL PASS 72
+E10 CHECK H1 NOQ PASS 24
+E10 CHECK H1 PAPER PASS 72
+E10 CHECK H1 UNI PASS 72
+E10 CHECK H2 AUTHOR PASS 13
+E10 CHECK H2 AUTHOR-F PASS 13
+E10 CHECK H2 CTRL PASS 74
+E10 CHECK H2 NOQ PASS 24
+E10 CHECK H2 UNI PASS 74

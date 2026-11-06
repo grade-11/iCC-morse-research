@@ -1,0 +1,37 @@
+E10 SAI LỆCH VÀ GHI CHÚ
+
+1. Phân tích khóa trước có một điểm yếu, phát hiện sau khi chạy (05/11/2026, khoảng 21:40). Ở đám
+   E10-H2-genus2-r3-n300, thứ tự arm xáo ngẫu nhiên tình cờ giống nhau ở cả 3 khối (UNI vị trí 0, RIPSER 1, CTRL 2),
+   nên arm và vị trí trùng nhau; hệ số vị trí khi đó chỉ do một lượt NOQ (71 s, vị trí 3) quyết định, và OLS khóa
+   trước cho CTRL/UNI = 0,27 trong khi trung vị chỉ chênh 6% (UNI 3,35 s, CTRL 3,55 s). Hệ quả: họ genus2 có
+   GM(UNI/CTRL) 1,947 và H2-C ra NOT_CONFIRMED (1,034 [0,959; 1,172]).
+   Kết luận khóa trước được GIỮ NGUYÊN và báo như vậy. Phân tích độ nhạy khám phá (e10_sensitivity.py, viết sau,
+   SENSITIVITY.json): OLS bỏ hệ số vị trí cho H2-C 0,979 [0,953; 1,003] / [0,945; 1,004]; theo trung vị 0,979
+   [0,953; 1,005] / [0,947; 1,005]; mọi giả thuyết khác gần như không đổi. Các giả thuyết chính (so với NOQ và lịch
+   tác giả) đạt trong cả ba cách tính.
+
+2. Sửa lời giải thích ở mục 1 (06/11/2026, sau phản biện bên ngoài; e10_identifiability.py, IDENTIFIABILITY.json,
+   viết sau, khám phá). Lời giải thích "hệ số vị trí do một lượt NOQ quyết định" là SAI. Khi thứ tự tương đối của
+   các arm giống nhau ở cả 3 khối, cột vị trí bằng đúng hiệu ứng arm cộng hiệu ứng khối, nên ma trận thiết kế thiếu
+   hạng (6 trên 7 cột) và KHÔNG so sánh arm nào với UNI xác định được trên đám đó; lstsq trả nghiệm chuẩn nhỏ nhất,
+   một con số tùy ý. Hai đám bị vậy: E10-H2-genus2-r3-n300 (NOQ ở vị trí 3) và E10-H2-concentric-spheres-n200
+   (NOQ ở vị trí 0). 46 đám còn lại đủ hạng. Protocol không quy định trước cách xử lý ma trận thiếu hạng.
+   Kết luận khóa trước vẫn được báo nguyên văn. Kèm theo:
+    (a) phân tích khóa chỉ trên các đám xác định được (22 đám H2): H2-C 0,978 [0,949; 1,005] / [0,943; 1,008],
+        không họ nào > 1,05; H2-N 0,234 [0,154; 0,352] / [0,129; 0,402]; các giả thuyết khác không đổi;
+    (b) UNI/NOQ chỉ từ khối 1, tỷ số ghép cặp không mô hình: H2 0,222 [0,150; 0,331] / [0,128; 0,383],
+        H1 0,303 [0,251; 0,376] / [0,230; 0,410].
+   Cả ba cách (bỏ vị trí, trung vị, chỉ đám xác định được) cho H2-C dưới 1 nhưng cận trên trên 1: không kém hơn
+   5%, chưa nhanh hơn.
+
+3. Phân tích đã sửa thay phân tích khóa trong bài báo (06/11/2026, sau phản biện vòng hai). Vì mô hình khóa không
+   nhận dạng được tỷ số trên 2 đám H2 (mục 2), các hệ số chuẩn nhỏ nhất không được dùng làm ước lượng. Đặc tả đã
+   sửa: log t ~ arm + khối (bỏ vị trí), trên cả 48 đám của hai chiều; mọi thứ khác giữ như phân tích khóa
+   (tương phản, luật quyết định, seed bootstrap 2026110694, 5.000 lần). Script e10_corrected.py, kết quả
+   SUMMARY-CORRECTED.json. SUMMARY.json (phân tích khóa) được giữ nguyên trong artifact.
+   Verdict theo đặc tả đã sửa: H2-N CONFIRMED 0,220 [0,147; 0,327] / [0,124; 0,381]; H2-S CONFIRMED 0,870;
+   H2-C NONINFERIOR 0,979 [0,952; 1,002] / [0,945; 1,004] (khóa: NOT_CONFIRMED 1,034); H1-N CONFIRMED 0,302;
+   H1-S CONFIRMED 0,428; H1-C FASTER 0,940; H1-E FASTER 0,508. Chỉ H2-C đổi verdict.
+   Phân tích trên 22 đám (mục 2a) và tỷ số khối 1 (mục 2b) là phân tích độ nhạy.
+   Ghi chú (06/11/2026): H2-C theo đặc tả đã sửa là 0,97849, làm tròn 3 chữ số là 0,978 (trên đây ghi 0,979 là
+   làm tròn từ 4 chữ số, sai). e10_tables.py in lại Bảng II–III từ SUMMARY-CORRECTED.json (hoặc SUMMARY.json).

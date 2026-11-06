@@ -1,0 +1,22 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/native-metric-export",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-thick-shell-r3-n300.csv",
+  "--threads",
+  "4",
+  "--expect-n",
+  "300",
+  "--expect-dim",
+  "3",
+  "--output",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/prep/E10-H2-thick-shell-r3-n300-metric.jsonl"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 0.14079215499805287,
+ "cpu_seconds": 0.194438,
+ "maxrss_kib": 26436,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T12:37:54.608060+00:00"
+}

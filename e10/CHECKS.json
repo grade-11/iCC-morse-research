@@ -1,0 +1,10206 @@
+{
+ "utc": "2026-11-05T14:33:59.148518+00:00",
+ "H0": "NOT_CHECKED",
+ "counts": {
+  "H1:AUTHOR:PASS": 12,
+  "H1:CTRL:PASS": 72,
+  "H1:NOQ:PASS": 24,
+  "H1:PAPER:PASS": 72,
+  "H1:UNI:PASS": 72,
+  "H2:AUTHOR:PASS": 13,
+  "H2:AUTHOR-F:PASS": 13,
+  "H2:CTRL:PASS": 74,
+  "H2:NOQ:PASS": 24,
+  "H2:UNI:PASS": 74
+ },
+ "runs": [
+  {
+   "run_id": 114,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 115,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 116,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 117,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 118,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 119,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 120,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 121,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 122,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 125,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 126,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 127,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 128,
+   "case": "E10-H2-author-s2-n200",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 200,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 149,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 151,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 152,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 153,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 154,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 155,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 156,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 158,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 159,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 160,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 161,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 162,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 163,
+   "case": "E10-H2-author-s2-n300",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 88,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 89,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 90,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 91,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 92,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 93,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 94,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 95,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 96,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 98,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 99,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 100,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 101,
+   "case": "E10-H2-author-s3-n200",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 200,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 102,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 39,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 41,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 9
+  },
+  {
+   "run_id": 42,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 43,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 45,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 46,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 48,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 49,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 9
+  },
+  {
+   "run_id": 50,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 51,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 52,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "AUTHOR-F",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 53,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 54,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 55,
+   "case": "E10-H2-author-s3-n300",
+   "experiment": "H2",
+   "family": "author-s3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 156,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 53,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 9
+  },
+  {
+   "run_id": 175,
+   "case": "E10-H2-corrugated-torus-n200",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 176,
+   "case": "E10-H2-corrugated-torus-n200",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 177,
+   "case": "E10-H2-corrugated-torus-n200",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 179,
+   "case": "E10-H2-corrugated-torus-n200",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 180,
+   "case": "E10-H2-corrugated-torus-n200",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 182,
+   "case": "E10-H2-corrugated-torus-n200",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 184,
+   "case": "E10-H2-corrugated-torus-n200",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 185,
+   "case": "E10-H2-corrugated-torus-n300",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 15,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 186,
+   "case": "E10-H2-corrugated-torus-n300",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 15,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 187,
+   "case": "E10-H2-corrugated-torus-n300",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 15,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 189,
+   "case": "E10-H2-corrugated-torus-n300",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 15,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 190,
+   "case": "E10-H2-corrugated-torus-n300",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 15,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 192,
+   "case": "E10-H2-corrugated-torus-n300",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 15,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 193,
+   "case": "E10-H2-corrugated-torus-n300",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 15,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 235,
+   "case": "E10-H2-concentric-spheres-n200",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 95,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 236,
+   "case": "E10-H2-concentric-spheres-n200",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 95,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 238,
+   "case": "E10-H2-concentric-spheres-n200",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 95,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 239,
+   "case": "E10-H2-concentric-spheres-n200",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 95,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 241,
+   "case": "E10-H2-concentric-spheres-n200",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 95,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 242,
+   "case": "E10-H2-concentric-spheres-n200",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 95,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 244,
+   "case": "E10-H2-concentric-spheres-n200",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 95,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 12,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 21,
+   "case": "E10-H2-concentric-spheres-n300",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 157,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 34,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 22,
+   "case": "E10-H2-concentric-spheres-n300",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 157,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 34,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 23,
+   "case": "E10-H2-concentric-spheres-n300",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 157,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 34,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 26,
+   "case": "E10-H2-concentric-spheres-n300",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 157,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 34,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 27,
+   "case": "E10-H2-concentric-spheres-n300",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 157,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 34,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 28,
+   "case": "E10-H2-concentric-spheres-n300",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 157,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 34,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 30,
+   "case": "E10-H2-concentric-spheres-n300",
+   "experiment": "H2",
+   "family": "concentric-spheres",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 157,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 34,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 139,
+   "case": "E10-H2-linked-tori-n200",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 63,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 16,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 140,
+   "case": "E10-H2-linked-tori-n200",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 63,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 16,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 141,
+   "case": "E10-H2-linked-tori-n200",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 63,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 16,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 9
+  },
+  {
+   "run_id": 143,
+   "case": "E10-H2-linked-tori-n200",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 63,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 16,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 9
+  },
+  {
+   "run_id": 144,
+   "case": "E10-H2-linked-tori-n200",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 63,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 16,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 146,
+   "case": "E10-H2-linked-tori-n200",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 63,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 16,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 147,
+   "case": "E10-H2-linked-tori-n200",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 63,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 16,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 9
+  },
+  {
+   "run_id": 57,
+   "case": "E10-H2-linked-tori-n300",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 100,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 33,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 58,
+   "case": "E10-H2-linked-tori-n300",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 100,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 33,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 59,
+   "case": "E10-H2-linked-tori-n300",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 100,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 33,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 9
+  },
+  {
+   "run_id": 62,
+   "case": "E10-H2-linked-tori-n300",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 100,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 33,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 63,
+   "case": "E10-H2-linked-tori-n300",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 100,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 33,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 9
+  },
+  {
+   "run_id": 65,
+   "case": "E10-H2-linked-tori-n300",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 100,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 33,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 9
+  },
+  {
+   "run_id": 66,
+   "case": "E10-H2-linked-tori-n300",
+   "experiment": "H2",
+   "family": "linked-tori",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 100,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 33,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 215,
+   "case": "E10-H2-klein-bottle-r4-n200",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 50,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 32,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 8
+  },
+  {
+   "run_id": 216,
+   "case": "E10-H2-klein-bottle-r4-n200",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 50,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 32,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 218,
+   "case": "E10-H2-klein-bottle-r4-n200",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 50,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 32,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 219,
+   "case": "E10-H2-klein-bottle-r4-n200",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 50,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 32,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 220,
+   "case": "E10-H2-klein-bottle-r4-n200",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 50,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 32,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 8
+  },
+  {
+   "run_id": 222,
+   "case": "E10-H2-klein-bottle-r4-n200",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 50,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 32,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 8
+  },
+  {
+   "run_id": 224,
+   "case": "E10-H2-klein-bottle-r4-n200",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 50,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 32,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 104,
+   "case": "E10-H2-klein-bottle-r4-n300",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 76,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 48,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 105,
+   "case": "E10-H2-klein-bottle-r4-n300",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 76,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 48,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 106,
+   "case": "E10-H2-klein-bottle-r4-n300",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 76,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 48,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 108,
+   "case": "E10-H2-klein-bottle-r4-n300",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 76,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 48,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 109,
+   "case": "E10-H2-klein-bottle-r4-n300",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 76,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 48,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 110,
+   "case": "E10-H2-klein-bottle-r4-n300",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 76,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 48,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 112,
+   "case": "E10-H2-klein-bottle-r4-n300",
+   "experiment": "H2",
+   "family": "klein-bottle-r4",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 76,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 48,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 166,
+   "case": "E10-H2-cube-surface-n200",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 167,
+   "case": "E10-H2-cube-surface-n200",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 168,
+   "case": "E10-H2-cube-surface-n200",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 169,
+   "case": "E10-H2-cube-surface-n200",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 171,
+   "case": "E10-H2-cube-surface-n200",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 172,
+   "case": "E10-H2-cube-surface-n200",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 173,
+   "case": "E10-H2-cube-surface-n200",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 255,
+   "case": "E10-H2-cube-surface-n300",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 256,
+   "case": "E10-H2-cube-surface-n300",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 257,
+   "case": "E10-H2-cube-surface-n300",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 259,
+   "case": "E10-H2-cube-surface-n300",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 261,
+   "case": "E10-H2-cube-surface-n300",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 262,
+   "case": "E10-H2-cube-surface-n300",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 264,
+   "case": "E10-H2-cube-surface-n300",
+   "experiment": "H2",
+   "family": "cube-surface",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 32,
+   "case": "E10-H2-clifford-torus-r4-n200",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 61,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 33,
+   "case": "E10-H2-clifford-torus-r4-n200",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 61,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 34,
+   "case": "E10-H2-clifford-torus-r4-n200",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 61,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 36,
+   "case": "E10-H2-clifford-torus-r4-n200",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 61,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 37,
+   "case": "E10-H2-clifford-torus-r4-n200",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 61,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 38,
+   "case": "E10-H2-clifford-torus-r4-n200",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 61,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 40,
+   "case": "E10-H2-clifford-torus-r4-n200",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 61,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 52,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 129,
+   "case": "E10-H2-clifford-torus-r4-n300",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 84,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 71,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 131,
+   "case": "E10-H2-clifford-torus-r4-n300",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 84,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 71,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 132,
+   "case": "E10-H2-clifford-torus-r4-n300",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 84,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 71,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 134,
+   "case": "E10-H2-clifford-torus-r4-n300",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 84,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 71,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 135,
+   "case": "E10-H2-clifford-torus-r4-n300",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 84,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 71,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 136,
+   "case": "E10-H2-clifford-torus-r4-n300",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 84,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 71,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 137,
+   "case": "E10-H2-clifford-torus-r4-n300",
+   "experiment": "H2",
+   "family": "clifford-torus-r4",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 84,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 71,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 245,
+   "case": "E10-H2-ellipsoid-r3-n200",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 247,
+   "case": "E10-H2-ellipsoid-r3-n200",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 248,
+   "case": "E10-H2-ellipsoid-r3-n200",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 250,
+   "case": "E10-H2-ellipsoid-r3-n200",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 251,
+   "case": "E10-H2-ellipsoid-r3-n200",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 252,
+   "case": "E10-H2-ellipsoid-r3-n200",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 253,
+   "case": "E10-H2-ellipsoid-r3-n200",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 195,
+   "case": "E10-H2-ellipsoid-r3-n300",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 196,
+   "case": "E10-H2-ellipsoid-r3-n300",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 198,
+   "case": "E10-H2-ellipsoid-r3-n300",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 200,
+   "case": "E10-H2-ellipsoid-r3-n300",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 201,
+   "case": "E10-H2-ellipsoid-r3-n300",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 203,
+   "case": "E10-H2-ellipsoid-r3-n300",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 204,
+   "case": "E10-H2-ellipsoid-r3-n300",
+   "experiment": "H2",
+   "family": "ellipsoid-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 80,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 1,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 225,
+   "case": "E10-H2-three-spheres-r3-n200",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 7
+  },
+  {
+   "run_id": 227,
+   "case": "E10-H2-three-spheres-r3-n200",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 228,
+   "case": "E10-H2-three-spheres-r3-n200",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 229,
+   "case": "E10-H2-three-spheres-r3-n200",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 230,
+   "case": "E10-H2-three-spheres-r3-n200",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 7
+  },
+  {
+   "run_id": 233,
+   "case": "E10-H2-three-spheres-r3-n200",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 7
+  },
+  {
+   "run_id": 234,
+   "case": "E10-H2-three-spheres-r3-n200",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 49,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 1,
+   "case": "E10-H2-three-spheres-r3-n300",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 91,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 2,
+   "case": "E10-H2-three-spheres-r3-n300",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 91,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 4,
+   "case": "E10-H2-three-spheres-r3-n300",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 91,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 5,
+   "case": "E10-H2-three-spheres-r3-n300",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 91,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 6,
+   "case": "E10-H2-three-spheres-r3-n300",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 91,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 8,
+   "case": "E10-H2-three-spheres-r3-n300",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 91,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 10,
+   "case": "E10-H2-three-spheres-r3-n300",
+   "experiment": "H2",
+   "family": "three-spheres-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 91,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 4,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 77,
+   "case": "E10-H2-genus2-r3-n200",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 9,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 78,
+   "case": "E10-H2-genus2-r3-n200",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 9,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 80,
+   "case": "E10-H2-genus2-r3-n200",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 9,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 81,
+   "case": "E10-H2-genus2-r3-n200",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 9,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 82,
+   "case": "E10-H2-genus2-r3-n200",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 9,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 84,
+   "case": "E10-H2-genus2-r3-n200",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 9,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 85,
+   "case": "E10-H2-genus2-r3-n200",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 59,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 9,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 67,
+   "case": "E10-H2-genus2-r3-n300",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 88,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 11,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 69,
+   "case": "E10-H2-genus2-r3-n300",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 88,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 11,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 10
+  },
+  {
+   "run_id": 70,
+   "case": "E10-H2-genus2-r3-n300",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 88,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 11,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 71,
+   "case": "E10-H2-genus2-r3-n300",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 88,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 11,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 73,
+   "case": "E10-H2-genus2-r3-n300",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 88,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 11,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 10
+  },
+  {
+   "run_id": 74,
+   "case": "E10-H2-genus2-r3-n300",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 88,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 11,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 76,
+   "case": "E10-H2-genus2-r3-n300",
+   "experiment": "H2",
+   "family": "genus2-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 88,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 11,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 8,
+   "windows": 10
+  },
+  {
+   "run_id": 11,
+   "case": "E10-H2-thick-shell-r3-n200",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 70,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 13,
+   "case": "E10-H2-thick-shell-r3-n200",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 70,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 14,
+   "case": "E10-H2-thick-shell-r3-n200",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 200,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 70,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 15,
+   "case": "E10-H2-thick-shell-r3-n200",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 70,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 17,
+   "case": "E10-H2-thick-shell-r3-n200",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 70,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 19,
+   "case": "E10-H2-thick-shell-r3-n200",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 200,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 70,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 20,
+   "case": "E10-H2-thick-shell-r3-n200",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 200,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 70,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 205,
+   "case": "E10-H2-thick-shell-r3-n300",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 300,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 207,
+   "case": "E10-H2-thick-shell-r3-n300",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 10
+  },
+  {
+   "run_id": 208,
+   "case": "E10-H2-thick-shell-r3-n300",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 210,
+   "case": "E10-H2-thick-shell-r3-n300",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 211,
+   "case": "E10-H2-thick-shell-r3-n300",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 10
+  },
+  {
+   "run_id": 212,
+   "case": "E10-H2-thick-shell-r3-n300",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 300,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 214,
+   "case": "E10-H2-thick-shell-r3-n300",
+   "experiment": "H2",
+   "family": "thick-shell-r3",
+   "n": 300,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 81,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 3,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 10
+  },
+  {
+   "run_id": 521,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 522,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 523,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 524,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 525,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 528,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 529,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 530,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 531,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 532,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 534,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 535,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 536,
+   "case": "E10-H1-author-s2-n512",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 145,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 265,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 266,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 267,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 268,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 269,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 271,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 272,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 273,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 274,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 276,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 277,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 278,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 280,
+   "case": "E10-H1-author-s2-n768",
+   "experiment": "H1",
+   "family": "author-s2",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 450,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 451,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 452,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 453,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 454,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 456,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 457,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 458,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 459,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 461,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 462,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 463,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 465,
+   "case": "E10-H1-author-s3-n512",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 291,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 479,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 480,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 482,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 483,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 484,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 485,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 487,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 488,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 489,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 490,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 4,
+   "windows": 5
+  },
+  {
+   "run_id": 492,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 493,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 494,
+   "case": "E10-H1-author-s3-n768",
+   "experiment": "H1",
+   "family": "author-s3",
+   "n": 768,
+   "arm": "AUTHOR",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 448,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 320,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 322,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 323,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 324,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 325,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 326,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 327,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 329,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 331,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 332,
+   "case": "E10-H1-corrugated-torus-n512",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 139,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 509,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 510,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 511,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 512,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 513,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 514,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 516,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 518,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 519,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 520,
+   "case": "E10-H1-corrugated-torus-n768",
+   "experiment": "H1",
+   "family": "corrugated-torus",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 223,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 294,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 295,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 296,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 298,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 300,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 301,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 302,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 303,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 304,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 305,
+   "case": "E10-H1-concentric-spheres-n512",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 260,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 386,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 387,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 388,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 389,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 390,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 391,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 392,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 394,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 396,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 397,
+   "case": "E10-H1-concentric-spheres-n768",
+   "experiment": "H1",
+   "family": "concentric-spheres",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 384,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 7,
+   "windows": 8
+  },
+  {
+   "run_id": 307,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 309,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 310,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 311,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 312,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 314,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 315,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 316,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 317,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 319,
+   "case": "E10-H1-linked-tori-n512",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 177,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 576,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 577,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 578,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 580,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 581,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 582,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 584,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 585,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 587,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 588,
+   "case": "E10-H1-linked-tori-n768",
+   "experiment": "H1",
+   "family": "linked-tori",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 245,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 411,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 412,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 413,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 414,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 416,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 418,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 419,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 420,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 421,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 423,
+   "case": "E10-H1-klein-bottle-r4-n512",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 550,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 551,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 553,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 554,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 555,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 556,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 557,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 559,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 561,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 562,
+   "case": "E10-H1-klein-bottle-r4-n768",
+   "experiment": "H1",
+   "family": "klein-bottle-r4",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 212,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 346,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 347,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 349,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 350,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 351,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 352,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 353,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 356,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 357,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 358,
+   "case": "E10-H1-cube-surface-n512",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 140,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 398,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 399,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 400,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 401,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 403,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 405,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 406,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 408,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 409,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 410,
+   "case": "E10-H1-cube-surface-n768",
+   "experiment": "H1",
+   "family": "cube-surface",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 333,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 334,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 336,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 337,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 338,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 340,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 341,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 342,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 343,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 345,
+   "case": "E10-H1-clifford-torus-r4-n512",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 141,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 537,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 538,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 539,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 541,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 542,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 543,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 544,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 546,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 2,
+   "windows": 3
+  },
+  {
+   "run_id": 547,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 549,
+   "case": "E10-H1-clifford-torus-r4-n768",
+   "experiment": "H1",
+   "family": "clifford-torus-r4",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 208,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 495,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 496,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 498,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 499,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 500,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 502,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 503,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 505,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 506,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 507,
+   "case": "E10-H1-ellipsoid-r3-n512",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 122,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 564,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 565,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 566,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 567,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 568,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 569,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 570,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 573,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 574,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 575,
+   "case": "E10-H1-ellipsoid-r3-n768",
+   "experiment": "H1",
+   "family": "ellipsoid-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 187,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 359,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 360,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 361,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 363,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 364,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 366,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 367,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 369,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 370,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 371,
+   "case": "E10-H1-three-spheres-r3-n512",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 136,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 438,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 439,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 440,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 441,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 443,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 444,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 445,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 446,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 6,
+   "windows": 7
+  },
+  {
+   "run_id": 447,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 448,
+   "case": "E10-H1-three-spheres-r3-n768",
+   "experiment": "H1",
+   "family": "three-spheres-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 220,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 281,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 282,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 283,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 284,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 287,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 288,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 289,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 290,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 291,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 293,
+   "case": "E10-H1-genus2-r3-n512",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 149,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 466,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 467,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 468,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 469,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 472,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 473,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 474,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 475,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 476,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 478,
+   "case": "E10-H1-genus2-r3-n768",
+   "experiment": "H1",
+   "family": "genus2-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 203,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 372,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 373,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 374,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 375,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 377,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 379,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 380,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 381,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 382,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 384,
+   "case": "E10-H1-thick-shell-r3-n512",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 512,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 174,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 424,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 425,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 426,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "NOQ",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 0,
+   "windows": 1
+  },
+  {
+   "run_id": 428,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 1,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 429,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 431,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 432,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 2,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 433,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "PAPER",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 434,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "UNI",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 435,
+   "case": "E10-H1-thick-shell-r3-n768",
+   "experiment": "H1",
+   "family": "thick-shell-r3",
+   "n": 768,
+   "arm": "CTRL",
+   "stage": "MEASURED",
+   "block": 3,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 254,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 5,
+   "windows": 6
+  },
+  {
+   "run_id": 589,
+   "case": "E10-H2-author-s2-n400-cap",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "AUTHOR",
+   "stage": "CAPABILITY",
+   "block": 0,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 115,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 590,
+   "case": "E10-H2-author-s2-n400-cap",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "AUTHOR-F",
+   "stage": "CAPABILITY",
+   "block": 0,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 115,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 3
+  },
+  {
+   "run_id": 592,
+   "case": "E10-H2-author-s2-n400-cap",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "UNI",
+   "stage": "CAPABILITY",
+   "block": 0,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 115,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 1,
+   "windows": 2
+  },
+  {
+   "run_id": 593,
+   "case": "E10-H2-author-s2-n400-cap",
+   "experiment": "H2",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "CTRL",
+   "stage": "CAPABILITY",
+   "block": 0,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 115,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 2,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 595,
+   "case": "E10-H2-corrugated-torus-n400-cap",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 400,
+   "arm": "CTRL",
+   "stage": "CAPABILITY",
+   "block": 0,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 120,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 19,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  },
+  {
+   "run_id": 596,
+   "case": "E10-H2-corrugated-torus-n400-cap",
+   "experiment": "H2",
+   "family": "corrugated-torus",
+   "n": 400,
+   "arm": "UNI",
+   "stage": "CAPABILITY",
+   "block": 0,
+   "status": "COMPLETE",
+   "H1": {
+    "status": "PASS",
+    "reference_count": 120,
+    "missing": [],
+    "extra": []
+   },
+   "H2": {
+    "status": "PASS",
+    "reference_count": 19,
+    "missing": [],
+    "extra": []
+   },
+   "check": "PASS",
+   "commits": 3,
+   "windows": 4
+  }
+ ]
+}

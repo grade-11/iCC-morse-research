@@ -1,0 +1,26 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/B_X31",
+  "--tool",
+  "piecewise",
+  "--threads",
+  "4",
+  "--pv-cap-scale",
+  "0.85",
+  "--pv-min-separation",
+  "0",
+  "--max-dim",
+  "3",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-concentric-spheres-n300.csv",
+  "--eps-breaks",
+  "3.6263454774623916"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 77.94723091800188,
+ "cpu_seconds": 114.791939,
+ "maxrss_kib": 9607812,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T12:43:23.786162+00:00"
+}

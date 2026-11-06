@@ -1,0 +1,1141 @@
+{
+ "locked_ols": {
+  "H2_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.23814475077881397,
+   "cloud_ci": [
+    0.16186179112132193,
+    0.34958894371390875
+   ],
+   "family_ci": [
+    0.14164030826351462,
+    0.39540762852137135
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.7811996252322202,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7432984744556743,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.6297507764719645,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.19343327716899344,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.5350655259926733,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.3004142979004016,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.10739534161158418,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.16112119455423576,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.06745616348652281,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.05059484614359559,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.3978529189931041,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.12455203772978815,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H2_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 1.033604618549176,
+   "cloud_ci": [
+    0.9587109456193144,
+    1.1718534805925014
+   ],
+   "family_ci": [
+    0.9508706836778444,
+    1.1704491041197456
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 1.0338714381075098,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.8370937599614958,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.968598893945391,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.9928099243915199,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 1.0262202193268217,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9883089347227463,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 1.0189361985703764,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 1.9473041473480703,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.9726031500686251,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.9447284154845874,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.9537775536589157,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 1.0129750717727815,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 12,
+   "slow": [
+    "genus2-r3"
+   ]
+  },
+  "H2_S": {
+   "name": "UNI/AUTHOR-F",
+   "clouds": 4,
+   "gm": 0.8692228610937913,
+   "cloud_ci": [
+    0.836084599129116,
+    0.9028131736808188
+   ],
+   "family_ci": [
+    0.836882318816488,
+    0.9028131736808188
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.9028131736808188,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.836882318816488,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow": []
+  },
+  "H1_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.30204738018466815,
+   "cloud_ci": [
+    0.2477350680447297,
+    0.37375140660070666
+   ],
+   "family_ci": [
+    0.23199382648659386,
+    0.4098969772517367
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.334989471733507,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.526478111434848,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5775421045444545,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.32652637014367497,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.9356197023891408,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.21794344164835236,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.19758668265041934,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.19210022178503522,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.31483508342649646,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.2000940308178531,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.19912782963987613,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.17857044248441772,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H1_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 0.9421251248292868,
+   "cloud_ci": [
+    0.8959316104408399,
+    0.987545619122437
+   ],
+   "family_ci": [
+    0.8936795431086043,
+    0.9942758607278768
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.9562869613198455,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.8130563616318058,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.9730145452230988,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 1.0230852556976089,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.8091532260931745,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9444767817147149,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.9531032541205031,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.9307574651718069,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 1.1420394048203344,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 1.0020560449754339,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.9510770467367402,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.8562008342076202,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 19,
+   "slow": [
+    "klein-bottle-r4"
+   ]
+  },
+  "H1_E": {
+   "name": "UNI/PAPER",
+   "clouds": 24,
+   "gm": 0.5089571125708141,
+   "cloud_ci": [
+    0.46064505089187247,
+    0.565321661999053
+   ],
+   "family_ci": [
+    0.44325815212369435,
+    0.5857899053905032
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.5950583685721774,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7349242650069324,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5793857258204137,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.556766931817766,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.800508869351028,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.454893220951002,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.4436774828330976,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.40006462789666175,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.5069266363694294,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.46721369555608894,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.4208175358762186,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.33243230055817463,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H1_S": {
+   "name": "UNI/AUTHOR",
+   "clouds": 4,
+   "gm": 0.4286758967954401,
+   "cloud_ci": [
+    0.3624586319019232,
+    0.48294259500582953
+   ],
+   "family_ci": [
+    0.39878685854419227,
+    0.4608051157057142
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.39878685854419227,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.4608051157057142,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow": []
+  }
+ },
+ "ols_without_position": {
+  "H2_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.2199385318276783,
+   "cloud_ci": [
+    0.1469291043005576,
+    0.326641285332206
+   ],
+   "family_ci": [
+    0.12423648221582641,
+    0.38137847982634476
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.7815500283250767,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7480883463432015,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.6382183152631556,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.19233267690364134,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.5361610975108985,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.3040050630364393,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.10949215459223104,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.05865603233400993,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.06838066617513758,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.049264614994719784,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.39631277520419994,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.12773371827265434,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H2_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 0.9784894587917645,
+   "cloud_ci": [
+    0.9529607248122096,
+    1.002775539168993
+   ],
+   "family_ci": [
+    0.9452900715737055,
+    1.0042401750132028
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 1.0342089275843889,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.835768013779072,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.9696531792584346,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 1.011859874386851,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 1.0281664670420236,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9930129056390865,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 1.0154641290473825,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.9937864332369315,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.9712799343316671,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.9508707421343947,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.9545043447638569,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 1.0000534187385237,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 11,
+   "slow": []
+  },
+  "H2_S": {
+   "name": "UNI/AUTHOR-F",
+   "clouds": 4,
+   "gm": 0.8695170504245725,
+   "cloud_ci": [
+    0.8361498965719233,
+    0.9034157342942574
+   ],
+   "family_ci": [
+    0.83689033993821,
+    0.9034157342942574
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.9034157342942574,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.83689033993821,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow": []
+  },
+  "H1_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.3017998143828413,
+   "cloud_ci": [
+    0.2472089635404675,
+    0.3741960468023862
+   ],
+   "family_ci": [
+    0.23155506531012754,
+    0.4104977232447632
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.33408178280505396,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.5284641989464879,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5802914957808383,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.3237249748233014,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.9439506435843659,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.2120282662881197,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.19869442027444997,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.19431624885805635,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.318014650090485,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.19784139611443882,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.19866736243241181,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.17824123494737934,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H1_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 0.9400054487265953,
+   "cloud_ci": [
+    0.8942514092055308,
+    0.9851910429231602
+   ],
+   "family_ci": [
+    0.8917505831219377,
+    0.9903124161854614
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.958605046547633,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.8125061840508495,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.974071993031249,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 1.0244660729508015,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.8057798772157666,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9450346635921206,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.955344717486549,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.928560702260987,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 1.1253728611567007,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 1.0017379568832774,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.9396707492897671,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.8557533154982443,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 19,
+   "slow": [
+    "klein-bottle-r4"
+   ]
+  },
+  "H1_E": {
+   "name": "UNI/PAPER",
+   "clouds": 24,
+   "gm": 0.5080176023761942,
+   "cloud_ci": [
+    0.4593256909480042,
+    0.5648133058276664
+   ],
+   "family_ci": [
+    0.44265726836918984,
+    0.5852812825802762
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.5949268722833475,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7337619060174295,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5807556876357923,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.5569257273917456,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.7987744875126361,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.4494377747676519,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.4431889258311562,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.39529224129087215,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.5107985441868842,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.4613583242636123,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.4253574362261278,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.3319652601350088,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H1_S": {
+   "name": "UNI/AUTHOR",
+   "clouds": 4,
+   "gm": 0.42823601993286237,
+   "cloud_ci": [
+    0.36167245131843234,
+    0.4822854846690951
+   ],
+   "family_ci": [
+    0.3976084887200391,
+    0.4612227705658046
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.3976084887200391,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.4612227705658046,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow": []
+  }
+ },
+ "medians": {
+  "H2_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.2198187356582423,
+   "cloud_ci": [
+    0.1469637870899983,
+    0.3267168181292454
+   ],
+   "family_ci": [
+    0.12400533280255438,
+    0.3823355202920477
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.7932577136229974,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7537506193195826,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.6463623297975446,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.19197352936899104,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.5247128540113426,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.3045876586934885,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.10756070868758495,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.057655145057388994,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.06936141949207478,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.04940141028763532,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.4003755877112534,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.12617300755393934,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H2_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 0.9793611712765095,
+   "cloud_ci": [
+    0.9530214631695764,
+    1.0050014688157602
+   ],
+   "family_ci": [
+    0.9467443338150869,
+    1.0051769711241318
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 1.049512288103377,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.837440563037086,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.9868874938294875,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 1.0115833986144704,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 1.022281406514268,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9812185014391871,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 1.0065384646269118,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.9891863308824813,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.9781031569883486,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.941809494796942,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.9646449378661932,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.9998706757074498,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 13,
+   "slow": []
+  },
+  "H2_S": {
+   "name": "UNI/AUTHOR-F",
+   "clouds": 4,
+   "gm": 0.8786408464262064,
+   "cloud_ci": [
+    0.8400752056375689,
+    0.9272940963046049
+   ],
+   "family_ci": [
+    0.8422789594132376,
+    0.9165725065082603
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.9165725065082603,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.8422789594132376,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow": []
+  },
+  "H1_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.30260996161678805,
+   "cloud_ci": [
+    0.24827849257332985,
+    0.37508828261854515
+   ],
+   "family_ci": [
+    0.232169436931771,
+    0.41150162121749845
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.33528177730976905,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.5262600522694971,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5790569389497306,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.3247238866162148,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.9493314481479714,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.21523146742410063,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.19941780071317528,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.19632107527034381,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.3211333366659429,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.1949238793681574,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.19941439961265583,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.17798825709458035,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H1_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 0.940782150758584,
+   "cloud_ci": [
+    0.896115384821517,
+    0.9853445490551573
+   ],
+   "family_ci": [
+    0.893641373917022,
+    0.990192419959007
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.951089477905501,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.8087905680358987,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.9664892199207107,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 1.0361637328081887,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.8154302960667261,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9605783778388677,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.9534612053934635,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.9308133603196533,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 1.1244674447092944,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.9954124971337203,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.93322377074336,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.8593397857203189,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 18,
+   "slow": [
+    "klein-bottle-r4"
+   ]
+  },
+  "H1_E": {
+   "name": "UNI/PAPER",
+   "clouds": 24,
+   "gm": 0.507591681351315,
+   "cloud_ci": [
+    0.45886740694430184,
+    0.5645168793346155
+   ],
+   "family_ci": [
+    0.44267519487330825,
+    0.58453605407242
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.5959017960864743,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7306897760434743,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5779568875474612,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.5564341133636596,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.8026823579351635,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.4502904716008662,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.44545077423822926,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.39657243354408284,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.5046406380093892,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.45855450661334396,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.4272363888914762,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.33094581902948783,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow": []
+  },
+  "H1_S": {
+   "name": "UNI/AUTHOR",
+   "clouds": 4,
+   "gm": 0.42817133786969336,
+   "cloud_ci": [
+    0.36117086622322925,
+    0.48271459872532624
+   ],
+   "family_ci": [
+    0.3963151746026207,
+    0.462588127635905
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.3963151746026207,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.462588127635905,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow": []
+  }
+ }
+}

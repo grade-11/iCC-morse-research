@@ -1,0 +1,22 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/native-metric-export",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-corrugated-torus-n300.csv",
+  "--threads",
+  "4",
+  "--expect-n",
+  "300",
+  "--expect-dim",
+  "3",
+  "--output",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/prep/E10-H2-corrugated-torus-n300-metric.jsonl"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 0.13145637499837903,
+ "cpu_seconds": 0.16968799999999998,
+ "maxrss_kib": 26124,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T12:37:52.298780+00:00"
+}

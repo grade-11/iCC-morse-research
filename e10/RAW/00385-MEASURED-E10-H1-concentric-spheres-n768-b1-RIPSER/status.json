@@ -1,0 +1,17 @@
+{
+ "argv": [
+  "/home/alex_1709/.venvs/icc-ripser-0.6.15-VnIso6/bin/python",
+  "-I",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/ripser_run.py",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H1-concentric-spheres-n768.csv",
+  "3.6377836708357623",
+  "1"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 2.8142836510014604,
+ "cpu_seconds": 2.589582,
+ "maxrss_kib": 185388,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T13:50:41.698065+00:00"
+}

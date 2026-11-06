@@ -1,0 +1,67 @@
+E9: MỘT THANG VÀ MỘT QUY TẮC DỪNG CHO CẢ H1 VÀ H2, XÁC NHẬN TRÊN DỮ LIỆU MỚI
+Viết và khóa (LOCK.json) trước khi sinh dữ liệu. Người chạy: Claude, trên máy WSL của người dùng (20 CPU logic,
+19 GiB cho WSL). Khung giống E8 (../pwph-e8-controller-confirm-20261104/PROTOCOL.txt); chỉ ghi chỗ khác.
+
+BỐI CẢNH (dữ liệu phát triển, đã lộ; chi tiết ở ../pwph-h2-extend-dev-20261102/REPORT-VI.md)
+ - E8 xác nhận bộ điều khiển CTRL (bản thảo): thang riêng cho từng chiều (H1: q20 q25 q30 q40 q50; H2: q10…q90),
+   cắt ở mọi mốc được phép.
+ - Bộ điều khiển chung UNI: một thang cho cả hai chiều; mọi cửa sổ được giữ lại và nới, kể cả sau khi cắt; ở mỗi
+   mốc được phép, quy tắc dừng so "cắt bây giờ rồi một cửa sổ tới cuối" với "nới cửa sổ hiện tại tới cuối".
+   Thời gian dự đoán = lượng việc (số đơn hình chiều cao nhất, đếm theo bậc, không liệt kê) × nhịp đo trong
+   chính lượt chạy; nhịp tăng theo cỡ cửa sổ với số mũ β ∈ [1, 3] đo trên các lần nới của cửa sổ đầu. Không
+   có hằng số chỉnh tay, không phân biệt chiều.
+ - Phát triển (96 đám H1, 17 đám H2; luật viết trước trong pwph-h2-extend-dev-20261102/PROTOCOL-step3.txt):
+   * Bước 3, B_X30: không đạt (H1 1,021 lần CTRL; một đám 1,71). Nguyên nhân chính: phần tính lượng việc của quy
+     tắc tốn 10–13% ở các đám H1 nhỏ.
+   * Bước 3b, B_X31 (bớt phần tính đó; biên an toàn so với ước tính nhịp tăng, chọn theo luật viết trước):
+     thang P9; H1 0,986 lần CTRL; H2 0,958; mặt cầu so với lịch tác giả: H1 0,627, H2 0,704; mọi lượt đúng.
+     Tiêu chí "không đám nào > 1,30" KHÔNG ĐẠT: một đám (vòng xuyến nhiễu 384 điểm) 1,445, đám kế 1,204. Thời
+     gian của đám đó dao động 0,61–1,20 s qua các vòng ở mọi arm; máy chạy pin. Claude vẫn quyết định chạy E9, ghi
+     rõ tiêu chí không đạt (STEP3-DECISION.json); người dùng có thể bác.
+ - Độ đúng của B_X31 (396 đám, 19 mốc, so với Ripser): 396/396; cổng kiểm từng mốc 66/66 lượt.
+
+BINARY
+ - UNI: bin/B_X31, commit f4733ef5e (nhánh work/pwph-h2-birth-repair-20261102, chỉ có ở máy); mã băm ở
+   e9_common.py và LOCK.json.
+ - CTRL, PAPER, AUTHOR, AUTHOR-F, NOQ: bin/B_X22 (commit 0746d08, như E8).
+ - Ripser 0.6.15 (ripser.py).
+
+DỮ LIỆU: như E8 (12 họ; H2 n = 200, 300; H1 n = 512, 768; tập khả năng H2 author-s2 và corrugated-torus
+ n = 400), mỗi cấu hình 1 lần rút, seed 20261105900000 + 100000·nhóm + 1000·họ + 10·(n/100). Kiểm không trùng
+ seed và mã băm với E3–E8 và P1.
+
+MỐC: quy tắc P1 như E4–E8. Thang của UNI: P9 = q20 q25 q30 q40 q50 q60 q70 q80 q90, rồi E. Lịch tác giả như E8.
+
+ARM
+ H2: UNI; CTRL (q10…q90, như E8); AUTHOR-F (chỉ mặt cầu: lịch tác giả, cùng bộ lọc); AUTHOR (chỉ mặt cầu, không
+     bộ lọc, chỉ mô tả); NOQ (chỉ khối 1); RIPSER. Không chạy ONCE (E8 đã đo).
+ H1: UNI; CTRL (thang của bài, như E8); PAPER (Extend của bài); AUTHOR (chỉ mặt cầu); NOQ (chỉ khối 1); RIPSER.
+ Cờ của UNI = cờ của CTRL + --extend-all --extend-rule.
+
+NGUỒN ĐIỆN: phần đo chỉ bắt đầu khi máy cắm điện (Windows báo PowerOnline); trạng thái nguồn được ghi mỗi 60 s
+ vào power.log trong suốt lúc đo. Nếu máy rút điện giữa chừng, các lượt vẫn giữ, và ghi vào DEVIATIONS.txt.
+
+LỊCH ĐO: như E8 (tuần tự; H2, rồi H1, rồi tập khả năng; 3 khối; thứ tự xáo bằng seed khóa; giới hạn bộ nhớ và
+ thời gian như E8; arm hỏng không chạy lại). Seed: 2026110591 (thứ tự đám), 2026110592 (khối), 2026110593
+ (tập khả năng).
+
+KIỂM ĐÚNG: như E8 (mọi lượt PwPH hoàn tất so với Ripser 0.6.15, chiếu float32, không dung sai; H0 không kiểm).
+
+PHÂN TÍCH KHÓA TRƯỚC (e9_analyze.py): như E8, tham chiếu UNI; bootstrap seed 2026110594, 5.000 lần.
+ Giả thuyết:
+  H2-U: GM(UNI/CTRL) trên 24 đám H2.   H1-U: GM(UNI/CTRL) trên 24 đám H1.
+   FASTER: cận trên 95% theo đám < 1 VÀ theo họ < 1 VÀ tối đa 1 họ có GM > 1,05;
+   NONINFERIOR (không chậm hơn quá 5%): nếu không FASTER, mà cận trên theo đám < 1,05 VÀ theo họ < 1,05;
+   NOT_CONFIRMED: còn lại.
+  H2-S: GM(UNI/AUTHOR-F) trên 4 đám mặt cầu H2.   H1-S: GM(UNI/AUTHOR) trên 4 đám mặt cầu H1.
+   CONFIRMED: cận trên theo đám < 1 VÀ không họ mặt cầu nào có GM > 1,05; PARTIAL: chỉ cận trên < 1;
+   NOT_CONFIRMED: cận trên ≥ 1.
+  Không điều chỉnh đa so sánh. Báo kèm bản "không có đám lệch Ripser" cho H2-U và H1-U.
+ Mô tả: UNI/NOQ, CTRL/NOQ, UNI/RIPSER, CTRL/RIPSER, CTRL/AUTHOR-F, AUTHOR-F/AUTHOR, UNI/AUTHOR, AUTHOR-F/RIPSER
+  (H2); UNI/PAPER, CTRL/PAPER, UNI/NOQ, UNI/RIPSER, CTRL/RIPSER, PAPER/RIPSER, CTRL/AUTHOR, PAPER/AUTHOR (H1); theo
+  cỡ n; RSS đỉnh, thời gian CPU, số lần cắt; tập khả năng; số lượt khớp Ripser theo arm.
+ Bài báo chỉ nói UNI "nhanh hơn" CTRL nếu FASTER; "không chậm hơn" nếu NONINFERIOR; nếu NOT_CONFIRMED thì nói
+  thẳng như vậy.
+
+KHÔNG ĐƯỢC: đổi binary, thang, arm, ngưỡng hay script sau khi sinh dữ liệu; loại đám hay họ; chạy lại vì kết quả
+ xấu. Sai lệch ghi vào DEVIATIONS.txt.

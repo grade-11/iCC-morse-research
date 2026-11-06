@@ -1,0 +1,22 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/native-metric-export",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H1-clifford-torus-r4-n768.csv",
+  "--threads",
+  "4",
+  "--expect-n",
+  "768",
+  "--expect-dim",
+  "4",
+  "--output",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/prep/E10-H1-clifford-torus-r4-n768-metric.jsonl"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 0.7964146619997337,
+ "cpu_seconds": 0.809875,
+ "maxrss_kib": 66304,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T12:38:18.350319+00:00"
+}

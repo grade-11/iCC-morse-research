@@ -1,0 +1,26 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/B_X31",
+  "--tool",
+  "piecewise",
+  "--threads",
+  "4",
+  "--pv-cap-scale",
+  "0.85",
+  "--pv-min-separation",
+  "0",
+  "--max-dim",
+  "2",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H1-klein-bottle-r4-n768.csv",
+  "--eps-breaks",
+  "6.0026528772886287"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 17.18984813100178,
+ "cpu_seconds": 28.039906000000002,
+ "maxrss_kib": 2193560,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T14:09:10.379268+00:00"
+}

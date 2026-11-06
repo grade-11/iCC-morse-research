@@ -1,0 +1,207 @@
+{
+ "utc": "2026-11-05T12:37:38.749395+00:00",
+ "status": "LOCKED_BEFORE_COHORT_GENERATION",
+ "binaries": {
+  "B_X22": {
+   "sha256": "2a94c159cd5f487828a87edf3c0650e0400adcf75116007ee6428b4ba54e1123",
+   "commit": "0746d0815"
+  },
+  "B_X31": {
+   "sha256": "9a0f76aa6a40ac74f519e135d6b067f082dae059b085df02d43fb1fa7e9b311d",
+   "commit": "f4733ef5e"
+  }
+ },
+ "unified_ladder": "EVEN9",
+ "metric_helper_sha256": "4624800161db468ebd50e1061a0f8f5440be469f8b1652275b50e43f818672f0",
+ "authors_generator_sha256": {
+  "dSphere_gen.py": "c3d95a94fc9482e2e4dadb000af01b38fc9054a6ed9c76ce1c5fec4ecf5f01d0",
+  "utilities.py": "37c4cfbc1d53335e1cfbb3ea2abf18db367fd39c02742311946da18c1d474c43"
+ },
+ "script_sha256": {
+  "e10_common.py": "11c9cb84d1004ad3e31524b930cf513e1c28d86c974773e1cfd21d572e26ba99",
+  "new_shapes.py": "be7b8770b2606ff6979352c2b7651b4b53caf38e479c06011760f367e13008e8",
+  "e10_generate.py": "11d0aa0a8e66187cc54f1989c5d0671ae89ed662de5285d0271b16784dbe7524",
+  "e10_prepare.py": "c56f64bdeda3fc1ffbabd6624bd1128e4db01bb38102e91cd1de9e6197b36045",
+  "e10_time.py": "1c6cfa2be110bdd3b97703f98a8850f1184707825020eb5b3c51621602ea79d1",
+  "e10_check.py": "824f0e60a2a2427786e7d698566cff1bc78bc6ac6fb6165089d4cc1edf6c7fb6",
+  "e10_analyze.py": "16e13f9f2e7f9709e5b4360a9fb7d0fdd3664c89957bf0bd53c2d1407d5b02a3",
+  "ripser_run.py": "db06e3f24b8abe3410f3036bad189a711f3273320678bf7e9b78079725ba8b8f",
+  "e10_lock.py": "901939dd40214d6ec86d8f76c68266f52ffa407e797a027f2c0c164c1b18442d",
+  "run_e10.sh": "a573feff6db6dab0ac63f3acf15100643f5b1d4642a6638d524aa560f5143317",
+  "PROTOCOL.txt": "f4134390c68d8392da0c1204e854d9dd9bdee78cca9f56cbf2f39690f5e83b49"
+ },
+ "families": [
+  "author-s2",
+  "author-s3",
+  "corrugated-torus",
+  "concentric-spheres",
+  "linked-tori",
+  "klein-bottle-r4",
+  "cube-surface",
+  "clifford-torus-r4",
+  "ellipsoid-r3",
+  "three-spheres-r3",
+  "genus2-r3",
+  "thick-shell-r3"
+ ],
+ "sizes": {
+  "H2": [
+   200,
+   300
+  ],
+  "H1": [
+   512,
+   768
+  ]
+ },
+ "h1_controller_ladder": "PAPER",
+ "arms": {
+  "H2": {
+   "UNI": {
+    "ladder": "EVEN9",
+    "flags": [
+     "--live-guard",
+     "--extend",
+     "--absorb-pv",
+     "--shrink-risky",
+     "--h1-risk",
+     "selective-fast",
+     "--fiber-full",
+     "--extend-all",
+     "--extend-rule"
+    ],
+    "binary": "B_X31"
+   },
+   "CTRL": {
+    "ladder": "EVEN9",
+    "flags": [
+     "--live-guard",
+     "--extend",
+     "--absorb-pv",
+     "--shrink-risky",
+     "--h1-risk",
+     "selective-fast",
+     "--fiber-full"
+    ],
+    "binary": "B_X31"
+   },
+   "AUTHOR-F": {
+    "ladder": "AUTHOR",
+    "flags": [
+     "--live-guard",
+     "--h1-risk",
+     "selective-fast",
+     "--fiber-full"
+    ],
+    "binary": "B_X31"
+   },
+   "AUTHOR": {
+    "ladder": "AUTHOR",
+    "flags": [
+     "--live-guard"
+    ],
+    "binary": "B_X31"
+   },
+   "NOQ": {
+    "ladder": "NOQ",
+    "flags": [],
+    "binary": "B_X31"
+   },
+   "RIPSER": {
+    "ladder": null,
+    "flags": [],
+    "binary": null
+   }
+  },
+  "H1": {
+   "UNI": {
+    "ladder": "EVEN9",
+    "flags": [
+     "--live-guard",
+     "--extend",
+     "--absorb-pv",
+     "--shrink-risky",
+     "--h1-risk",
+     "selective-fast",
+     "--fiber-full",
+     "--extend-all",
+     "--extend-rule"
+    ],
+    "binary": "B_X31"
+   },
+   "CTRL": {
+    "ladder": "PAPER",
+    "flags": [
+     "--live-guard",
+     "--extend",
+     "--absorb-pv",
+     "--shrink-risky",
+     "--h1-risk",
+     "selective-fast",
+     "--fiber-full"
+    ],
+    "binary": "B_X31"
+   },
+   "PAPER": {
+    "ladder": "PAPER",
+    "flags": [
+     "--live-guard",
+     "--extend",
+     "--extend-commit-once",
+     "--h1-risk",
+     "selective-fast"
+    ],
+    "binary": "B_X31"
+   },
+   "AUTHOR": {
+    "ladder": "AUTHOR",
+    "flags": [
+     "--live-guard",
+     "--h1-risk",
+     "selective-fast"
+    ],
+    "binary": "B_X31"
+   },
+   "NOQ": {
+    "ladder": "NOQ",
+    "flags": [],
+    "binary": "B_X31"
+   },
+   "RIPSER": {
+    "ladder": null,
+    "flags": [],
+    "binary": null
+   }
+  }
+ },
+ "timing": {
+  "blocks": 3,
+  "once_per_cloud": {
+   "H2": [
+    "NOQ"
+   ],
+   "H1": [
+    "NOQ"
+   ]
+  },
+  "order_seed": 2026110691,
+  "block_seed": 2026110692,
+  "capability_seed": 2026110693,
+  "cap_bytes": {
+   "H2": 19327352832,
+   "H1": 9663676416
+  },
+  "timeout_s": {
+   "H2": 2400,
+   "H1": 600,
+   "CAPABILITY": 3600
+  }
+ },
+ "analysis": {
+  "bootstrap_seed": 2026110694,
+  "bootstrap_reps": 5000,
+  "slow_threshold": 1.05,
+  "max_slow_families": 1,
+  "noninferiority_bound": 1.05
+ }
+}

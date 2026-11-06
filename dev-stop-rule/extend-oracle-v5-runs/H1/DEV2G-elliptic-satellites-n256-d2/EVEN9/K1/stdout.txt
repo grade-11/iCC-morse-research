@@ -1,0 +1,28 @@
+[birth-repair] epsilon=0.53319174993895035 live=2 action=VETO
+[birth-repair] epsilon=0.92332482697599283 live=1 action=VETO
+window lower bound, window upper bound
+0, 1.1914723303501242
+dimension, birth weight, death weight
+2, 1.0380677048905378, 1.044610534614594
+2, 1.0315923164479379, 1.0679006847982926
+2, 0.69210020861552535, 0.70773597148934053
+2, 0.3346057431508821, 1.096441682552014
+2, 0.19890776318905579, 0.70824961644588802
+2, 0.13833260090017546, 0.16084226074372968
+2, 0.070819558401570351, 0.070973226007786244
+2, 0.066158529184203577, 0.068848770788864908
+2, 0.047859420492701872, 0.050478192717014696
+2, 0.045241667779585923, 0.046908609319602161
+2, 0.03349551314058799, 0.037120902638281793
+
+[birth-repair] epsilon=1.1914723303501242 live=0 action=ALLOW
+[shrink] epsilon=1.1914723303501242 eligible=6 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=6 seconds=0.0015912820000000001
+[absorb] epsilon=1.1914723303501242 absorbed_pvs=0 committed=6 largest=7
+[h1-risk] epsilon=1.1914723303501242 horizon=5.8400824388603922 mode=selective-fast eligible=6 committed=6 live_protected=0 risky_pairs=0 pairs_checked=1371 edges_checked=7152 event_batches=5356 seconds=0.0015912820000000001 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.1914723303501242 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.0015912820000000001 committed=6
+[postcommit] epsilon=1.1914723303501242 eps_bits=4608044733515633988 eligible=6 retained=6 committed=6 retained_hash=5480031739601105803 Hbefore=8323456 Hafter=6190108 deltaH=2133348 marginal_M=0 C_hat=0 payback=0 F_s=0.0016577499999999999 C_s=7.4900000000000003e-06 C_observed=1 valuation_s=1.0309000000000001e-05 diagnostic=0 post_state_hash=9654820839109716164 active=232 reason=retained-supports
+window lower bound, window upper bound
+1.1914723303501242, 5.8400824388603922
+dimension, birth weight, death weight
+
+run time = 488

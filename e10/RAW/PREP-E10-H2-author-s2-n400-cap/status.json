@@ -1,0 +1,22 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/native-metric-export",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-author-s2-n400-cap.csv",
+  "--threads",
+  "4",
+  "--expect-n",
+  "400",
+  "--expect-dim",
+  "3",
+  "--output",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/prep/E10-H2-author-s2-n400-cap-metric.jsonl"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 0.22048594299849356,
+ "cpu_seconds": 0.262247,
+ "maxrss_kib": 66304,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T12:38:30.360375+00:00"
+}

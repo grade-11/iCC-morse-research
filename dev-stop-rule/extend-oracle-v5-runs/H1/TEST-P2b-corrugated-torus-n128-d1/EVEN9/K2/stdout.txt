@@ -1,0 +1,55 @@
+[birth-repair] epsilon=0.3853392217235056 live=3 action=VETO
+[birth-repair] epsilon=0.5440394944521636 live=1 action=VETO
+[birth-repair] epsilon=0.65541318897625556 live=3 action=VETO
+[birth-repair] epsilon=0.80671517243204804 live=1 action=VETO
+[birth-repair] epsilon=1.1515669346058837 live=1 action=VETO
+[birth-repair] epsilon=1.5078631444065418 live=1 action=VETO
+window lower bound, window upper bound
+0, 1.7454026876868043
+dimension, birth weight, death weight
+2, 0.64710383683599859, 0.68669992777047151
+2, 0.55668512777304779, 0.66888740865788343
+2, 0.54732914830625234, 1.5273343331539542
+2, 0.51942122281882941, 0.60609250634469636
+2, 0.42093913840609287, 0.47555742634441145
+2, 0.39796871290248992, 0.44105021915680304
+2, 0.38925267993996177, 0.54252610623732511
+2, 0.37588269699676374, 0.40770871799384467
+2, 0.35168964584322099, 0.38986197549387797
+2, 0.26214411565425472, 0.3134768216341795
+2, 0.25121106938885407, 0.35843876219018855
+2, 0.24356464346245887, 0.25557978044477703
+2, 0.24252908032917381, 0.25869717891699384
+2, 0.23264331439671854, 0.46375927027289499
+2, 0.22208866676202263, 0.27445932382372629
+2, 0.21723561809075098, 0.22113093115014015
+2, 0.21443314805154454, 0.22244544261142193
+2, 0.21096261935359215, 0.24614052779946882
+2, 0.20897001948465724, 0.21269984777090636
+2, 0.18824655169612461, 0.23924531262748888
+2, 0.16493245571915741, 0.19493702801618445
+2, 0.15971178147960766, 0.21577999559292624
+2, 0.14873897131378294, 0.15593555102319423
+2, 0.13878035060780758, 0.15227328064872131
+
+[birth-repair] epsilon=1.7454026876868043 live=0 action=ALLOW
+[shrink] epsilon=1.7454026876868043 eligible=11 pair_warnings=1 fiber_warnings=0 late_drops=0 offered=1 offered_vertices=4 restored=1 restored_vertices=3 checks=2 kept=11 seconds=0.001731235
+[absorb] epsilon=1.7454026876868043 absorbed_pvs=0 committed=11 largest=7
+[h1-risk] epsilon=1.7454026876868043 horizon=3.2701282892793908 mode=selective-fast eligible=11 committed=11 live_protected=0 risky_pairs=1 pairs_checked=858 edges_checked=5383 event_batches=1461 seconds=0.001731235 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=1.7454026876868043 scans=3 removed=0 initial_warnings=1 remaining_warnings=0 total_scan_s=0.001731235 committed=11
+[postcommit] epsilon=1.7454026876868043 eps_bits=4610539414066524666 eligible=11 retained=11 committed=11 retained_hash=18327658252888778543 Hbefore=1032384 Hafter=299965 deltaH=732419 marginal_M=0 C_hat=0 payback=0 F_s=0.0017958049999999999 C_s=7.041e-06 C_observed=1 valuation_s=7.0299999999999996e-06 diagnostic=0 post_state_hash=6362686439236495376 active=85 reason=retained-supports
+window lower bound, window upper bound
+1.7454026876868043, 1.9534447630581202
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.9534447630581202 live=0 action=ALLOW
+[shrink] epsilon=1.9534447630581202 eligible=7 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=7 seconds=0.0012890009999999999
+[absorb] epsilon=1.9534447630581202 absorbed_pvs=6 committed=7 largest=8
+[h1-risk] epsilon=1.9534447630581202 horizon=3.2701282892793908 mode=selective-fast eligible=7 committed=7 live_protected=0 risky_pairs=0 pairs_checked=413 edges_checked=5041 event_batches=1000 seconds=0.0012890009999999999 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.9534447630581202 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.0012890009999999999 committed=7
+[postcommit] epsilon=1.9534447630581202 eps_bits=4611476352279644309 eligible=7 retained=7 committed=7 retained_hash=13385426033816989807 Hbefore=299965 Hafter=121149 deltaH=178816 marginal_M=0 C_hat=0 payback=0 F_s=0.0013533130000000001 C_s=6.1510000000000001e-06 C_observed=1 valuation_s=5.0370000000000002e-06 diagnostic=0 post_state_hash=13446414550089076805 active=63 reason=retained-supports
+window lower bound, window upper bound
+1.9534447630581202, 3.2701282892793908
+dimension, birth weight, death weight
+
+run time = 71

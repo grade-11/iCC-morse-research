@@ -1,0 +1,3030 @@
+{
+ "utc": "2026-11-05T14:33:59.688922+00:00",
+ "verdicts": {
+  "H2_N": "CONFIRMED",
+  "H2_C": "NOT_CONFIRMED",
+  "H2_S": "CONFIRMED",
+  "H1_N": "CONFIRMED",
+  "H1_C": "FASTER",
+  "H1_E": "FASTER",
+  "H1_S": "CONFIRMED"
+ },
+ "hypotheses": {
+  "H2_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.23814475077881397,
+   "cloud_ci": [
+    0.16186179112132193,
+    0.34958894371390875
+   ],
+   "family_ci": [
+    0.14164030826351462,
+    0.39540762852137135
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.7811996252322202,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7432984744556743,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.6297507764719645,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.19343327716899344,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.5350655259926733,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.3004142979004016,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.10739534161158418,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.16112119455423576,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.06745616348652281,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.05059484614359559,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.3978529189931041,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.12455203772978815,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow_families_over_5pct": [],
+   "mismatch_free": {
+    "name": "UNI/NOQ mismatch-free",
+    "clouds": 24,
+    "gm": 0.23814475077881397,
+    "cloud_ci": [
+     0.16199217810845584,
+     0.3441460480200494
+    ],
+    "family_ci": [
+     0.14319178790575254,
+     0.39424693153845
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.7811996252322202,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.7432984744556743,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 0.6297507764719645,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.19343327716899344,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 0.5350655259926733,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.3004142979004016,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.10739534161158418,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.16112119455423576,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.06745616348652281,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.05059484614359559,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.3978529189931041,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.12455203772978815,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 24
+   }
+  },
+  "H2_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 1.033604618549176,
+   "cloud_ci": [
+    0.958345288890031,
+    1.1700400985294712
+   ],
+   "family_ci": [
+    0.9519867817930586,
+    1.1783299760620694
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 1.0338714381075098,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.8370937599614958,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.968598893945391,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.9928099243915199,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 1.0262202193268217,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9883089347227463,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 1.0189361985703764,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 1.9473041473480703,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.9726031500686251,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.9447284154845874,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.9537775536589157,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 1.0129750717727815,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 12,
+   "slow_families_over_5pct": [
+    "genus2-r3"
+   ]
+  },
+  "H2_S": {
+   "name": "UNI/AUTHOR-F",
+   "clouds": 4,
+   "gm": 0.8692228610937913,
+   "cloud_ci": [
+    0.836084599129116,
+    0.9028131736808188
+   ],
+   "family_ci": [
+    0.836882318816488,
+    0.9028131736808188
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.9028131736808188,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.836882318816488,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow_families_over_5pct": []
+  },
+  "H1_N": {
+   "name": "UNI/NOQ",
+   "clouds": 24,
+   "gm": 0.30204738018466815,
+   "cloud_ci": [
+    0.2485459807403061,
+    0.3743120124530695
+   ],
+   "family_ci": [
+    0.23100814297537478,
+    0.40967023406899594
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.334989471733507,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.526478111434848,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5775421045444545,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.32652637014367497,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.9356197023891408,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.21794344164835236,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.19758668265041934,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.19210022178503522,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.31483508342649646,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.2000940308178531,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.19912782963987613,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.17857044248441772,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow_families_over_5pct": [],
+   "mismatch_free": {
+    "name": "UNI/NOQ mismatch-free",
+    "clouds": 24,
+    "gm": 0.30204738018466815,
+    "cloud_ci": [
+     0.24731001632929808,
+     0.37605247062563074
+    ],
+    "family_ci": [
+     0.2310715665885367,
+     0.4102534136613881
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.334989471733507,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.526478111434848,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 0.5775421045444545,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.32652637014367497,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 0.9356197023891408,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.21794344164835236,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.19758668265041934,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.19210022178503522,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.31483508342649646,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.2000940308178531,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.19912782963987613,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.17857044248441772,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 24
+   }
+  },
+  "H1_C": {
+   "name": "UNI/CTRL",
+   "clouds": 24,
+   "gm": 0.9421251248292868,
+   "cloud_ci": [
+    0.8975646307350982,
+    0.9869513454375706
+   ],
+   "family_ci": [
+    0.8920157088882321,
+    0.9929385462649819
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.9562869613198455,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.8130563616318058,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.9730145452230988,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 1.0230852556976089,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.8091532260931745,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.9444767817147149,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.9531032541205031,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.9307574651718069,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 1.1420394048203344,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 1.0020560449754339,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.9510770467367402,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.8562008342076202,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 19,
+   "slow_families_over_5pct": [
+    "klein-bottle-r4"
+   ]
+  },
+  "H1_E": {
+   "name": "UNI/PAPER",
+   "clouds": 24,
+   "gm": 0.5089571125708141,
+   "cloud_ci": [
+    0.46098119178707886,
+    0.5635537544091318
+   ],
+   "family_ci": [
+    0.44650496770783166,
+    0.5863192947487947
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.5950583685721774,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.7349242650069324,
+     "clouds": 2
+    },
+    "clifford-torus-r4": {
+     "gm": 0.5793857258204137,
+     "clouds": 2
+    },
+    "concentric-spheres": {
+     "gm": 0.556766931817766,
+     "clouds": 2
+    },
+    "corrugated-torus": {
+     "gm": 0.800508869351028,
+     "clouds": 2
+    },
+    "cube-surface": {
+     "gm": 0.454893220951002,
+     "clouds": 2
+    },
+    "ellipsoid-r3": {
+     "gm": 0.4436774828330976,
+     "clouds": 2
+    },
+    "genus2-r3": {
+     "gm": 0.40006462789666175,
+     "clouds": 2
+    },
+    "klein-bottle-r4": {
+     "gm": 0.5069266363694294,
+     "clouds": 2
+    },
+    "linked-tori": {
+     "gm": 0.46721369555608894,
+     "clouds": 2
+    },
+    "thick-shell-r3": {
+     "gm": 0.4208175358762186,
+     "clouds": 2
+    },
+    "three-spheres-r3": {
+     "gm": 0.33243230055817463,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 24,
+   "slow_families_over_5pct": []
+  },
+  "H1_S": {
+   "name": "UNI/AUTHOR",
+   "clouds": 4,
+   "gm": 0.4286758967954401,
+   "cloud_ci": [
+    0.3624586319019232,
+    0.48294259500582953
+   ],
+   "family_ci": [
+    0.39878685854419227,
+    0.4608051157057142
+   ],
+   "families": {
+    "author-s2": {
+     "gm": 0.39878685854419227,
+     "clouds": 2
+    },
+    "author-s3": {
+     "gm": 0.4608051157057142,
+     "clouds": 2
+    }
+   },
+   "faster_clouds": 4,
+   "slow_families_over_5pct": []
+  }
+ },
+ "descriptive": {
+  "H2": [
+   {
+    "name": "CTRL/NOQ",
+    "clouds": 24,
+    "gm": 0.23040217362136692,
+    "cloud_ci": [
+     0.15595194168174906,
+     0.33808425603574976
+    ],
+    "family_ci": [
+     0.133132458616765,
+     0.39317375059256515
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.7556061580172844,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.8879512785877942,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 0.6501667309434997,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.1948341494345417,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 0.521394449179402,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.30396800772086296,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.10539947620102788,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.08274064160632438,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.0693563078443281,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.053554910929236296,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.4171338667667806,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.12295666616140206,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 24
+   },
+   {
+    "name": "UNI/RIPSER",
+    "clouds": 24,
+    "gm": 1.105562030857658,
+    "cloud_ci": [
+     0.7528827392597187,
+     1.6131675253755107
+    ],
+    "family_ci": [
+     0.670658330487193,
+     1.817194414855383
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 2.3477170747776683,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 4.032831437730584,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 3.3422896227117302,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.9770196753418802,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 2.888280690078773,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 1.2448845638529709,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.5791172906930011,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.4541174351145746,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.37172422555218226,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.2672843878815668,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 1.8155477573611596,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.632250002010375,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 12
+   },
+   {
+    "name": "CTRL/RIPSER",
+    "clouds": 24,
+    "gm": 1.0696179283810527,
+    "cloud_ci": [
+     0.7077947766522826,
+     1.598312523615903
+    ],
+    "family_ci": [
+     0.6072113765730723,
+     1.8692170307556781
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 2.270801753722047,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 4.8176579860254645,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 3.450643649919516,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.9840953956425068,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 2.814484294582914,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 1.2596107554184994,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.5683548111309958,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.2332031366199332,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.3821951692485821,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.2829219313197712,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 1.903533743687184,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.6241515903287636,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 12
+   },
+   {
+    "name": "CTRL/AUTHOR-F spheres",
+    "clouds": 4,
+    "gm": 0.9343526441228247,
+    "cloud_ci": [
+     0.8589757282930686,
+     1.0279512997042368
+    ],
+    "family_ci": [
+     0.8732354337338193,
+     0.9997474104394022
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.8732354337338193,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.9997474104394022,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 3
+   },
+   {
+    "name": "AUTHOR-F/AUTHOR spheres",
+    "clouds": 4,
+    "gm": 4.0763842186489105,
+    "cloud_ci": [
+     2.04285069385739,
+     8.13417659352931
+    ],
+    "family_ci": [
+     2.04285069385739,
+     8.13417659352931
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 2.04285069385739,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 8.13417659352931,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 0
+   },
+   {
+    "name": "UNI/AUTHOR spheres",
+    "clouds": 4,
+    "gm": 3.543286353451585,
+    "cloud_ci": [
+     1.8443125182774527,
+     6.807348569255611
+    ],
+    "family_ci": [
+     1.8443125182774527,
+     6.807348569255609
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 1.8443125182774527,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 6.807348569255609,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 0
+   },
+   {
+    "name": "AUTHOR-F/RIPSER spheres",
+    "clouds": 4,
+    "gm": 3.539947117575075,
+    "cloud_ci": [
+     2.4194979297898644,
+     5.928248492909378
+    ],
+    "family_ci": [
+     2.6004461866743673,
+     4.818875183590664
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 2.6004461866743673,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 4.818875183590664,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 0
+   }
+  ],
+  "H1": [
+   {
+    "name": "UNI/PAPER",
+    "clouds": 24,
+    "gm": 0.5089571125708141,
+    "cloud_ci": [
+     0.45915963327534126,
+     0.5635485831002321
+    ],
+    "family_ci": [
+     0.4450304208797944,
+     0.5871780152706025
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.5950583685721774,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.7349242650069324,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 0.5793857258204137,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.556766931817766,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 0.800508869351028,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.454893220951002,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.4436774828330976,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.40006462789666175,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.5069266363694294,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.46721369555608894,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.4208175358762186,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.33243230055817463,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 24
+   },
+   {
+    "name": "CTRL/PAPER",
+    "clouds": 24,
+    "gm": 0.5402224175509992,
+    "cloud_ci": [
+     0.4822395743507322,
+     0.6091818620592305
+    ],
+    "family_ci": [
+     0.4666466543117215,
+     0.6387685932470083
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.6222592094645852,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.9039032220742211,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 0.595454331761884,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.5442038468613494,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 0.9893167864090663,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.48163515478393765,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.4655083076413486,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.4298269343698624,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.44387841105113096,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.46625505419464136,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.4424641908035676,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.38826439694587256,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 23
+   },
+   {
+    "name": "CTRL/NOQ",
+    "clouds": 24,
+    "gm": 0.3206021920277301,
+    "cloud_ci": [
+     0.2596967913047934,
+     0.40539121116024845
+    ],
+    "family_ci": [
+     0.24011891147025682,
+     0.4492276930649573
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.35030224742493843,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.6475296624925305,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 0.5935595797409504,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 0.3191585142345025,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 1.156294842827956,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.2307557431456092,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.20730879030808347,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.20639127696878132,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.2756779513015371,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.19968347261730107,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.20937087097528814,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.20856139745492955,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 22
+   },
+   {
+    "name": "UNI/RIPSER",
+    "clouds": 24,
+    "gm": 1.0563616861435638,
+    "cloud_ci": [
+     0.8336221909355807,
+     1.3537228481764854
+    ],
+    "family_ci": [
+     0.8461960718843878,
+     1.3762609631818474
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 1.200462814887735,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 1.9786860283889174,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 1.1531407902426245,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 1.2253325158936044,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 3.0502547604252968,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.8325138092077067,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.7857293099783353,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.7510798541453836,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.9867834037302289,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.72523371914672,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.7892288008940033,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.6796736359002971,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 10
+   },
+   {
+    "name": "CTRL/RIPSER",
+    "clouds": 24,
+    "gm": 1.1212541288875792,
+    "cloud_ci": [
+     0.8629650581020369,
+     1.4837073453830987
+    ],
+    "family_ci": [
+     0.8802968680613132,
+     1.5314430847691851
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 1.2553374284544083,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 2.433639439728004,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 1.1851218421182237,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 1.1976836818531702,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 3.769687448634182,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 0.8814550292027958,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 0.8243905438171903,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 0.80695549834429,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 0.8640537266623209,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 0.7237456655076607,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 0.8298263569728048,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 0.7938250101441539,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 10
+   },
+   {
+    "name": "PAPER/RIPSER",
+    "clouds": 24,
+    "gm": 2.0755416518451466,
+    "cloud_ci": [
+     1.6778341226328473,
+     2.5743552023890435
+    ],
+    "family_ci": [
+     1.8618215413936807,
+     2.3674257123950717
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 2.0173866603509927,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 2.692367258237491,
+      "clouds": 2
+     },
+     "clifford-torus-r4": {
+      "gm": 1.9902816704877744,
+      "clouds": 2
+     },
+     "concentric-spheres": {
+      "gm": 2.200799734806565,
+      "clouds": 2
+     },
+     "corrugated-torus": {
+      "gm": 3.810394709178096,
+      "clouds": 2
+     },
+     "cube-surface": {
+      "gm": 1.8301301731145811,
+      "clouds": 2
+     },
+     "ellipsoid-r3": {
+      "gm": 1.7709470062827386,
+      "clouds": 2
+     },
+     "genus2-r3": {
+      "gm": 1.877396304927489,
+      "clouds": 2
+     },
+     "klein-bottle-r4": {
+      "gm": 1.9466000263815246,
+      "clouds": 2
+     },
+     "linked-tori": {
+      "gm": 1.5522526973091604,
+      "clouds": 2
+     },
+     "thick-shell-r3": {
+      "gm": 1.8754655726280165,
+      "clouds": 2
+     },
+     "three-spheres-r3": {
+      "gm": 2.0445475206803985,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 1
+   },
+   {
+    "name": "CTRL/AUTHOR spheres",
+    "clouds": 4,
+    "gm": 0.48615484893604965,
+    "cloud_ci": [
+     0.41701589028652625,
+     0.5759222644529781
+    ],
+    "family_ci": [
+     0.41701589028652625,
+     0.5667566695879206
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.41701589028652625,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.5667566695879206,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 4
+   },
+   {
+    "name": "PAPER/AUTHOR spheres",
+    "clouds": 4,
+    "gm": 0.6482283011715353,
+    "cloud_ci": [
+     0.6051193156593778,
+     0.6947646615782977
+    ],
+    "family_ci": [
+     0.6270103433057385,
+     0.6701642722899065
+    ],
+    "families": {
+     "author-s2": {
+      "gm": 0.6701642722899065,
+      "clouds": 2
+     },
+     "author-s3": {
+      "gm": 0.6270103433057385,
+      "clouds": 2
+     }
+    },
+    "faster_clouds": 4
+   }
+  ]
+ },
+ "by_size": {
+  "H2": {
+   "200": {
+    "UNI/NOQ": 0.2421915983075377,
+    "CTRL/NOQ": 0.2480656143949001,
+    "UNI/RIPSER": 0.7903349001797811,
+    "CTRL/RIPSER": 0.8095033599880567,
+    "CTRL/AUTHOR-F": 0.9881364240846321
+   },
+   "300": {
+    "UNI/NOQ": 0.23416552316356035,
+    "CTRL/NOQ": 0.2139964530712559,
+    "UNI/RIPSER": 1.5465183225441193,
+    "CTRL/RIPSER": 1.413314100056428,
+    "CTRL/AUTHOR-F": 0.8834962888733082
+   }
+  },
+  "H1": {
+   "512": {
+    "UNI/NOQ": 0.31422636424632927,
+    "UNI/PAPER": 0.5298742087998969,
+    "CTRL/PAPER": 0.5471416515641546,
+    "CTRL/NOQ": 0.32446631491675976,
+    "UNI/RIPSER": 0.6941224429448263
+   },
+   "768": {
+    "UNI/NOQ": 0.2903404368861365,
+    "UNI/PAPER": 0.4888657310253121,
+    "CTRL/PAPER": 0.5333906851915597,
+    "CTRL/NOQ": 0.31678408761585847,
+    "UNI/RIPSER": 1.6076414518710105
+   }
+  }
+ },
+ "memory_gm_ratio": {
+  "H2": {
+   "UNI/NOQ": 0.08551171260648402,
+   "CTRL/NOQ": 0.06682816879799991,
+   "UNI/RIPSER": 1.0859784023912358,
+   "CTRL/RIPSER": 0.8487018418162378,
+   "CTRL/AUTHOR-F": 0.5611957858660632,
+   "AUTHOR-F/AUTHOR": 4.314137194043662,
+   "UNI/AUTHOR": 5.092550759027413,
+   "AUTHOR-F/RIPSER": 3.914569326384079
+  },
+  "H1": {
+   "UNI/NOQ": 0.11151272596437917,
+   "UNI/PAPER": 0.21255379612687714,
+   "CTRL/PAPER": 0.20380775209555516,
+   "CTRL/NOQ": 0.1069242630476546,
+   "UNI/RIPSER": 0.750562201059943,
+   "CTRL/RIPSER": 0.7196784898379718,
+   "PAPER/RIPSER": 3.5311634736079656,
+   "CTRL/AUTHOR": 0.3957445918308181,
+   "PAPER/AUTHOR": 1.2947983685241833
+  }
+ },
+ "cpu_gm_ratio": {
+  "H2": {
+   "UNI/NOQ": 0.3149500816221795,
+   "CTRL/NOQ": 0.33047188805591454,
+   "UNI/RIPSER": 2.540083957491312,
+   "CTRL/RIPSER": 2.6652678955634808,
+   "CTRL/AUTHOR-F": 1.0200419941637753,
+   "AUTHOR-F/AUTHOR": 3.6726109930887176,
+   "UNI/AUTHOR": 3.231019995499732,
+   "AUTHOR-F/RIPSER": 7.398017207507307
+  },
+  "H1": {
+   "UNI/NOQ": 0.41357684160713526,
+   "UNI/PAPER": 0.5672942030899212,
+   "CTRL/PAPER": 0.5843376856910505,
+   "CTRL/NOQ": 0.4260021222917749,
+   "UNI/RIPSER": 2.478253225392741,
+   "CTRL/RIPSER": 2.5527085353502774,
+   "PAPER/RIPSER": 4.368550237062647,
+   "CTRL/AUTHOR": 0.4815434894736976,
+   "PAPER/AUTHOR": 0.6349892010840694
+  }
+ },
+ "per_cloud": {
+  "H2": [
+   {
+    "case": "E10-H2-author-s2-n200",
+    "family": "author-s2",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 0.5061738021806252,
+     "AUTHOR-F": 1.1238117043328348,
+     "CTRL": 1.026122465088435,
+     "NOQ": 1.1216431149541102,
+     "RIPSER": 0.5065399401754421
+    },
+    "median_seconds": {
+     "AUTHOR": 6.07956969800216,
+     "AUTHOR-F": 13.518168100999901,
+     "CTRL": 12.27480012399974,
+     "NOQ": 13.372440926999843,
+     "RIPSER": 6.166243952000514,
+     "UNI": 11.9371276890015
+    },
+    "median_rss_mib": {
+     "AUTHOR": 438.14453125,
+     "AUTHOR-F": 818.515625,
+     "CTRL": 495.5,
+     "NOQ": 2023.3828125,
+     "RIPSER": 301.265625,
+     "UNI": 712.59375
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 10.746839,
+     "AUTHOR-F": 23.867918999999997,
+     "CTRL": 24.84991,
+     "NOQ": 20.205282,
+     "RIPSER": 5.7516099999999994,
+     "UNI": 23.49117
+    }
+   },
+   {
+    "case": "E10-H2-author-s2-n300",
+    "family": "author-s2",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 0.5808062860941983,
+     "AUTHOR-F": 1.091718510293401,
+     "CTRL": 0.9117331148278593,
+     "NOQ": 1.4609025684559112,
+     "RIPSER": 0.3581746029575912
+    },
+    "median_seconds": {
+     "AUTHOR": 32.64119003000087,
+     "AUTHOR-F": 60.721510321000096,
+     "CTRL": 51.00403970700063,
+     "NOQ": 81.95109561799836,
+     "RIPSER": 19.879318928997236,
+     "UNI": 57.76891628100202
+    },
+    "median_rss_mib": {
+     "AUTHOR": 2481.421875,
+     "AUTHOR-F": 4330.59765625,
+     "CTRL": 2017.28125,
+     "NOQ": 9458.84375,
+     "RIPSER": 707.78515625,
+     "UNI": 3706.47265625
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 56.004938,
+     "AUTHOR-F": 108.88413,
+     "CTRL": 97.26835700000001,
+     "NOQ": 120.281571,
+     "RIPSER": 18.572741999999998,
+     "UNI": 104.51239000000001
+    }
+   },
+   {
+    "case": "E10-H2-author-s3-n200",
+    "family": "author-s3",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 0.17155365176026272,
+     "AUTHOR-F": 1.1692373960060565,
+     "CTRL": 1.2503478991181782,
+     "NOQ": 1.2995361700166632,
+     "RIPSER": 0.37259862349900963
+    },
+    "median_seconds": {
+     "AUTHOR": 1.6397816940007033,
+     "AUTHOR-F": 11.294258814999921,
+     "CTRL": 12.20663023599991,
+     "NOQ": 12.728558175997023,
+     "RIPSER": 3.5570523780006624,
+     "UNI": 9.69778941199911
+    },
+    "median_rss_mib": {
+     "AUTHOR": 62.5078125,
+     "AUTHOR-F": 612.26171875,
+     "CTRL": 375.93359375,
+     "NOQ": 2045.6171875,
+     "RIPSER": 213.2421875,
+     "UNI": 870.06640625
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 4.552117,
+     "AUTHOR-F": 24.918472,
+     "CTRL": 28.358176,
+     "NOQ": 19.765983,
+     "RIPSER": 3.334444,
+     "UNI": 19.74666
+    }
+   },
+   {
+    "case": "E10-H2-author-s3-n300",
+    "family": "author-s3",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 0.12578940261555818,
+     "AUTHOR-F": 1.2211486061911265,
+     "CTRL": 1.14135546388295,
+     "NOQ": 1.392788413783284,
+     "RIPSER": 0.16502077178542499
+    },
+    "median_seconds": {
+     "AUTHOR": 6.8961427670001285,
+     "AUTHOR-F": 66.66673761499987,
+     "CTRL": 62.39863187100127,
+     "NOQ": 73.86594643900025,
+     "RIPSER": 8.90586383000118,
+     "UNI": 55.08154246699996
+    },
+    "median_rss_mib": {
+     "AUTHOR": 218.703125,
+     "AUTHOR-F": 2372.30859375,
+     "CTRL": 1359.0,
+     "NOQ": 9487.3671875,
+     "RIPSER": 482.1953125,
+     "UNI": 4350.04296875
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 17.79,
+     "AUTHOR-F": 136.929051,
+     "CTRL": 140.053401,
+     "NOQ": 111.551507,
+     "RIPSER": 8.310859,
+     "UNI": 109.569312
+    }
+   },
+   {
+    "case": "E10-H2-clifford-torus-r4-n200",
+    "family": "clifford-torus-r4",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.979123890593721,
+     "NOQ": 1.8380473457598598,
+     "RIPSER": 0.5098513561330047
+    },
+    "median_seconds": {
+     "CTRL": 7.026152606998949,
+     "NOQ": 13.049518995998369,
+     "RIPSER": 3.620466921998741,
+     "UNI": 7.157443874999444
+    },
+    "median_rss_mib": {
+     "CTRL": 245.23046875,
+     "NOQ": 2091.359375,
+     "RIPSER": 213.38671875,
+     "UNI": 526.12890625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 16.703716999999997,
+     "NOQ": 20.579307,
+     "RIPSER": 3.373764,
+     "UNI": 16.065915
+    }
+   },
+   {
+    "case": "E10-H2-clifford-torus-r4-n300",
+    "family": "clifford-torus-r4",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0886152526826502,
+     "NOQ": 1.3718476468106569,
+     "RIPSER": 0.17557725710521893
+    },
+    "median_seconds": {
+     "CTRL": 58.890185545998975,
+     "NOQ": 73.91783065699929,
+     "RIPSER": 9.384790183001314,
+     "UNI": 56.30381737100106
+    },
+    "median_rss_mib": {
+     "CTRL": 1268.875,
+     "NOQ": 9408.6875,
+     "RIPSER": 482.21484375,
+     "UNI": 3668.82421875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 131.463642,
+     "NOQ": 112.235578,
+     "RIPSER": 8.71908,
+     "UNI": 113.557503
+    }
+   },
+   {
+    "case": "E10-H2-concentric-spheres-n200",
+    "family": "concentric-spheres",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0147364918373163,
+     "NOQ": 4.147988633882712,
+     "RIPSER": 1.2825503732924814
+    },
+    "median_seconds": {
+     "CTRL": 2.9948173880002287,
+     "NOQ": 12.7715117810003,
+     "RIPSER": 3.8433408599994436,
+     "UNI": 3.0742719900008524
+    },
+    "median_rss_mib": {
+     "CTRL": 207.90625,
+     "NOQ": 2095.8125,
+     "RIPSER": 228.5234375,
+     "UNI": 208.05859375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 6.8321559999999995,
+     "NOQ": 19.719483,
+     "RIPSER": 3.599322,
+     "UNI": 6.908653
+    }
+   },
+   {
+    "case": "E10-H2-concentric-spheres-n300",
+    "family": "concentric-spheres",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9998031520949651,
+     "NOQ": 6.443177012526268,
+     "RIPSER": 0.816806056306455
+    },
+    "median_seconds": {
+     "CTRL": 11.971593606001989,
+     "NOQ": 77.94723091800188,
+     "RIPSER": 9.852302164999855,
+     "UNI": 11.933927915000822
+    },
+    "median_rss_mib": {
+     "CTRL": 373.47265625,
+     "NOQ": 9382.62890625,
+     "RIPSER": 515.82421875,
+     "UNI": 397.1640625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 25.395212,
+     "NOQ": 114.791939,
+     "RIPSER": 9.205241000000001,
+     "UNI": 25.420958
+    }
+   },
+   {
+    "case": "E10-H2-corrugated-torus-n200",
+    "family": "corrugated-torus",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9531652858871297,
+     "NOQ": 1.7542725267872428,
+     "RIPSER": 0.4988313935854065
+    },
+    "median_seconds": {
+     "CTRL": 6.678177267000137,
+     "NOQ": 12.3171681490021,
+     "RIPSER": 3.4195858410021174,
+     "UNI": 6.900355949001096
+    },
+    "median_rss_mib": {
+     "CTRL": 889.75,
+     "NOQ": 2043.125,
+     "RIPSER": 213.23828125,
+     "UNI": 890.390625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 12.883251,
+     "NOQ": 18.927766,
+     "RIPSER": 3.214459,
+     "UNI": 13.140336999999999
+    }
+   },
+   {
+    "case": "E10-H2-corrugated-torus-n300",
+    "family": "corrugated-torus",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9962094304604752,
+     "NOQ": 1.991081315646024,
+     "RIPSER": 0.24030755727685682
+    },
+    "median_seconds": {
+     "CTRL": 34.18999200300095,
+     "NOQ": 70.36287702900154,
+     "RIPSER": 8.244050490000518,
+     "UNI": 34.58011010100017
+    },
+    "median_rss_mib": {
+     "CTRL": 4354.03125,
+     "NOQ": 9305.53125,
+     "RIPSER": 482.3046875,
+     "UNI": 4340.36328125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 56.581664,
+     "NOQ": 106.192925,
+     "RIPSER": 7.708583,
+     "UNI": 56.397608999999996
+    }
+   },
+   {
+    "case": "E10-H2-cube-surface-n200",
+    "family": "cube-surface",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0190909100055954,
+     "NOQ": 3.4350042498589475,
+     "RIPSER": 1.2615098390720088
+    },
+    "median_seconds": {
+     "CTRL": 3.924592527997447,
+     "NOQ": 12.784093305999704,
+     "RIPSER": 4.827055560002918,
+     "UNI": 3.7552989310024714
+    },
+    "median_rss_mib": {
+     "CTRL": 317.93359375,
+     "NOQ": 2061.67578125,
+     "RIPSER": 301.171875,
+     "UNI": 318.03125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 8.821499000000001,
+     "NOQ": 19.814144,
+     "RIPSER": 4.465362,
+     "UNI": 8.484895
+    }
+   },
+   {
+    "case": "E10-H2-cube-surface-n300",
+    "family": "cube-surface",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.004619558518298,
+     "NOQ": 3.2257560766448052,
+     "RIPSER": 0.5115065438544405
+    },
+    "median_seconds": {
+     "CTRL": 24.065694229000655,
+     "NOQ": 76.67078099400169,
+     "RIPSER": 12.44768478900005,
+     "UNI": 24.214745583001786
+    },
+    "median_rss_mib": {
+     "CTRL": 1158.87109375,
+     "NOQ": 9551.1953125,
+     "RIPSER": 579.85546875,
+     "UNI": 1237.4609375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 46.745104,
+     "NOQ": 113.92370199999999,
+     "RIPSER": 11.621278,
+     "UNI": 46.66131
+    }
+   },
+   {
+    "case": "E10-H2-ellipsoid-r3-n200",
+    "family": "ellipsoid-r3",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.991307850090544,
+     "NOQ": 8.374595350611978,
+     "RIPSER": 2.422298604002473
+    },
+    "median_seconds": {
+     "CTRL": 1.4618256210014806,
+     "NOQ": 12.267212984999787,
+     "RIPSER": 3.535387582000112,
+     "UNI": 1.44677956400119
+    },
+    "median_rss_mib": {
+     "CTRL": 103.98828125,
+     "NOQ": 1953.08203125,
+     "RIPSER": 213.234375,
+     "UNI": 103.9609375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 3.687903,
+     "NOQ": 19.4428,
+     "RIPSER": 3.280033,
+     "UNI": 3.616413
+    }
+   },
+   {
+    "case": "E10-H2-ellipsoid-r3-n300",
+    "family": "ellipsoid-r3",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9716222964285799,
+     "NOQ": 10.352977752470037,
+     "RIPSER": 1.2309467255952342
+    },
+    "median_seconds": {
+     "CTRL": 6.7279598509994685,
+     "NOQ": 70.2079830799994,
+     "RIPSER": 8.388164111998776,
+     "UNI": 6.887115190998884
+    },
+    "median_rss_mib": {
+     "CTRL": 388.82421875,
+     "NOQ": 9527.59375,
+     "RIPSER": 482.3359375,
+     "UNI": 388.36328125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 15.106406,
+     "NOQ": 108.22101500000001,
+     "RIPSER": 7.871106,
+     "UNI": 15.35194
+    }
+   },
+   {
+    "case": "E10-H2-genus2-r3-n200",
+    "family": "genus2-r3",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9616137056225087,
+     "NOQ": 13.996417229437721,
+     "RIPSER": 3.8798934468742314
+    },
+    "median_seconds": {
+     "CTRL": 0.8901751770026749,
+     "NOQ": 13.071245185001317,
+     "RIPSER": 3.5536534739985655,
+     "UNI": 0.9215459810002358
+    },
+    "median_rss_mib": {
+     "CTRL": 48.83984375,
+     "NOQ": 2049.6796875,
+     "RIPSER": 213.42578125,
+     "UNI": 48.56640625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.348766,
+     "NOQ": 19.723654,
+     "RIPSER": 3.3328420000000003,
+     "UNI": 2.4084090000000002
+    }
+   },
+   {
+    "case": "E10-H2-genus2-r3-n300",
+    "family": "genus2-r3",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.2742406172890991,
+     "NOQ": 2.7521859512039977,
+     "RIPSER": 1.2498095783131624
+    },
+    "median_seconds": {
+     "CTRL": 3.54504279899993,
+     "NOQ": 71.0657061569982,
+     "RIPSER": 8.35699042700071,
+     "UNI": 3.35070478399939
+    },
+    "median_rss_mib": {
+     "CTRL": 73.74609375,
+     "NOQ": 9434.70703125,
+     "RIPSER": 482.2578125,
+     "UNI": 83.859375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 8.616342999999999,
+     "NOQ": 108.754362,
+     "RIPSER": 7.813563,
+     "UNI": 8.111458
+    }
+   },
+   {
+    "case": "E10-H2-klein-bottle-r4-n200",
+    "family": "klein-bottle-r4",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0541260675967992,
+     "NOQ": 12.402385432034931,
+     "RIPSER": 3.3461830226888187
+    },
+    "median_seconds": {
+     "CTRL": 1.1051499390014214,
+     "NOQ": 12.385376948001067,
+     "RIPSER": 3.420966708999913,
+     "UNI": 1.050751142000081
+    },
+    "median_rss_mib": {
+     "CTRL": 47.64453125,
+     "NOQ": 2045.3359375,
+     "RIPSER": 213.44140625,
+     "UNI": 47.58984375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.948785,
+     "NOQ": 19.259949,
+     "RIPSER": 3.214718,
+     "UNI": 2.7393419999999997
+    }
+   },
+   {
+    "case": "E10-H2-klein-bottle-r4-n300",
+    "family": "klein-bottle-r4",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0028502870849971,
+     "NOQ": 17.71950156059825,
+     "RIPSER": 2.1627612408846755
+    },
+    "median_seconds": {
+     "CTRL": 4.076477177000925,
+     "NOQ": 72.33198220700069,
+     "RIPSER": 8.726936907998606,
+     "UNI": 4.101811231001193
+    },
+    "median_rss_mib": {
+     "CTRL": 184.09375,
+     "NOQ": 9439.30078125,
+     "RIPSER": 482.1796875,
+     "UNI": 183.4453125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 9.385204,
+     "NOQ": 109.775878,
+     "RIPSER": 8.220575,
+     "UNI": 9.516441
+    }
+   },
+   {
+    "case": "E10-H2-linked-tori-n200",
+    "family": "linked-tori",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0959951631511604,
+     "NOQ": 15.876801529707958,
+     "RIPSER": 4.613948692707139
+    },
+    "median_seconds": {
+     "CTRL": 0.8542925110014039,
+     "NOQ": 12.786213942003087,
+     "RIPSER": 3.3700201579995337,
+     "UNI": 0.7776337230025092
+    },
+    "median_rss_mib": {
+     "CTRL": 19.3046875,
+     "NOQ": 2084.9765625,
+     "RIPSER": 213.2734375,
+     "UNI": 19.3046875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.418802,
+     "NOQ": 19.344746,
+     "RIPSER": 3.146589,
+     "UNI": 2.188838
+    }
+   },
+   {
+    "case": "E10-H2-linked-tori-n300",
+    "family": "linked-tori",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0222977524920196,
+     "NOQ": 24.605059806153164,
+     "RIPSER": 3.033751852741975
+    },
+    "median_seconds": {
+     "CTRL": 2.921210702999815,
+     "NOQ": 70.93734830199901,
+     "RIPSER": 8.777305127001455,
+     "UNI": 2.8465611990031903
+    },
+    "median_rss_mib": {
+     "CTRL": 54.18359375,
+     "NOQ": 9394.65625,
+     "RIPSER": 482.46875,
+     "UNI": 65.51953125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 7.054672999999999,
+     "NOQ": 108.33406500000001,
+     "RIPSER": 8.197094,
+     "UNI": 6.662902
+    }
+   },
+   {
+    "case": "E10-H2-thick-shell-r3-n200",
+    "family": "thick-shell-r3",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9894252487877329,
+     "NOQ": 2.0469624868694036,
+     "RIPSER": 0.6462436451281226
+    },
+    "median_seconds": {
+     "CTRL": 6.613849262997974,
+     "NOQ": 13.660703549001482,
+     "RIPSER": 4.236170617998141,
+     "UNI": 6.769262820002041
+    },
+    "median_rss_mib": {
+     "CTRL": 294.6875,
+     "NOQ": 2115.89453125,
+     "RIPSER": 261.62109375,
+     "UNI": 430.0546875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 15.007133999999999,
+     "NOQ": 20.731599000000003,
+     "RIPSER": 3.948932,
+     "UNI": 14.704723
+    }
+   },
+   {
+    "case": "E10-H2-thick-shell-r3-n300",
+    "family": "thick-shell-r3",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.1110224030303142,
+     "NOQ": 3.086348891983453,
+     "RIPSER": 0.4694489367872176
+    },
+    "median_seconds": {
+     "CTRL": 26.34222814399982,
+     "NOQ": 74.03439529399839,
+     "RIPSER": 11.112458458999754,
+     "UNI": 23.949717910996696
+    },
+    "median_rss_mib": {
+     "CTRL": 444.953125,
+     "NOQ": 9295.20703125,
+     "RIPSER": 579.68359375,
+     "UNI": 601.546875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 61.457165,
+     "NOQ": 112.723719,
+     "RIPSER": 10.383239,
+     "UNI": 55.734545
+    }
+   },
+   {
+    "case": "E10-H2-three-spheres-r3-n200",
+    "family": "three-spheres-r3",
+    "n": 200,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9880853052295818,
+     "NOQ": 7.760159116167796,
+     "RIPSER": 2.3119715773020073
+    },
+    "median_seconds": {
+     "CTRL": 1.5613512700001593,
+     "NOQ": 12.133050737000303,
+     "RIPSER": 3.7083155489999626,
+     "UNI": 1.6159747409983538
+    },
+    "median_rss_mib": {
+     "CTRL": 130.73828125,
+     "NOQ": 2046.66015625,
+     "RIPSER": 213.30859375,
+     "UNI": 130.69140625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 3.6110349999999998,
+     "NOQ": 18.894472999999998,
+     "RIPSER": 3.456394,
+     "UNI": 3.721273
+    }
+   },
+   {
+    "case": "E10-H2-three-spheres-r3-n300",
+    "family": "three-spheres-r3",
+    "n": 300,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9862977525886044,
+     "NOQ": 8.306684189139942,
+     "RIPSER": 1.0820313166713582
+    },
+    "median_seconds": {
+     "CTRL": 8.762683577999269,
+     "NOQ": 70.81454826200206,
+     "RIPSER": 9.358682149002561,
+     "UNI": 8.464296056998137
+    },
+    "median_rss_mib": {
+     "CTRL": 432.01171875,
+     "NOQ": 9391.421875,
+     "RIPSER": 515.78515625,
+     "UNI": 434.47265625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 17.922607,
+     "NOQ": 108.126114,
+     "RIPSER": 8.782913,
+     "UNI": 17.536647
+    }
+   }
+  ],
+  "H1": [
+   {
+    "case": "E10-H1-author-s2-n512",
+    "family": "author-s2",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 2.0715450330071494,
+     "CTRL": 0.875720553031041,
+     "NOQ": 2.664401523153098,
+     "PAPER": 1.4920677675486964,
+     "RIPSER": 1.2796283990834791
+    },
+    "median_seconds": {
+     "AUTHOR": 3.4832469319990196,
+     "CTRL": 1.468813269999373,
+     "NOQ": 4.39810995100197,
+     "PAPER": 2.4734580059994187,
+     "RIPSER": 2.0902000189998944,
+     "UNI": 1.6621910750000097
+    },
+    "median_rss_mib": {
+     "AUTHOR": 341.828125,
+     "CTRL": 77.12890625,
+     "NOQ": 607.3984375,
+     "PAPER": 374.5546875,
+     "RIPSER": 141.38671875,
+     "UNI": 105.625
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 7.712085999999999,
+     "CTRL": 3.3961439999999996,
+     "NOQ": 7.009399,
+     "PAPER": 5.26183,
+     "RIPSER": 1.953765,
+     "UNI": 3.784858
+    }
+   },
+   {
+    "case": "E10-H1-author-s2-n768",
+    "family": "author-s2",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 3.035456017922995,
+     "CTRL": 1.248699646173306,
+     "NOQ": 3.3445524482676845,
+     "PAPER": 1.8927459121451944,
+     "RIPSER": 0.5422739049049204
+    },
+    "median_seconds": {
+     "AUTHOR": 14.450491091000004,
+     "CTRL": 5.9503009430009115,
+     "NOQ": 15.990509081999335,
+     "PAPER": 9.001074215000699,
+     "RIPSER": 2.584133781998389,
+     "UNI": 4.756279050001467
+    },
+    "median_rss_mib": {
+     "AUTHOR": 820.5234375,
+     "CTRL": 270.0703125,
+     "NOQ": 2114.890625,
+     "PAPER": 991.5625,
+     "RIPSER": 164.78515625,
+     "UNI": 324.54296875
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 28.461213,
+     "CTRL": 12.218013,
+     "NOQ": 26.575345,
+     "PAPER": 18.304482,
+     "RIPSER": 2.3649899999999997,
+     "UNI": 9.876215
+    }
+   },
+   {
+    "case": "E10-H1-author-s3-n512",
+    "family": "author-s3",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 2.069734307145484,
+     "CTRL": 1.0413093661754629,
+     "NOQ": 2.1935770538357806,
+     "PAPER": 1.3856397992648861,
+     "RIPSER": 0.9180981379808247
+    },
+    "median_seconds": {
+     "AUTHOR": 4.747718452999834,
+     "CTRL": 2.4459292520004965,
+     "NOQ": 5.083335807001276,
+     "PAPER": 3.247389664000366,
+     "RIPSER": 2.1717418410007667,
+     "UNI": 2.318297360001452
+    },
+    "median_rss_mib": {
+     "AUTHOR": 253.4453125,
+     "CTRL": 133.828125,
+     "NOQ": 607.73828125,
+     "PAPER": 342.15234375,
+     "RIPSER": 137.01953125,
+     "UNI": 305.01171875
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 10.050552,
+     "CTRL": 5.130006,
+     "NOQ": 7.786128,
+     "PAPER": 6.354525000000001,
+     "RIPSER": 2.0176849999999997,
+     "UNI": 5.152494
+    }
+   },
+   {
+    "case": "E10-H1-author-s3-n768",
+    "family": "author-s3",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "AUTHOR": 2.2753636612730865,
+     "CTRL": 1.452709982362823,
+     "NOQ": 1.6446991414002556,
+     "PAPER": 1.336178494514864,
+     "RIPSER": 0.2781999957373004
+    },
+    "median_seconds": {
+     "AUTHOR": 24.630952734001767,
+     "CTRL": 15.640084148999449,
+     "NOQ": 17.774832748000335,
+     "PAPER": 14.43293537199861,
+     "RIPSER": 2.9578817459987476,
+     "UNI": 10.794088926002587
+    },
+    "median_rss_mib": {
+     "AUTHOR": 782.6015625,
+     "CTRL": 489.48828125,
+     "NOQ": 2119.96484375,
+     "PAPER": 1230.48828125,
+     "RIPSER": 179.53515625,
+     "UNI": 620.83984375
+    },
+    "median_cpu_seconds": {
+     "AUTHOR": 44.719255,
+     "CTRL": 24.919955,
+     "NOQ": 28.048927,
+     "PAPER": 26.20582,
+     "RIPSER": 2.727455,
+     "UNI": 19.763834
+    }
+   },
+   {
+    "case": "E10-H1-clifford-torus-r4-n512",
+    "family": "clifford-torus-r4",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0422496854554426,
+     "NOQ": 1.8665517539490992,
+     "PAPER": 2.0241703334320014,
+     "RIPSER": 1.0858533166249802
+    },
+    "median_seconds": {
+     "CTRL": 3.6600758580025285,
+     "NOQ": 6.470347893999133,
+     "PAPER": 7.08869199900073,
+     "RIPSER": 3.7485441810022166,
+     "UNI": 3.5021140949975234
+    },
+    "median_rss_mib": {
+     "CTRL": 185.64453125,
+     "NOQ": 629.21484375,
+     "PAPER": 440.16015625,
+     "RIPSER": 201.140625,
+     "UNI": 139.1015625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 6.234828,
+     "NOQ": 9.282208,
+     "PAPER": 10.350953,
+     "RIPSER": 3.46676,
+     "UNI": 6.311184
+    }
+   },
+   {
+    "case": "E10-H1-clifford-torus-r4-n768",
+    "family": "clifford-torus-r4",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0134202135666097,
+     "NOQ": 1.6061742597553077,
+     "PAPER": 1.471693466070945,
+     "RIPSER": 0.6925707860640691
+    },
+    "median_seconds": {
+     "CTRL": 18.5362454649985,
+     "NOQ": 29.210279635000916,
+     "PAPER": 26.7638688549996,
+     "RIPSER": 12.49928032599928,
+     "UNI": 18.095708696000656
+    },
+    "median_rss_mib": {
+     "CTRL": 618.234375,
+     "NOQ": 2317.66796875,
+     "PAPER": 1299.328125,
+     "RIPSER": 695.75390625,
+     "UNI": 402.26171875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 26.768295000000002,
+     "NOQ": 39.040521,
+     "PAPER": 38.503817000000005,
+     "RIPSER": 11.666787000000001,
+     "UNI": 27.085009999999997
+    }
+   },
+   {
+    "case": "E10-H1-concentric-spheres-n512",
+    "family": "concentric-spheres",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0602746312699727,
+     "NOQ": 3.186977545590758,
+     "PAPER": 1.6719404506226596,
+     "RIPSER": 1.3471568392910156
+    },
+    "median_seconds": {
+     "CTRL": 1.6538033420001739,
+     "NOQ": 4.978570600000239,
+     "PAPER": 2.6463264760022867,
+     "RIPSER": 2.1038200369985134,
+     "UNI": 1.579507583999657
+    },
+    "median_rss_mib": {
+     "CTRL": 83.84765625,
+     "NOQ": 607.31640625,
+     "PAPER": 346.140625,
+     "RIPSER": 141.5234375,
+     "UNI": 92.72265625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 3.930977,
+     "NOQ": 7.741951,
+     "PAPER": 5.429908,
+     "RIPSER": 1.957108,
+     "UNI": 3.7761609999999997
+    }
+   },
+   {
+    "case": "E10-H1-concentric-spheres-n768",
+    "family": "concentric-spheres",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9010688533596803,
+     "NOQ": 2.942960786977273,
+     "PAPER": 1.929444667506694,
+     "RIPSER": 0.4943948329396344
+    },
+    "median_seconds": {
+     "CTRL": 5.071405227001378,
+     "NOQ": 17.152831082003104,
+     "PAPER": 10.990008717999444,
+     "RIPSER": 2.7876278110015846,
+     "UNI": 5.700950080998155
+    },
+    "median_rss_mib": {
+     "CTRL": 182.65625,
+     "NOQ": 2121.47265625,
+     "PAPER": 1039.328125,
+     "RIPSER": 180.8984375,
+     "UNI": 117.4296875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 10.808807,
+     "NOQ": 27.430447,
+     "PAPER": 20.594762,
+     "RIPSER": 2.584345,
+     "UNI": 12.05472
+    }
+   },
+   {
+    "case": "E10-H1-corrugated-torus-n512",
+    "family": "corrugated-torus",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.1800398190334827,
+     "NOQ": 1.0222217002820924,
+     "PAPER": 1.201546354059723,
+     "RIPSER": 0.4995608479791345
+    },
+    "median_seconds": {
+     "CTRL": 5.438735314000951,
+     "NOQ": 4.6696560730015335,
+     "PAPER": 5.530297977998998,
+     "RIPSER": 2.3236820330021146,
+     "UNI": 4.633213274999434
+    },
+    "median_rss_mib": {
+     "CTRL": 743.28125,
+     "NOQ": 607.125,
+     "PAPER": 743.33984375,
+     "RIPSER": 147.421875,
+     "UNI": 527.91015625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 8.532091,
+     "NOQ": 7.41041,
+     "PAPER": 8.631412000000001,
+     "RIPSER": 2.149266,
+     "UNI": 8.692561
+    }
+   },
+   {
+    "case": "E10-H1-corrugated-torus-n768",
+    "family": "corrugated-torus",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.294320404420202,
+     "NOQ": 1.1175222700258438,
+     "PAPER": 1.2987548244057565,
+     "RIPSER": 0.21514902321164445
+    },
+    "median_seconds": {
+     "CTRL": 19.16943147799975,
+     "NOQ": 16.472526368997933,
+     "PAPER": 19.455611018001946,
+     "RIPSER": 3.237740341002791,
+     "UNI": 14.962306618999719
+    },
+    "median_rss_mib": {
+     "CTRL": 2269.1796875,
+     "NOQ": 2127.22265625,
+     "PAPER": 2269.30859375,
+     "RIPSER": 223.890625,
+     "UNI": 1163.1796875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 29.820753,
+     "NOQ": 27.262199000000003,
+     "PAPER": 29.266542,
+     "RIPSER": 3.056198,
+     "UNI": 26.195175
+    }
+   },
+   {
+    "case": "E10-H1-cube-surface-n512",
+    "family": "cube-surface",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0836620940098538,
+     "NOQ": 4.3419079907306175,
+     "PAPER": 2.3048397143077173,
+     "RIPSER": 1.945202699975344
+    },
+    "median_seconds": {
+     "CTRL": 1.1335257490027288,
+     "NOQ": 4.636888439999893,
+     "PAPER": 2.4647294969981886,
+     "RIPSER": 2.08674215100109,
+     "UNI": 1.0433641840027121
+    },
+    "median_rss_mib": {
+     "CTRL": 45.765625,
+     "NOQ": 605.09765625,
+     "PAPER": 349.58203125,
+     "RIPSER": 135.34375,
+     "UNI": 43.35546875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.6475120000000003,
+     "NOQ": 7.8087480000000005,
+     "PAPER": 5.494768,
+     "RIPSER": 1.9152,
+     "UNI": 2.547457
+    }
+   },
+   {
+    "case": "E10-H1-cube-surface-n768",
+    "family": "cube-surface",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0344834467817459,
+     "NOQ": 4.848772125825744,
+     "PAPER": 2.0967195364371025,
+     "RIPSER": 0.7417409295668634
+    },
+    "median_seconds": {
+     "CTRL": 3.2810214739984076,
+     "NOQ": 15.97599424800137,
+     "PAPER": 6.86675099599961,
+     "RIPSER": 2.453632781998749,
+     "UNI": 3.289047545997164
+    },
+    "median_rss_mib": {
+     "CTRL": 121.8046875,
+     "NOQ": 2112.328125,
+     "PAPER": 710.71484375,
+     "RIPSER": 163.328125,
+     "UNI": 154.35546875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 7.637499,
+     "NOQ": 26.689408,
+     "PAPER": 14.777389999999999,
+     "RIPSER": 2.280583,
+     "UNI": 7.708330999999999
+    }
+   },
+   {
+    "case": "E10-H1-ellipsoid-r3-n512",
+    "family": "ellipsoid-r3",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0290744256933435,
+     "NOQ": 4.57183981022272,
+     "PAPER": 2.1476112359250585,
+     "RIPSER": 1.9088126515378667
+    },
+    "median_seconds": {
+     "CTRL": 1.1131692150011077,
+     "NOQ": 4.892697965999105,
+     "PAPER": 2.309173401998123,
+     "RIPSER": 2.0839540450033383,
+     "UNI": 1.0885849529986444
+    },
+    "median_rss_mib": {
+     "CTRL": 50.3046875,
+     "NOQ": 605.28125,
+     "PAPER": 347.82421875,
+     "RIPSER": 135.44921875,
+     "UNI": 53.66015625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.7674279999999998,
+     "NOQ": 7.893901,
+     "PAPER": 5.085705999999999,
+     "RIPSER": 1.935471,
+     "UNI": 2.706324
+    }
+   },
+   {
+    "case": "E10-H1-ellipsoid-r3-n768",
+    "family": "ellipsoid-r3",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.069727868025552,
+     "NOQ": 5.602652098674058,
+     "PAPER": 2.365427033813624,
+     "RIPSER": 0.8485760836377962
+    },
+    "median_seconds": {
+     "CTRL": 3.0913897179998457,
+     "NOQ": 16.078471052001987,
+     "PAPER": 6.827552005997859,
+     "RIPSER": 2.4805740249976225,
+     "UNI": 2.8738141089997953
+    },
+    "median_rss_mib": {
+     "CTRL": 123.671875,
+     "NOQ": 2110.34765625,
+     "PAPER": 705.90234375,
+     "RIPSER": 162.2890625,
+     "UNI": 144.61328125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 7.459724,
+     "NOQ": 26.843953,
+     "PAPER": 14.558774999999999,
+     "RIPSER": 2.2979459999999996,
+     "UNI": 6.877938
+    }
+   },
+   {
+    "case": "E10-H1-genus2-r3-n512",
+    "family": "genus2-r3",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.044002626578744,
+     "NOQ": 4.68382317046482,
+     "PAPER": 2.2393381401410366,
+     "RIPSER": 2.0145830862177787
+    },
+    "median_seconds": {
+     "CTRL": 1.055582287001016,
+     "NOQ": 4.618115438999666,
+     "PAPER": 2.2607028989987157,
+     "RIPSER": 2.0513467799974023,
+     "UNI": 1.0077109220001148
+    },
+    "median_rss_mib": {
+     "CTRL": 34.97265625,
+     "NOQ": 604.85546875,
+     "PAPER": 275.984375,
+     "RIPSER": 135.6328125,
+     "UNI": 45.92578125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.557848,
+     "NOQ": 7.455363999999999,
+     "PAPER": 4.734449000000001,
+     "RIPSER": 1.893687,
+     "UNI": 2.557072
+    }
+   },
+   {
+    "case": "E10-H1-genus2-r3-n768",
+    "family": "genus2-r3",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.1056695576486446,
+     "NOQ": 5.785538351185626,
+     "PAPER": 2.790101573134928,
+     "RIPSER": 0.8799187863683094
+    },
+    "median_seconds": {
+     "CTRL": 3.091152619999775,
+     "NOQ": 15.88324100400132,
+     "PAPER": 7.951502918996994,
+     "RIPSER": 2.4742363639998075,
+     "UNI": 2.8054452200012747
+    },
+    "median_rss_mib": {
+     "CTRL": 117.5625,
+     "NOQ": 2110.0,
+     "PAPER": 765.9765625,
+     "RIPSER": 158.1953125,
+     "UNI": 122.234375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 7.228904,
+     "NOQ": 26.834072,
+     "PAPER": 16.425174000000002,
+     "RIPSER": 2.303721,
+     "UNI": 6.527139
+    }
+   },
+   {
+    "case": "E10-H1-klein-bottle-r4-n512",
+    "family": "klein-bottle-r4",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.8358987366375509,
+     "NOQ": 2.6771651912213703,
+     "PAPER": 1.7518937512300206,
+     "RIPSER": 1.2938610510817434
+    },
+    "median_seconds": {
+     "CTRL": 1.557229723999626,
+     "NOQ": 4.908819157997641,
+     "PAPER": 3.2893795870004396,
+     "RIPSER": 2.3991193280016887,
+     "UNI": 1.8369121169998834
+    },
+    "median_rss_mib": {
+     "CTRL": 60.34765625,
+     "NOQ": 612.2734375,
+     "PAPER": 409.8125,
+     "RIPSER": 158.09375,
+     "UNI": 61.328125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 3.334518,
+     "NOQ": 7.584868,
+     "PAPER": 6.408836999999999,
+     "RIPSER": 2.235455,
+     "UNI": 3.895407
+    }
+   },
+   {
+    "case": "E10-H1-klein-bottle-r4-n768",
+    "family": "klein-bottle-r4",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9172424656793736,
+     "NOQ": 3.768413812890015,
+     "PAPER": 2.221273384815563,
+     "RIPSER": 0.7937224917378329
+    },
+    "median_seconds": {
+     "CTRL": 4.419502650001959,
+     "NOQ": 17.18984813100178,
+     "PAPER": 10.388226776998636,
+     "RIPSER": 3.713435161000234,
+     "UNI": 4.737306424998678
+    },
+    "median_rss_mib": {
+     "CTRL": 120.51953125,
+     "NOQ": 2142.1484375,
+     "PAPER": 1025.19921875,
+     "RIPSER": 247.98046875,
+     "UNI": 119.94921875
+    },
+    "median_cpu_seconds": {
+     "CTRL": 8.843332,
+     "NOQ": 28.039906000000002,
+     "PAPER": 19.651241,
+     "RIPSER": 3.427364,
+     "UNI": 9.512988
+    }
+   },
+   {
+    "case": "E10-H1-linked-tori-n512",
+    "family": "linked-tori",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0293041077027654,
+     "NOQ": 5.00271310682882,
+     "PAPER": 1.9620796084903853,
+     "RIPSER": 2.190683308563036
+    },
+    "median_seconds": {
+     "CTRL": 0.9614860849978868,
+     "NOQ": 4.751205165997817,
+     "PAPER": 1.8722683300002245,
+     "RIPSER": 2.077204957000504,
+     "UNI": 0.9348128630008432
+    },
+    "median_rss_mib": {
+     "CTRL": 29.09375,
+     "NOQ": 604.86328125,
+     "PAPER": 266.04296875,
+     "RIPSER": 136.1875,
+     "UNI": 35.81640625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.337138,
+     "NOQ": 7.529469,
+     "PAPER": 4.235232,
+     "RIPSER": 1.9238739999999999,
+     "UNI": 2.380274
+    }
+   },
+   {
+    "case": "E10-H1-linked-tori-n768",
+    "family": "linked-tori",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 0.9675474428616845,
+     "NOQ": 4.992592685241508,
+     "PAPER": 2.3348137700322398,
+     "RIPSER": 0.867889480950058
+    },
+    "median_seconds": {
+     "CTRL": 3.1746173600004113,
+     "NOQ": 16.753544024999428,
+     "PAPER": 7.682287300998723,
+     "RIPSER": 2.857559214000503,
+     "UNI": 3.2353099120009574
+    },
+    "median_rss_mib": {
+     "CTRL": 84.0859375,
+     "NOQ": 2115.95703125,
+     "PAPER": 709.88671875,
+     "RIPSER": 178.62109375,
+     "UNI": 121.9140625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 6.938661,
+     "NOQ": 27.439438,
+     "PAPER": 15.480547,
+     "RIPSER": 2.6027259999999997,
+     "UNI": 7.109659
+    }
+   },
+   {
+    "case": "E10-H1-thick-shell-r3-n512",
+    "family": "thick-shell-r3",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0459488815320699,
+     "NOQ": 4.589044852864456,
+     "PAPER": 2.2331891723660333,
+     "RIPSER": 1.8640976104667142
+    },
+    "median_seconds": {
+     "CTRL": 1.1951949649992457,
+     "NOQ": 5.033941631998459,
+     "PAPER": 2.408211723999557,
+     "RIPSER": 2.0673248860002786,
+     "UNI": 1.1071210270019947
+    },
+    "median_rss_mib": {
+     "CTRL": 48.5859375,
+     "NOQ": 604.50390625,
+     "PAPER": 347.65234375,
+     "RIPSER": 132.7109375,
+     "UNI": 47.9609375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.8401669999999997,
+     "NOQ": 7.974765,
+     "PAPER": 5.272048,
+     "RIPSER": 1.927804,
+     "UNI": 2.6888680000000003
+    }
+   },
+   {
+    "case": "E10-H1-thick-shell-r3-n768",
+    "family": "thick-shell-r3",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.0569589949383642,
+     "NOQ": 5.495583071041265,
+     "PAPER": 2.5286389801369253,
+     "RIPSER": 0.8612425924754401
+    },
+    "median_seconds": {
+     "CTRL": 3.1097147069995117,
+     "NOQ": 16.16998738899929,
+     "PAPER": 7.363762106997456,
+     "RIPSER": 2.5146444190031616,
+     "UNI": 2.9237200649986335
+    },
+    "median_rss_mib": {
+     "CTRL": 87.140625,
+     "NOQ": 2116.6953125,
+     "PAPER": 723.33984375,
+     "RIPSER": 164.01171875,
+     "UNI": 124.18359375
+    },
+    "median_cpu_seconds": {
+     "CTRL": 7.116696,
+     "NOQ": 26.575121000000003,
+     "PAPER": 15.703699,
+     "RIPSER": 2.364605,
+     "UNI": 6.667013
+    }
+   },
+   {
+    "case": "E10-H1-three-spheres-r3-n512",
+    "family": "three-spheres-r3",
+    "n": 512,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.1793473482942292,
+     "NOQ": 5.313695568898133,
+     "PAPER": 2.8537331772342847,
+     "RIPSER": 2.3559551965578502
+    },
+    "median_seconds": {
+     "CTRL": 1.0364254609994532,
+     "NOQ": 4.669190077998792,
+     "PAPER": 2.486082441999315,
+     "RIPSER": 2.0883307629992487,
+     "UNI": 0.8791851619971567
+    },
+    "median_rss_mib": {
+     "CTRL": 30.13671875,
+     "NOQ": 604.08203125,
+     "PAPER": 383.0625,
+     "RIPSER": 132.515625,
+     "UNI": 33.9453125
+    },
+    "median_cpu_seconds": {
+     "CTRL": 2.588006,
+     "NOQ": 7.478465,
+     "PAPER": 5.375378,
+     "RIPSER": 1.93997,
+     "UNI": 2.267067
+    }
+   },
+   {
+    "case": "E10-H1-three-spheres-r3-n768",
+    "family": "three-spheres-r3",
+    "n": 768,
+    "ratio_to_UNI": {
+     "UNI": 1.0,
+     "CTRL": 1.1566633422108181,
+     "NOQ": 5.901795829580209,
+     "PAPER": 3.170882911367294,
+     "RIPSER": 0.9188235636243589
+    },
+    "median_seconds": {
+     "CTRL": 3.1197444450008334,
+     "NOQ": 16.142198266999912,
+     "PAPER": 8.769152200002281,
+     "RIPSER": 2.4940925569972023,
+     "UNI": 2.7158550179992744
+    },
+    "median_rss_mib": {
+     "CTRL": 87.2734375,
+     "NOQ": 2110.67578125,
+     "PAPER": 809.86328125,
+     "RIPSER": 157.76953125,
+     "UNI": 68.140625
+    },
+    "median_cpu_seconds": {
+     "CTRL": 7.27587,
+     "NOQ": 27.073814999999996,
+     "PAPER": 17.256208,
+     "RIPSER": 2.3347469999999997,
+     "UNI": 6.300949
+    }
+   }
+  ]
+ },
+ "correctness": {
+  "H1:AUTHOR:PASS": 12,
+  "H1:CTRL:PASS": 72,
+  "H1:NOQ:PASS": 24,
+  "H1:PAPER:PASS": 72,
+  "H1:UNI:PASS": 72,
+  "H2:AUTHOR:PASS": 13,
+  "H2:AUTHOR-F:PASS": 13,
+  "H2:CTRL:PASS": 74,
+  "H2:NOQ:PASS": 24,
+  "H2:UNI:PASS": 74
+ },
+ "run_status": {
+  "H2:MEASURED:COMPLETE": 264,
+  "H1:MEASURED:COMPLETE": 324,
+  "H2:CAPABILITY:COMPLETE": 8
+ },
+ "capability": [
+  {
+   "case": "E10-H2-author-s2-n400-cap",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "AUTHOR",
+   "status": "COMPLETE",
+   "seconds": 108.1147372589985,
+   "cpu_seconds": 160.89147300000002,
+   "maxrss_mib": 5431.828125,
+   "check": "PASS"
+  },
+  {
+   "case": "E10-H2-author-s2-n400-cap",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "AUTHOR-F",
+   "status": "COMPLETE",
+   "seconds": 333.5037397069973,
+   "cpu_seconds": 513.258223,
+   "maxrss_mib": 15318.63671875,
+   "check": "PASS"
+  },
+  {
+   "case": "E10-H2-author-s2-n400-cap",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "RIPSER",
+   "status": "COMPLETE",
+   "seconds": 72.56487732000096,
+   "cpu_seconds": 67.129394,
+   "maxrss_mib": 1846.4296875,
+   "check": null
+  },
+  {
+   "case": "E10-H2-author-s2-n400-cap",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "UNI",
+   "status": "COMPLETE",
+   "seconds": 219.91911204899952,
+   "cpu_seconds": 379.098965,
+   "maxrss_mib": 12624.15234375,
+   "check": "PASS"
+  },
+  {
+   "case": "E10-H2-author-s2-n400-cap",
+   "family": "author-s2",
+   "n": 400,
+   "arm": "CTRL",
+   "status": "COMPLETE",
+   "seconds": 204.6231430480002,
+   "cpu_seconds": 368.561445,
+   "maxrss_mib": 5940.24609375,
+   "check": "PASS"
+  },
+  {
+   "case": "E10-H2-corrugated-torus-n400-cap",
+   "family": "corrugated-torus",
+   "n": 400,
+   "arm": "RIPSER",
+   "status": "COMPLETE",
+   "seconds": 17.756017597999744,
+   "cpu_seconds": 16.564639,
+   "maxrss_mib": 870.77734375,
+   "check": null
+  },
+  {
+   "case": "E10-H2-corrugated-torus-n400-cap",
+   "family": "corrugated-torus",
+   "n": 400,
+   "arm": "CTRL",
+   "status": "COMPLETE",
+   "seconds": 109.94434767499843,
+   "cpu_seconds": 178.46627999999998,
+   "maxrss_mib": 13049.2265625,
+   "check": "PASS"
+  },
+  {
+   "case": "E10-H2-corrugated-torus-n400-cap",
+   "family": "corrugated-torus",
+   "n": 400,
+   "arm": "UNI",
+   "status": "COMPLETE",
+   "seconds": 114.16417460899902,
+   "cpu_seconds": 183.902581,
+   "maxrss_mib": 13148.390625,
+   "check": "PASS"
+  }
+ ],
+ "commits": {
+  "H2:UNI": {
+   "1": 3,
+   "2": 8,
+   "3": 16,
+   "4": 6,
+   "5": 17,
+   "6": 14,
+   "7": 8
+  },
+  "H2:NOQ": {
+   "0": 24
+  },
+  "H2:AUTHOR": {
+   "1": 6,
+   "3": 6
+  },
+  "H2:CTRL": {
+   "3": 12,
+   "4": 9,
+   "5": 12,
+   "6": 18,
+   "7": 12,
+   "8": 9
+  },
+  "H2:AUTHOR-F": {
+   "1": 6,
+   "3": 6
+  },
+  "H1:AUTHOR": {
+   "2": 6,
+   "3": 6
+  },
+  "H1:PAPER": {
+   "0": 6,
+   "1": 66
+  },
+  "H1:NOQ": {
+   "0": 24
+  },
+  "H1:CTRL": {
+   "0": 6,
+   "2": 6,
+   "5": 60
+  },
+  "H1:UNI": {
+   "2": 4,
+   "3": 11,
+   "4": 5,
+   "5": 44,
+   "6": 5,
+   "7": 3
+  }
+ }
+}

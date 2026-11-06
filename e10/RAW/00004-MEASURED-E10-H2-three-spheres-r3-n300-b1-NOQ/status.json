@@ -1,0 +1,26 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/B_X31",
+  "--tool",
+  "piecewise",
+  "--threads",
+  "4",
+  "--pv-cap-scale",
+  "0.85",
+  "--pv-min-separation",
+  "0",
+  "--max-dim",
+  "3",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-three-spheres-r3-n300.csv",
+  "--eps-breaks",
+  "4.1511690570204234"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 70.81454826200206,
+ "cpu_seconds": 108.126114,
+ "maxrss_kib": 9616816,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T12:40:06.404367+00:00"
+}

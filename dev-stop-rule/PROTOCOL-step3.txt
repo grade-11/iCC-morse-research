@@ -1,0 +1,47 @@
+STEP 3 OF THE UNIFIED RULE: development timing with a decision rule written before the run
+Written 2026-11-05, before extend_oracle_v5.py was started. Development data only (exposed); not a confirmation.
+
+PROGRAMS
+  B_X30 (worktree commit 2028f8e56, bin/B_X30): B_X29 (final window built as an ordinary window) plus the stop
+        rule with the growing-rate estimate: beta from the first window's own extensions (log-log slope of rate
+        against work, plus one, clamped to [1, 3]); both branches use it; extend cost times max(1, latest
+        window's time / pooled prediction). Checked: the program's estimates equal extend_oracle_table.py's
+        "localm" on two H2 clouds (7/7 decisions to 6 digits).
+  B_X22: the E8 controller (the draft).
+
+UNIFIED CONTROLLER (U)
+  B_X30 --extend-all --extend-rule, same base flags as the E8 controller of the cloud, on one of two ladders:
+    EVEN9 = q10, q20, ..., q90;  P9 = q20, q25, q30, q40, q50, q60, q70, q80, q90.
+
+BASELINES
+  E (the draft's controller, B_X22): H1 = PAPER-B22 (q20, q25, q30, q40, q50); H2 = B22 on EVEN9.
+  A (the authors' schedule, B_X22, flags as in E8): only on unit-sphere S^2 clouds; cuts 1.2, 1.7, then the
+    cloud's endpoint.
+      H1 (14 sphere-s2 clouds): AUTHOR = --live-guard --h1-risk selective-fast.
+      H2 (7 author-s2 clouds): AUTHOR-F = --live-guard --h1-risk selective-fast --fiber-risk --fiber-full
+        (exact). AUTHOR (--live-guard only, the authors' practice) is run too, descriptive only.
+  Also per ladder: ALL (B_X30 --extend-all, cut at every admitted cut), B22 on that ladder, LOG and the K series
+  (B_X30 --extend-commit-limit k) for the oracle and for offline variants of the rule (descriptive).
+  H2: the K series on P9 only; on H2-author-s2-n400-d0 without K0 (never commit; ~5.7x ALL elsewhere and
+  >12 GB): its oracle is the minimum over K1..K(K-1) and ALL.
+
+DECISION RULE
+  Ratios per cloud, summarised by geometric means (GM) over clouds.
+  1. Ladder L = the ladder with the smaller mean of (GM over H1 of U/E, GM over H2 of U/E).
+  2. Accept U with ladder L iff all hold:
+       a. H1: GM of U/E <= 1.00 (96 clouds);
+       b. H2: GM of U/E <= 1.03 (17 clouds);
+       c. no cloud has U/E > 1.30;
+       d. sphere clouds, against the authors' schedule: GM of U/A <= 1.00, separately for H1 (14) and H2 (7);
+       e. every run of U, E, A (AUTHOR-F) gives the same bars as the cloud's LOG run.
+  3. Otherwise keep the E8 controller, with its own ladder per dimension.
+  4. Reported as well: GM of E/A on the sphere clouds (how much of the gain over the authors' schedule comes
+     from the draft and how much from the stop rule); U/ALL and the oracle per ladder; offline variants of the
+     rule from the LOG runs.
+  If accepted: step 4 is a confirmation on fresh data with a protocol locked before generating the data (E9).
+
+SESSION
+  One session, one run at a time, nothing else heavy on the machine. Order: H1 clouds, then H2 smallest first.
+  Within a cloud and ladder: LOG first, then the other arms in a fixed shuffled order (seed 20261105). Timing
+  by perf_counter around a blocking wait4. Timeouts: H1 600 s, H2 1800 s.
+  No rerun because of results. A run that fails or times out counts as such and is reported.

@@ -1,0 +1,22 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/native-metric-export",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-ellipsoid-r3-n200.csv",
+  "--threads",
+  "4",
+  "--expect-n",
+  "200",
+  "--expect-dim",
+  "3",
+  "--output",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/prep/E10-H2-ellipsoid-r3-n200-metric.jsonl"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 0.07681195799887064,
+ "cpu_seconds": 0.142127,
+ "maxrss_kib": 26420,
+ "cap_bytes": 9663676416,
+ "utc": "2026-11-05T12:37:55.005499+00:00"
+}

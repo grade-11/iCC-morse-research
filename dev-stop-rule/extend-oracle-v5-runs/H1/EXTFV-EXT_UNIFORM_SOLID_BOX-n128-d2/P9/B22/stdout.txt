@@ -1,0 +1,141 @@
+window lower bound, window upper bound
+0, 0.84278408382918923
+dimension, birth weight, death weight
+2, 0.65897786873492992, 0.69201239494301237
+2, 0.64316328965815273, 0.7168884848043211
+2, 0.59307788359280755, 0.78520435664361665
+2, 0.57057527833228783, 0.59774220294141089
+2, 0.56966724824986981, 0.61237766345758382
+2, 0.55717545010360536, 0.64816319057169403
+2, 0.53781363240841917, 0.56165532926755768
+2, 0.53542794892869383, 0.65434433775517598
+2, 0.52678983072022911, 0.54648355292951312
+2, 0.50919223924459878, 0.51749841195605162
+2, 0.50800707073585938, 0.56945131386050829
+2, 0.50671359098716873, 0.51453858335087554
+2, 0.50432234615054172, 0.59013438487785685
+2, 0.49722969028919012, 0.51327755350634785
+2, 0.49128343767616994, 0.49731726873690563
+2, 0.47478673657729054, 0.6312461859393127
+2, 0.46391942432692301, 0.65467034097541266
+2, 0.4579212681807549, 0.47093830241216089
+2, 0.45663672841944758, 0.55128542440077666
+2, 0.4459374852467583, 0.65110981161364112
+2, 0.44475284213945715, 0.51482733361016364
+2, 0.4443341086655842, 0.47718132029781796
+2, 0.44298917067825899, 0.54218400251567955
+2, 0.43231448003806283, 0.51407917447465878
+2, 0.42829221928728511, 0.50084494653879708
+2, 0.42338019442905617, 0.57812578607579024
+2, 0.41573016074867514, 0.59187977276182535
+2, 0.41406116135260507, 0.47165623003586937
+2, 0.4111685209194566, 0.46217387384920711
+2, 0.4099611007340605, 0.47152491870369512
+2, 0.40773690124443585, 0.4323196698934918
+2, 0.40640505821004669, 0.48191362312597907
+2, 0.40475458641229994, 0.46323327722696789
+2, 0.40359044750539314, 0.60021711664751654
+2, 0.40198761309173936, 0.5042997876706079
+2, 0.39601214867983986, 0.44202057432865988
+2, 0.38657395400399547, 0.55341727800986085
+2, 0.377314445009586, 0.57999659212982124
+2, 0.37216355923305661, 0.54717399931736188
+2, 0.36066039755272944, 0.58673543726371935
+2, 0.35304937253606311, 0.37881057576089783
+2, 0.32138850974603389, 0.33089081927637587
+2, 0.31916920470893884, 0.35732158813347276
+2, 0.31521481188789507, 0.32397350655648566
+2, 0.30387116840378842, 0.30748045474983932
+2, 0.28598597627075995, 0.35730314909087463
+2, 0.25400146933903928, 0.28297742127126502
+
+[birth-repair] epsilon=0.84278408382918923 live=0 action=ALLOW
+[shrink] epsilon=0.84278408382918923 eligible=11 pair_warnings=3 fiber_warnings=0 late_drops=0 offered=2 offered_vertices=8 restored=2 restored_vertices=4 checks=6 kept=11 seconds=0.0021621660000000001
+[absorb] epsilon=0.84278408382918923 absorbed_pvs=0 committed=11 largest=6
+[h1-risk] epsilon=0.84278408382918923 horizon=2.9397240093694861 mode=selective-fast eligible=11 committed=11 live_protected=0 risky_pairs=3 pairs_checked=913 edges_checked=5033 event_batches=4020 seconds=0.0021621660000000001 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=0.84278408382918923 scans=7 removed=0 initial_warnings=3 remaining_warnings=0 total_scan_s=0.0021621660000000001 committed=11
+[postcommit] epsilon=0.84278408382918923 eps_bits=4605766343717050259 eligible=11 retained=11 committed=11 retained_hash=3025402931683878426 Hbefore=1032384 Hafter=393669 deltaH=638715 marginal_M=0 C_hat=0 payback=0 F_s=0.0022607880000000001 C_s=7.4869999999999996e-06 C_observed=1 valuation_s=8.0520000000000002e-06 diagnostic=0 post_state_hash=3384861020525731352 active=93 reason=retained-supports
+window lower bound, window upper bound
+0.84278408382918923, 0.92032233451580148
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=0.92032233451580148 live=0 action=ALLOW
+[shrink] epsilon=0.92032233451580148 eligible=5 pair_warnings=3 fiber_warnings=0 late_drops=1 offered=3 offered_vertices=15 restored=2 restored_vertices=8 checks=7 kept=4 seconds=0.0024182050000000001
+[absorb] epsilon=0.92032233451580148 absorbed_pvs=3 committed=4 largest=7
+[h1-risk] epsilon=0.92032233451580148 horizon=2.9397240093694861 mode=selective-fast eligible=5 committed=4 live_protected=0 risky_pairs=3 pairs_checked=375 edges_checked=3202 event_batches=2549 seconds=0.0024182050000000001 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=0.92032233451580148 scans=8 removed=1 initial_warnings=3 remaining_warnings=0 total_scan_s=0.0024182050000000001 committed=4
+[postcommit] epsilon=0.92032233451580148 eps_bits=4606464746190848633 eligible=5 retained=4 committed=4 retained_hash=15403179788796547543 Hbefore=393669 Hafter=279129 deltaH=114540 marginal_M=0 C_hat=0 payback=0 F_s=0.002486935 C_s=6.3879999999999997e-06 C_observed=1 valuation_s=5.5169999999999999e-06 diagnostic=0 post_state_hash=2455840931123140771 active=83 reason=retained-supports
+window lower bound, window upper bound
+0.92032233451580148, 0.99504233559653676
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=0.99504233559653676 live=0 action=ALLOW
+[shrink] epsilon=0.99504233559653676 eligible=2 pair_warnings=3 fiber_warnings=0 late_drops=0 offered=2 offered_vertices=11 restored=0 restored_vertices=0 checks=4 kept=0 seconds=0.00064346499999999997
+[h1-risk] epsilon=0.99504233559653676 horizon=2.9397240093694861 mode=selective-fast eligible=2 committed=0 live_protected=0 risky_pairs=3 pairs_checked=155 edges_checked=1315 event_batches=1029 seconds=0.00064346499999999997 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=0.99504233559653676 scans=5 removed=2 initial_warnings=3 remaining_warnings=0 total_scan_s=0.00064346499999999997 committed=0
+[postcommit] epsilon=0.99504233559653676 eps_bits=4607137764128897278 eligible=2 retained=0 committed=0 retained_hash=1469598103934665603 Hbefore=279129 Hafter=279129 deltaH=0 marginal_M=0 C_hat=0 payback=0 F_s=0.00069593599999999997 C_s=7.6000000000000006e-08 C_observed=0 valuation_s=3.0469999999999998e-06 diagnostic=0 post_state_hash=2455840931123140771 active=83 reason=selective-empty
+window lower bound, window upper bound
+0.99504233559653676, 1.1322506458980486
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.1322506458980486 live=0 action=ALLOW
+[shrink] epsilon=1.1322506458980486 eligible=4 pair_warnings=2 fiber_warnings=0 late_drops=0 offered=1 offered_vertices=7 restored=0 restored_vertices=0 checks=2 kept=3 seconds=0.0010962249999999999
+[absorb] epsilon=1.1322506458980486 absorbed_pvs=4 committed=3 largest=10
+[h1-risk] epsilon=1.1322506458980486 horizon=2.9397240093694861 mode=selective-fast eligible=4 committed=3 live_protected=0 risky_pairs=2 pairs_checked=282 edges_checked=3177 event_batches=1875 seconds=0.0010962249999999999 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=1.1322506458980486 scans=3 removed=1 initial_warnings=2 remaining_warnings=0 total_scan_s=0.0010962249999999999 committed=3
+[postcommit] epsilon=1.1322506458980486 eps_bits=4607778022759603367 eligible=4 retained=3 committed=3 retained_hash=14598923873538938658 Hbefore=279129 Hafter=205425 deltaH=73704 marginal_M=0 C_hat=0 payback=0 F_s=0.0011427340000000001 C_s=7.041e-06 C_observed=1 valuation_s=4.1130000000000003e-06 diagnostic=0 post_state_hash=2559643460876674949 active=75 reason=retained-supports
+window lower bound, window upper bound
+1.1322506458980486, 1.2660586437812873
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.2660586437812873 live=0 action=ALLOW
+[shrink] epsilon=1.2660586437812873 eligible=6 pair_warnings=2 fiber_warnings=0 late_drops=0 offered=1 offered_vertices=7 restored=0 restored_vertices=0 checks=2 kept=5 seconds=0.001851098
+[absorb] epsilon=1.2660586437812873 absorbed_pvs=6 committed=5 largest=13
+[h1-risk] epsilon=1.2660586437812873 horizon=2.9397240093694861 mode=selective-fast eligible=6 committed=5 live_protected=0 risky_pairs=2 pairs_checked=321 edges_checked=5324 event_batches=2593 seconds=0.001851098 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=1.2660586437812873 scans=3 removed=1 initial_warnings=2 remaining_warnings=0 total_scan_s=0.001851098 committed=5
+[postcommit] epsilon=1.2660586437812873 eps_bits=4608380640409009513 eligible=6 retained=5 committed=5 retained_hash=17135607650252382487 Hbefore=205425 Hafter=99297 deltaH=106128 marginal_M=0 C_hat=0 payback=0 F_s=0.001930644 C_s=5.9410000000000004e-06 C_observed=1 valuation_s=5.5060000000000003e-06 diagnostic=0 post_state_hash=9326552905045496511 active=59 reason=retained-supports
+window lower bound, window upper bound
+1.2660586437812873, 1.4072935188197468
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.4072935188197468 live=0 action=ALLOW
+[shrink] epsilon=1.4072935188197468 eligible=4 pair_warnings=1 fiber_warnings=0 late_drops=0 offered=1 offered_vertices=7 restored=1 restored_vertices=6 checks=2 kept=4 seconds=0.001832871
+[absorb] epsilon=1.4072935188197468 absorbed_pvs=6 committed=4 largest=17
+[h1-risk] epsilon=1.4072935188197468 horizon=2.9397240093694861 mode=selective-fast eligible=4 committed=4 live_protected=0 risky_pairs=1 pairs_checked=182 edges_checked=5118 event_batches=2071 seconds=0.001832871 precommit_realization=NA/not-implemented reason=disconnected-edge-fiber
+[h1-risk-selection] epsilon=1.4072935188197468 scans=3 removed=0 initial_warnings=1 remaining_warnings=0 total_scan_s=0.001832871 committed=4
+[postcommit] epsilon=1.4072935188197468 eps_bits=4609016705739604438 eligible=4 retained=4 committed=4 retained_hash=7039377736971663919 Hbefore=99297 Hafter=56497 deltaH=42800 marginal_M=0 C_hat=0 payback=0 F_s=0.0019064430000000001 C_s=4.3200000000000001e-06 C_observed=1 valuation_s=4.1239999999999998e-06 diagnostic=0 post_state_hash=14807644377870869340 active=49 reason=retained-supports
+window lower bound, window upper bound
+1.4072935188197468, 1.5472375351976582
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.5472375351976582 live=0 action=ALLOW
+[shrink] epsilon=1.5472375351976582 eligible=2 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=2 seconds=0.00090529300000000005
+[absorb] epsilon=1.5472375351976582 absorbed_pvs=2 committed=2 largest=18
+[h1-risk] epsilon=1.5472375351976582 horizon=2.9397240093694861 mode=selective-fast eligible=2 committed=2 live_protected=0 risky_pairs=0 pairs_checked=87 edges_checked=2796 event_batches=860 seconds=0.00090529300000000005 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.5472375351976582 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.00090529300000000005 committed=2
+[postcommit] epsilon=1.5472375351976582 eps_bits=4609646957559616730 eligible=2 retained=2 committed=2 retained_hash=1334790446620571149 Hbefore=56497 Hafter=43605 deltaH=12892 marginal_M=0 C_hat=0 payback=0 F_s=0.001041 C_s=4.9729999999999997e-06 C_observed=1 valuation_s=3.439e-06 diagnostic=0 post_state_hash=4923718277544781602 active=45 reason=retained-supports
+window lower bound, window upper bound
+1.5472375351976582, 1.7126682156546176
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.7126682156546176 live=0 action=ALLOW
+[shrink] epsilon=1.7126682156546176 eligible=1 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=1 seconds=0.00060521499999999998
+[absorb] epsilon=1.7126682156546176 absorbed_pvs=2 committed=1 largest=19
+[h1-risk] epsilon=1.7126682156546176 horizon=2.9397240093694861 mode=selective-fast eligible=1 committed=1 live_protected=0 risky_pairs=0 pairs_checked=42 edges_checked=2071 event_batches=460 seconds=0.00060521499999999998 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.7126682156546176 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.00060521499999999998 committed=1
+[postcommit] epsilon=1.7126682156546176 eps_bits=4610391991110478340 eligible=1 retained=1 committed=1 retained_hash=15454908247463671097 Hbefore=43605 Hafter=37969 deltaH=5636 marginal_M=0 C_hat=0 payback=0 F_s=0.00066496700000000003 C_s=3.8519999999999997e-06 C_observed=1 valuation_s=3.4170000000000001e-06 diagnostic=0 post_state_hash=4844892545204297407 active=43 reason=retained-supports
+window lower bound, window upper bound
+1.7126682156546176, 1.9275482471874352
+dimension, birth weight, death weight
+
+[birth-repair] epsilon=1.9275482471874352 live=0 action=ALLOW
+[shrink] epsilon=1.9275482471874352 eligible=1 pair_warnings=0 fiber_warnings=0 late_drops=0 offered=0 offered_vertices=0 restored=0 restored_vertices=0 checks=0 kept=1 seconds=0.00054877099999999998
+[absorb] epsilon=1.9275482471874352 absorbed_pvs=2 committed=1 largest=17
+[h1-risk] epsilon=1.9275482471874352 horizon=2.9397240093694861 mode=selective-fast eligible=1 committed=1 live_protected=0 risky_pairs=0 pairs_checked=40 edges_checked=1887 event_batches=324 seconds=0.00054877099999999998 precommit_realization=NA/not-implemented reason=no-risk-detected
+[h1-risk-selection] epsilon=1.9275482471874352 scans=1 removed=0 initial_warnings=0 remaining_warnings=0 total_scan_s=0.00054877099999999998 committed=1
+[postcommit] epsilon=1.9275482471874352 eps_bits=4611359724740418898 eligible=1 retained=1 committed=1 retained_hash=14762052062247854593 Hbefore=37969 Hafter=32841 deltaH=5128 marginal_M=0 C_hat=0 payback=0 F_s=0.00065588099999999998 C_s=4.1779999999999996e-06 C_observed=1 valuation_s=3.2969999999999999e-06 diagnostic=0 post_state_hash=3022631441839531046 active=41 reason=retained-supports
+window lower bound, window upper bound
+1.9275482471874352, 2.9397240093694861
+dimension, birth weight, death weight
+
+run time = 59

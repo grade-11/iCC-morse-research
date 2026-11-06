@@ -1,0 +1,32 @@
+{
+ "argv": [
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/bin/B_X31",
+  "--tool",
+  "piecewise",
+  "--threads",
+  "4",
+  "--pv-cap-scale",
+  "0.85",
+  "--pv-min-separation",
+  "0",
+  "--max-dim",
+  "3",
+  "--file-name",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-author-s2-n200.csv",
+  "--live-guard",
+  "--h1-risk",
+  "selective-fast",
+  "--fiber-full",
+  "--eps-breaks",
+  "1.2",
+  "1.7",
+  "1.9999877853987114"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 13.223408382000343,
+ "cpu_seconds": 23.386512999999997,
+ "maxrss_kib": 838160,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T13:05:16.592438+00:00"
+}

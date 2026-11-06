@@ -1,0 +1,17 @@
+{
+ "argv": [
+  "/home/alex_1709/.venvs/icc-ripser-0.6.15-VnIso6/bin/python",
+  "-I",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/ripser_run.py",
+  "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105/cohort/E10-H2-cube-surface-n300.csv",
+  "3.2657972422456241",
+  "2"
+ ],
+ "status": "COMPLETE",
+ "returncode": 0,
+ "seconds": 12.44768478900005,
+ "cpu_seconds": 11.621278,
+ "maxrss_kib": 593512,
+ "cap_bytes": 19327352832,
+ "utc": "2026-11-05T13:42:36.945996+00:00"
+}
