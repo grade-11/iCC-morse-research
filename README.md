@@ -10,7 +10,7 @@ This branch holds the protocols, locks, raw measurements and analysis scripts be
 
 | What | Where |
 |---|---|
-| Kernel used for every PwPH run | Commit `f4733ef5e` (full: `f4733ef5eb5184d13c9a826c8625ed44fea31cf2`) on branch [`work/pwph-h2-birth-repair-20261102`](../../tree/work/pwph-h2-birth-repair-20261102). The next commit, `3a39ba4c1`, changes only a code comment in `deps/H1EdgeRisk.hpp`. |
+| Kernel used for every PwPH run | Commit [`f4733ef5e`](https://github.com/grade-11/iCC-morse-research/commit/f4733ef5eb5184d13c9a826c8625ed44fea31cf2) (full: `f4733ef5eb5184d13c9a826c8625ed44fea31cf2`) on branch [`work/pwph-h2-birth-repair-20261102`](https://github.com/grade-11/iCC-morse-research/tree/work/pwph-h2-birth-repair-20261102). The next commit, `3a39ba4c1`, changes only a code comment in `deps/H1EdgeRisk.hpp`. |
 | Original PwPH implementation | [wilseypa/iCC](https://github.com/wilseypa/iCC) (X. Yang and P. A. Wilsey); this repository is built on it |
 | Build | CMake Release, g++ 13.3.0, `-O3 -DNDEBUG` |
 | Binary | `e10/bin/B_X31`, sha256 `9a0f76aa…e9b311d`, built from `f4733ef5e` |
