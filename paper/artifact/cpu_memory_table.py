@@ -1,4 +1,4 @@
-"""CPU and memory columns of Table II (written 2026-11-06). Reads E10's SUMMARY-CORRECTED.json only.
+"""CPU and memory columns of Table II (written 2026-11-06). Reads only SUMMARY-CORRECTED.json of the evaluation.
 For each dimension and arm: GM over clouds of (per-cloud median of CTRL) / (per-cloud median of the arm), where the
 medians are over the MEASURED, COMPLETE runs of that cloud (three blocks; NoQ: block 1 only). CPU time is user plus
 system time from wait4 of the whole process, as recorded; nothing is derived from wall time or thread count.
@@ -9,10 +9,10 @@ import math
 import os
 from pathlib import Path
 
-# E10 directory: $PWPH_E10, else ../../e10 (layout of the artifact branch), else the original location.
+# Evaluation directory: $PWPH_EVAL, else ../../evaluation (layout of the artifact branch), else the original location.
 _HERE = Path(__file__).resolve().parent
-E10 = Path(os.environ.get("PWPH_E10") or next(
-    (p for p in (_HERE.parents[1] / "e10",) if p.is_dir()),
+E10 = Path(os.environ.get("PWPH_EVAL") or next(
+    (p for p in (_HERE.parents[1] / "evaluation",) if p.is_dir()),
     "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105"))
 ROWS = {"H2": [("NoQ", "NOQ"), ("authors", "AUTHOR-F"), ("All", "CTRL"), ("Ripser", "RIPSER")],
         "H1": [("NoQ", "NOQ"), ("authors", "AUTHOR"), ("All", "CTRL"), ("Extend", "PAPER"), ("Ripser", "RIPSER")]}

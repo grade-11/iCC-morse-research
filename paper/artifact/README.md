@@ -1,10 +1,10 @@
-# Artifact files added in the minor revision (2026-11-06)
+# Scripts added for the paper
 
 All scripts here only read existing data. They write nothing outside this folder and start no PwPH or Ripser run.
 
 ## `cpu_memory_table.py` → `CPU-MEMORY-TABLE.txt`
 
-This script recomputes the Mem. and CPU columns of Table II from E10's `SUMMARY-CORRECTED.json`.
+This script recomputes the Mem. and CPU columns of Table II from the evaluation's `SUMMARY-CORRECTED.json`.
 
 **Per cloud and arm**
 - It takes the median, over the MEASURED and COMPLETE runs, of:
@@ -37,7 +37,7 @@ This script gives a per-cloud view of the sensitivity sentence in Section III-D:
 
 > fixing β = 1 or dropping the margin changed the GM time by at most 1.4%, although single clouds moved by up to 31%.
 
-It reuses `sensitivity_beta.py` and `extend_oracle_table.py` of `experiments/pwph-h2-extend-dev-20261102/` unchanged. It uses the data of that experiment's step 3: `RUNS-extend-oracle-v5.jsonl` and `extend-oracle-v5-runs/`, with binary `B_X30` on the ladder q0.1 … q0.9.
+It reuses `sensitivity_beta.py` and `extend_oracle_table.py` in `development-stop-rule/` unchanged. It uses the data of that experiment's step 3: `RUNS-extend-oracle-v5.jsonl` and `extend-oracle-v5-runs/`, with binary `B_X30` on the ladder q0.1 … q0.9.
 
 ### What was run (development, 2026-11-05; no new runs here)
 

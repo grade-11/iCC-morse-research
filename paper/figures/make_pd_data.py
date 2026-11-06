@@ -1,8 +1,8 @@
 """Data of Fig. 3 (persistence diagrams of the controller and Ripser), written 2026-11-06.
-The controller's bars come from the block-1 UNI runs of E10 (run 114: E10-H2-author-s2-n200; run 333:
+The controller's bars come from the block-1 UNI runs of the evaluation (run 114: E10-H2-author-s2-n200; run 333:
 E10-H1-clifford-torus-r4-n512), read with e10_common.parse and projected to float32 with e10_common.project, exactly
 as e10_check.py compares them. Ripser 0.6.15 is run on the same cloud with the arguments of e10_check.py. Both sides
-are printed with %g, a class alive at E on the line death = E. Reads E10 only; writes into the directory given
+are printed with %g, a class alive at E on the line death = E. Reads the evaluation only; writes into the directory given
 (default: this directory). Usage: <venv python> make_pd_data.py [out_dir]"""
 import collections
 import json
@@ -13,10 +13,10 @@ from pathlib import Path
 import numpy as np
 import ripser
 
-# E10 directory: $PWPH_E10, else ../../e10 (layout of the artifact branch), else the original location.
+# Evaluation directory: $PWPH_EVAL, else ../../evaluation (layout of the artifact branch), else the original location.
 _HERE = Path(__file__).resolve().parent
-E10 = Path(os.environ.get("PWPH_E10") or next(
-    (p for p in (_HERE.parents[1] / "e10",) if p.is_dir()),
+E10 = Path(os.environ.get("PWPH_EVAL") or next(
+    (p for p in (_HERE.parents[1] / "evaluation",) if p.is_dir()),
     "/home/alex_1709/projects/iCC-team/experiments/pwph-e10-even-ladder-confirm-20261105"))
 sys.path.insert(0, str(E10))
 from e10_common import parse, project  # noqa: E402

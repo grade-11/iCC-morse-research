@@ -13,10 +13,10 @@ import os
 import sys
 from pathlib import Path
 
-# Development directory: $PWPH_DEV, else ../../dev-stop-rule (layout of the artifact branch), else the original.
+# Development directory: $PWPH_DEV, else ../../development-stop-rule (layout of the artifact branch), else the original.
 _HERE = Path(__file__).resolve().parent
 DEV = Path(os.environ.get("PWPH_DEV") or next(
-    (p for p in (_HERE.parents[1] / "dev-stop-rule",) if p.is_dir()),
+    (p for p in (_HERE.parents[1] / "development-stop-rule",) if p.is_dir()),
     "/home/alex_1709/projects/iCC-team/experiments/pwph-h2-extend-dev-20261102"))
 sys.path.insert(0, str(DEV))
 out_path = sys.argv[1] if len(sys.argv) > 1 else None
